@@ -627,6 +627,6 @@ llama3_tokenizer.save_pretrained("lisao-llama3-tokenizer")
 
 ## 6 参考资料
 1. https://cloud.tencent.com/developer/article/2317900
-2. https://jinhanlei.github.io/posts/Transformers%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8-%E4%BA%8C-%E7%94%A8Tokenizer%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83%E8%AF%8D%E8%A1%A8/
+2. https://jinhanlei.github.io/posts/Transformers快速入门-二-用Tokenizer从零开始训练词表/
 3. https://huggingface.co/learn/nlp-course/chapter6
 4. https://github.com/QwenLM/Qwen/blob/main/tokenization_note_zh.md
