@@ -218,10 +218,14 @@ BPE 一般适用在欧美语言拉丁语系中，因为欧美语言大多是字�
 
 ### 3.2 WordPiece
 与BPE思想类似，WordPiece在开始时也是按照字符级别初始化一个词表。
+
 最大的区别在于选择两个子词进行合并的规则：
-- BPE 按频率，WordPiece 按能够使得 LM 概率最大的相邻子词加入词表
+BPE 按频率，WordPiece 按能够使得 LM 概率最大的相邻子词加入词表
+
 概率计算方式：
+
 $$score = \frac{freq_{pair}}{freq_{first\_element} \times freq_{second\_element}}$$
+
 WordPiece倾向于融合那些，各自的子部分在词表中更少出现的组合。
 
 例如：尽管("un", "##able")出现的次数很多，但是WordPiece不会选择融合，因为有很多un和很多able在其它地方出现，保持它们的独立能够更好地表征语意。相反，像("hu", "##gging")这样的组合更容易被融合。
@@ -505,7 +509,106 @@ BPE，WordPiece，Unigram的缺点：
 - SentencePiece将输入视为输入字节流，包括空格
 - 然后使用 Byte-level BPE 或 unigram 算法来构建适当的词汇表
 
-## 4 应用与实践
+## 4 应用与实践：训练古汉语Tokenizer并与Qwen Tokenizer融合
+### 4.1 为什么要词表拓展
+- 词表拓展可以提高模型的泛化能力，使得模型能够处理更多的未知词汇
+- 词表拓展可以提高模型的性能，使得模型能够更好地处理特定领域的文本
+
+例如，Llama3的Tokenizer使用的是SentencePiece，词表大小为128256，且大部分是英文。如果用Llama3的Tokenizer处理古汉语文本，基本上都会退化成字节级别的分词，这样会导致丢失部分语义信息。
+
+以《离骚》中的一句为例：
+```plaintext
+荃不查余之中情兮，反信谗而齌怒。
+```
+```
+from transformers import AutoTokenizer
+tokenizer = AutoTokenizer.from_pretrained(r'D:\Project\Meta-Llama-3-8B-Instruct', trust_remote_code=True)
+print(len(tokenizer))
+string = "荃不查余之中情兮，反信谗而齌怒。"
+tokenized_string = tokenizer.tokenize(string)
+tokenized_ids = tokenizer.convert_tokens_to_ids(tokenized_string)
+tokenized_string_list = []
+for token in tokenized_ids:
+    tokenized_string_list.append(tokenizer.decode(token))
+print(tokenized_string_list)
+```
+输出：
+```plaintext
+['�', '�', '不', '查', '余', '之', '中', '情', '�', '�', '，', '反', '信', '�', '�', '而', '�', '�', '怒', '。']
+```
+表现形式就是出现'�'。
+
+如果我们需要训练一个古汉语专用的LLM（例如[XunziALLM](https://github.com/Xunzi-LLM-of-Chinese-classics/XunziALLM)），可能需要对它的Tokenizer进行拓展。
+
+### 4.2 古汉语词表拓展
+#### 4.2.1 准备语料
+作为toy dataset，我们使用《离骚》全篇作为语料库，将其保存为`corpus.txt`。
+#### 4.2.2 训练Tokenizer
+```python
+import time
+import sentencepiece as spm
+
+start_time = time.time()
+spm.SentencePieceTrainer.train(
+    input='corpus.txt',  # 输入文件
+    model_prefix='lisao',  # 模型前缀
+    shuffle_input_sentence=False,  # 是否打乱句子
+    train_extremely_large_corpus=True,
+    # hyperparameters of tokenizer
+    max_sentence_length=16384,  # 句子最大长度
+    pad_id=3,
+    model_type="BPE",
+    vocab_size=5000,
+    split_digits=True,
+    split_by_unicode_script=True,
+    byte_fallback=True,
+    allow_whitespace_only_pieces=True,
+    remove_extra_whitespaces=False,
+    normalization_rule_name="nfkc",
+)
+
+end_time = time.time()
+print(end_time - start_time)
+```
+#### 4.2.3 与Llama3 Tokenizer融合
+```python
+from transformers import AutoTokenizer
+import sentencepiece as spm
+
+model_file = "lisao.model"
+
+# 原生Llama3 Tokenizer
+llama3_tokenizer = AutoTokenizer.from_pretrained(r'D:\Project\Meta-Llama-3-8B-Instruct', trust_remote_code=True)
+# 自定义Tokenizer
+lisao_tokenizer = spm.SentencePieceProcessor(model_file=model_file)
+
+# print number of tokens
+llama3_token_count = len(llama3_tokenizer)
+lisao_token_count = lisao_tokenizer.GetPieceSize()
+print(llama3_token_count, lisao_token_count)
+
+# merge two tokenizers
+llama3_token_set = set(llama3_tokenizer.get_vocab().keys())
+print("Before merge:", len(llama3_token_set))
+
+for i in range(lisao_token_count):
+    token = lisao_tokenizer.id_to_piece(i)
+    if token not in llama3_token_set:
+        llama3_tokenizer.add_tokens(token)
+
+llama3_token_set = set(llama3_tokenizer.get_vocab().keys())
+print("After merge:", len(llama3_token_set))
+
+# save the merged tokenizer
+llama3_tokenizer.save_pretrained("lisao-llama3-tokenizer")
+```
+
+#### 4.2.4 性能测试
+使用融合后的Tokenizer对《离骚》进行分词，输出为：
+```
+['荃不', '查余之中情', '兮', '，', '反信谗而', '�', '�', '怒', '。']
+```
+可以看到，'�'少了很多。
 
 
 ## 5 总结
@@ -523,3 +626,7 @@ BPE，WordPiece，Unigram的缺点：
     - SentencePiece（使用BBPE或者Unigram）
 
 ## 6 参考资料
+1. https://cloud.tencent.com/developer/article/2317900
+2. https://jinhanlei.github.io/posts/Transformers%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8-%E4%BA%8C-%E7%94%A8Tokenizer%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83%E8%AF%8D%E8%A1%A8/
+3. https://huggingface.co/learn/nlp-course/chapter6
+4. https://github.com/QwenLM/Qwen/blob/main/tokenization_note_zh.md
