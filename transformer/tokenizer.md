@@ -32,7 +32,7 @@
 
 一个字母（英文）或者一个字（中文）就是一个字符，每个字符作为一个token。
 
-<figure><img src="../.gitbook/assets/字符级别.png" alt=""><figcaption><p>字符级别</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/字符级别 (1).png" alt=""><figcaption><p>字符级别</p></figcaption></figure>
 
 优点：
 
@@ -383,7 +383,7 @@ $$
 P(token) = \frac{freq(token)}{total\_freq}
 $$
 
-其中，$total\_freq$是所有token的词频之和。 给定一个单词，我们可以计算其概率：
+其中， $$total\_freq$$是所有token的词频之和。 给定一个单词，我们可以计算其概率：
 
 $$
 P(["p", "u", "g"]) = P("p") \times P("u") \times P("g")
