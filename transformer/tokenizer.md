@@ -32,7 +32,7 @@
 
 一个字母（英文）或者一个字（中文）就是一个字符，每个字符作为一个token。
 
-<figure><img src="../.gitbook/assets/CHARACTER-LEVEL.png" alt=""><figcaption><p>字符级别</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/CHARACTER-LEVEL (1).png" alt=""><figcaption><p>字符级别</p></figcaption></figure>
 
 优点：
 
