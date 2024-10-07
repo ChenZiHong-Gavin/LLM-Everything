@@ -339,20 +339,57 @@ class PLSA:
 
 LDA（Latent Dirichlet Allocation）可以看作是pLSA的贝叶斯版本，它引入了Dirichlet先验分布来解决pLSA的一些问题。
 
-#### 3.3.1 为什么引入Dirichlet先验分布
+#### 3.3.1 二项分布和多项分布
+二项分布是N次伯努利分布，即$$X \sim B(n, p)$$。概率密度为：
+$$
+P(X=k) = C_n^k p^k (1-p)^{n-k}
+$$
+
+多项分布是二项分布拓展到多维的情况。多项分布是指在单次实验中的随机变量的取值不再是0和1，而是多个不同的值。多项分布的概率密度为：
+$$
+P(X_1=k_1, X_2=k_2, ..., X_n=k_n) = \frac{n!}{k_1!k_2!...k_n!} p_1^{k_1} p_2^{k_2} ... p_n^{k_n}
+$$
+其中，$$p_1, p_2, ..., p_n$$代表每个类别的概率，且$$\sum_{i=1}^{n} p_i = 1$$。
+
+#### 3.3.2 共轭先验分布
+如果后验概率$$P(\theta|X)$$和先验概率$$P(\theta)$$属于同一分布族，则称先验分布和后验分布是共轭分布。
+
+$$
+P(\theta|X) = \frac{P(X|\theta)P(\theta)}{P(X)}
+$$
+
+对于二项分布，Beta分布是其共轭先验分布。对于多项分布，Dirichlet分布是其共轭先验分布。
+
+#### 3.3.3 Dirichlet分布
+Dirichlet的概率密度函数为：
+$$
+Dir(\theta|\alpha) = \frac{\Gamma(\sum_{i=1}^{K} \alpha_i)}{\prod_{i=1}^{K} \Gamma(\alpha_i)} \prod_{i=1}^{K} \theta_i^{\alpha_i - 1}
+$$
+
+
+
+#### 3.3.4 为什么引入Dirichlet先验分布
 pLSA采用的是频率派观点，将每篇文章对应的主题分布$P(z|d)$和每个主题对应的词分布$P(w|z)$看成未知常数，并可以求解出来。LDA采用的是贝叶斯学派的观点，认为待估计的参数（主题分布和词分布）不再是一个固定的常数，而是服从一定分布的随机变量。这个分布符合一定的先验概率分布（即Dirichlet分布），通过观测数据来更新这个分布的参数。
 
 <figure><img src="../.gitbook/assets/LDA.png" alt=""><figcaption><p>LDA</p></figcaption></figure>
 
 
-#### 3.3.2 LDA的原理
+#### 3.3.3 LDA的原理
 语料库的生成过程：
-1. 从超参数$\alpha$的Dirichlet分布中抽样生成文档$d_i$的主题分布$\theta_i$
-2. 对于文档$d_i$中的每个词$w_{ij}$：
-    - 从文档$d_i$的主题分布$\theta_i$中抽样生成词$w_{ij}$的主题$z_{ij}$
-    - 从主题$z_{ij}$的多项分布中抽样生成词$w_{ij}$
+1. 按照先验概率$$p(d_i)$$选择一篇文档$$d_i$$
+2. 从超参数$$\alpha$$的Dirichlet分布中抽样生成文档$$d_i$$的主题分布$$\theta_i$$
+3. 对于文档$$d_i$$中的每个词$$w_{ij}$$：
+    - 从文档$$d_i$$的主题分布$$\theta_i$$中抽样生成词$$w_{ij}$$的主题$$z_{ij}$$
+4. 从超参数$$\beta$$的Dirichlet分布中抽样生成主题$$z_{ij}$$的词分布$$\phi_{z_{ij}}$$
+5. 从词分布$$\phi_{z_{ij}}$$中抽样生成词$$w_{ij}$$
 
-TODO：LDA理解起来比较复杂，后续再补充。
+<figure><img src="../.gitbook/assets/LDA-EXAMPLE.png" alt=""><figcaption><p>LDA EXAMPLE</p></figcaption></figure>
+
+在PLSA中，会使用固定的概率来抽取主题词，主题分布和词分布都是唯一确定的。而在LDA中，主题分布和词分布是不确定的，它们是服从Dirichlet分布的随机变量。
+
+#### 3.3.4 LDA的实现
+TODO：参考baidu https://github.com/baidu/Familia/wiki
+
 
 ## 3 基于词向量的固定表征
 
