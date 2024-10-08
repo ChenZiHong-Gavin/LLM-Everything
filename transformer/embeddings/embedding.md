@@ -12,7 +12,7 @@ LLM的输入是一个token序列，Embedding的作用是将词汇映射到向量
 * 捕捉语义信息：在训练过程中，模型会学习将具有相似含义或上下文的单词映射到相近的向量空间位置，使得向量之间的距离或夹角能够反映单词之间的语义相似度。
 * 提取复杂特征：能够更全面地捕捉数据的复杂特征，使模型能够更好地学习并应用这些特征。
 
-<figure><img src="../.gitbook/assets/EMBEDDING-1.png" alt=""><figcaption><p>Embedding</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/EMBEDDING-1.png" alt=""><figcaption><p>Embedding</p></figcaption></figure>
 
 文本表示的类型：
 
@@ -53,7 +53,7 @@ TF-IDF(t) = TF(t) * IDF(t)
 
 主题模型是一种特殊的概率图模型，可以识别两个不同的词或者词组是否具有相同的主题。
 
-<figure><img src="../.gitbook/assets/TOPIC-MODEL.png" alt=""><figcaption><p>Topic Model</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/TOPIC-MODEL.png" alt=""><figcaption><p>Topic Model</p></figcaption></figure>
 
 主题模型将相似/相关的词语聚集成簇，称为主题。
 
@@ -109,12 +109,12 @@ $$
 
 1.  生成一个m×n维的文档-词项矩阵（Document-Term Matrix），矩阵元素为TF-IDF分数
 
-    <figure><img src="../.gitbook/assets/LSA-1.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/LSA-1.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
 2.  使用SVD将上述矩阵的维度降到K维
 
     SVD首先将矩阵$$A$$分解为三个矩阵的乘积：
 
-    <figure><img src="../.gitbook/assets/LSA-2.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
+    <figure><img src="../../.gitbook/assets/LSA-2.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
 
     由于我们只需要前K个奇异值，所以只保留前K个奇异值，并相应地截断矩阵$$U$$和$$V$$，重新构造近似矩阵。
 
@@ -244,7 +244,7 @@ pLSA通过一个生成模型来为LSA提供概率意义上的解释。该模型�
 
 假设有M个单词集合$$W={w_1, w_2, ..., w_M}$$，N个文档集合$$D={d_1, d_2, ..., d_N}$$，K个主题集合$$Z={z_1, z_2, ..., z_K}$$。概率分布$$P(d)$$表示生成文档$$d$$的概率，$$P(w|z)$$表示在主题$$z$$下生成单词$$w$$的概率，$$P(z|d)$$表示在文档$$d$$中生成主题$$z$$的概率。
 
-<figure><img src="../.gitbook/assets/PLSA.png" alt=""><figcaption><p>pLSA</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/PLSA.png" alt=""><figcaption><p>pLSA</p></figcaption></figure>
 
 则$$p(w|d)$$的推导为：
 
@@ -395,7 +395,7 @@ $$
 
 pLSA采用的是频率派观点，将每篇文章对应的主题分布$$P(z|d)$$和每个主题对应的词分布$$P(w|z)$$看成未知常数，并可以求解出来。LDA采用的是贝叶斯学派的观点，认为待估计的参数（主题分布和词分布）不再是一个固定的常数，而是服从一定分布的随机变量。这个分布符合一定的先验概率分布（即Dirichlet分布），通过观测数据来更新这个分布的参数。
 
-<figure><img src="../.gitbook/assets/LDA.png" alt=""><figcaption><p>LDA</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/LDA.png" alt=""><figcaption><p>LDA</p></figcaption></figure>
 
 #### 3.3.3 LDA的原理
 
@@ -408,7 +408,7 @@ pLSA采用的是频率派观点，将每篇文章对应的主题分布$$P(z|d)$$
 4. 从超参数$$\beta$$的Dirichlet分布中抽样生成主题$$z_{ij}$$的词分布$$\phi_{z_{ij}}$$
 5. 从词分布$$\phi_{z_{ij}}$$中抽样生成词$$w_{ij}$$
 
-<figure><img src="../.gitbook/assets/LDA-EXAMPLE.png" alt=""><figcaption><p>LDA EXAMPLE</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/LDA-EXAMPLE.png" alt=""><figcaption><p>LDA EXAMPLE</p></figcaption></figure>
 
 在PLSA中，会使用固定的概率来抽取主题词，主题分布和词分布都是唯一确定的。而在LDA中，主题分布和词分布是不确定的，它们是服从Dirichlet分布的随机变量。
 
@@ -420,7 +420,7 @@ TODO：参考baidu https://github.com/baidu/Familia/wiki
 
 ### 3.1 Word2Vec
 
-<figure><img src="../.gitbook/assets/WORD2VEC-1.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/WORD2VEC-1.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
 
 Word2Vec通过一个简单的双层神经网络来从大量文本中学习单词之间的联系。
 
@@ -429,7 +429,7 @@ Word2Vec有两种模型：
 * Skip-gram：通过一个词预测它周围的词，即输入一个词，输出多个词。
 * CBOW：通过周围的词预测中心词，即输入多个词，输出一个词。
 
-<figure><img src="../.gitbook/assets/WORD2VEC-2.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/WORD2VEC-2.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
 
 #### 3.1.1 CBOW
 
@@ -545,7 +545,7 @@ for epoch in range(epochs):
 
 损失函数的变化如下：
 
-<figure><img src="../.gitbook/assets/CBOW-LOSS.png" alt=""><figcaption><p>CBOW-LOSS</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/CBOW-LOSS.png" alt=""><figcaption><p>CBOW-LOSS</p></figcaption></figure>
 
 ```python
 # 获取嵌入
@@ -559,7 +559,7 @@ plt.show()
 
 结果如下：
 
-<figure><img src="../.gitbook/assets/CBOW-EMBEDDING.png" alt=""><figcaption><p>CBOW-EMBEDDING</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/CBOW-EMBEDDING.png" alt=""><figcaption><p>CBOW-EMBEDDING</p></figcaption></figure>
 
 #### 3.1.2 Skip-gram
 
@@ -600,7 +600,7 @@ softmax函数计算的是某一项$$x_i$$在所有项中出现的概率，分母
 
 #### 3.2.2 fastText的原理
 
-<figure><img src="../.gitbook/assets/FASTTEXT.jpg" alt=""><figcaption><p>fastText</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/FASTTEXT.jpg" alt=""><figcaption><p>fastText</p></figcaption></figure>
 
 fastText模型架构和word2vec中的CBOW十分类似。不同的是：
 
@@ -631,19 +631,23 @@ I like deep learning
 | learning | 0 | 0    | 1    | 0        |
 
 #### 3.3.2 共现矩阵与条件概率
+
 对于一个单词$$i$$，一行表示其它单词在$$i$$的上下文中出现的次数。条件概率$$P(j|i)$$表示单词$$j$$在单词$$i$$的上下文中出现的概率。
 
 我们定义两个条件概率的比值为：
+
 $$
 ratio_{i,j,k} = \frac{P(k|i)}{P(k|j)}
 $$
+
 指的是单词$$k$$在单词$$i$$的上下文中出现的概率与单词$$k$$在单词$$j$$的上下文中出现的概率的比值。这在一定程度上反映了单词$$i$$和单词$$j$$的相似性。
 
-$ratio_{i,j,k}$的普遍规律为：
-|          | 单词$$j,k$$相关 | 单词$$j,k$$不相关 |
-| -------- | --------------- | ----------------- |
-| 单词$$i,k相关$$ | 接近1          | 远大于1           |
-| 单词$$i,k不相关$$ | 远小于1         | 接近1            |
+$$ratio_{i,j,k}$$的普遍规律为：
+
+|              | 单词$$j,k$$相关 | 单词$$j,k$$不相关 |
+| ------------ | ----------- | ------------ |
+| 单词$$i,k相关$$  | 接近1         | 远大于1         |
+| 单词$$i,k不相关$$ | 远小于1        | 接近1          |
 
 #### 3.3.3 词向量和共现矩阵的近似关系
 
@@ -652,6 +656,7 @@ $ratio_{i,j,k}$的普遍规律为：
 假设$$g(w_i, w_j, \tilde{w}_k) = \frac{P(k|i)}{P(k|j)}$$，其中$$w_i, w_j, \tilde{w}_k$$分别是单词$$i, j, k$$的词向量。
 
 损失函数是二者的均方误差：
+
 $$
 J = \sum_{i,j,k}^{N} (\frac{P(k|i)}{P(k|j)} - g(w_i, w_j, \tilde{w}_k))^2
 $$
@@ -659,14 +664,14 @@ $$
 接下来需要合理推测$$g(w_i, w_j, \tilde{w}_k)$$的形式。
 
 1. 在线性空间中考量两个单词的相似性，可以使用$$w_i - w_j$$，因此$$g(w_i, w_j, \tilde{w}_k)$$中可能包含这一项
-2. $ratio$是一个标量，因此$$g(w_i, w_j, \tilde{w}_k)$$可能是一个内积，即$$(w_i - w_j)^T \tilde{w}_k$$
+2. $$ratio$$是一个标量，因此$$g(w_i, w_j, \tilde{w}_k)$$可能是一个内积，即$$(w_i - w_j)^T \tilde{w}_k$$
 3. 由于$$ratio$$是一个比值，因此可以在外面套一层指数函数，即$$\exp((w_i - w_j)^T \tilde{w}_k)$$
 
 因此：
+
 $$
 g(w_i, w_j, \tilde{w}_k) = \frac{P(k|i)}{P(k|j)} = \frac{exp(w_i^T \tilde{w}_k)}{exp(w_j^T \tilde{w}_k)}
 $$
-
 
 因此，GloVe的目标是学习一个词向量矩阵$$W$$，使得词向量之间的内积等于共现矩阵的对数值：
 
