@@ -289,7 +289,7 @@ $$
 
 TODO: 可以阅读mittens Glove源码
 
-## 参考
+## 参考资料
 1. https://www.jiqizhixin.com/articles/2018-12-03-6
 2. https://zhuanlan.zhihu.com/p/568064512
 3. https://zhuanlan.zhihu.com/p/79573970

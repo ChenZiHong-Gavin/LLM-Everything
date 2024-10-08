@@ -367,7 +367,7 @@ pLSA采用的是频率派观点，将每篇文章对应的主题分布$$P(z|d)$$
 
 TODO：参考baidu https://github.com/baidu/Familia/wiki
 
-## 参考
+## 参考资料
 1. https://blog.csdn.net/mch2869253130/article/details/100629262
 2. https://www.jiqizhixin.com/articles/2018-12-07-10
 3. https://zhuanlan.zhihu.com/p/71027182
