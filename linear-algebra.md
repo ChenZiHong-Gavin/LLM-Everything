@@ -4,10 +4,10 @@
 
 ### 1.1 Basic Concepts
 
-* $|A^T| = |A|$
-* $|\lambda A| = \lambda^n |A|$
-* $|AB| = |A||B|$
-* $|A^{-1}| = \frac{1}{|A|}$
+* $$|A^T| = |A|$$
+* $$|\lambda A| = \lambda^n |A|$$
+* $$|AB| = |A||B|$$
+* $$|A^{-1}| = \frac{1}{|A|}$$
 
 ### 1.2 Multiplication
 
@@ -23,10 +23,10 @@ $$
 C = AB = \begin{bmatrix} a_{1,1}b_{1,1} + a_{1,2}b_{2,1} & a_{1,1}b_{1,2} + a_{1,2}b_{2,2} \\ a_{2,1}b_{1,1} + a_{2,2}b_{2,1} & a_{2,1}b_{1,2} + a_{2,2}b_{2,2} \end{bmatrix}
 $$
 
-* $A(B+C) = AB + AC$
-* $\lambda(AB) = (\lambda A)B = A(\lambda B)$
-* $ABC = A(BC)$
-* $(AB)^T = B^TA^T$
+* $$A(B+C) = AB + AC$$
+* $$\lambda(AB) = (\lambda A)B = A(\lambda B)$$
+* $$ABC = A(BC)$$
+* $$(AB)^T = B^TA^T$$
 
 ### 1.3 Inverse
 
@@ -36,44 +36,44 @@ $$
 AA^{-1} = A^{-1}A = E \\ |AA^{-1}|=|A||A^{-1}|=1 \\ A^{-1} = \frac{1}{|A|}A^*
 $$
 
-其中，$A^\*$为伴随矩阵:
+其中，$$A^*$$为伴随矩阵:
 
-* $A^\* = \begin{bmatrix} C\_{1,1} & C\_{2,1} \ C\_{1,2} & C\_{2,2} \end{bmatrix}$
-* $C\_{i,j}$为$A$的代数余子式
-* $C\_{i,j} = (-1)^{i+j}|A\_{i,j}|$
-* When $A$ is a square matrix, $A$ is invertible if and only if $A$ is full rank.
-* $A$ is full rank if and only if $|A| \neq 0$
+* $$A^* = \begin{bmatrix} C_{1,1} & C_{2,1} \\ C_{1,2} & C_{2,2} \end{bmatrix}$$
+* $$C_{i,j}$$为$$A$$的代数余子式
+* $$C_{i,j} = (-1)^{i+j}|A_{i,j}|$$
+* When $$A$$ is a square matrix, $$A$$ is invertible if and only if $$A$$ is full rank.
+* $$A$$ is full rank if and only if $$|A| \neq 0$$
 * 高斯消元法求行列式
 * Gauss-Jordan Elimination
-* $\[A|I] \rightarrow \[I|A^{-1}]$
+* $$[A|I] \rightarrow [I|A^{-1}]$$
 
 ### 1.4 Transpose
 
-* $|A^T| = |A|$
-* $(A^T)^T = A$
-* $(AB)^T = B^TA^T$
-* $(A+B)^T = A^T + B^T$
-* $(\lambda A)^T = \lambda A^T$
-* $(A^{-1})^T = (A^T)^{-1}$
+* $$|A^T| = |A|$$
+* $$(A^T)^T = A$$
+* $$(AB)^T = B^TA^T$$
+* $$(A+B)^T = A^T + B^T$$
+* $$(\lambda A)^T = \lambda A^T$$
+* $$(A^{-1})^T = (A^T)^{-1}$$
 
 ### 1.5 Block Matrix
 
-* $A = \begin{bmatrix} A\_{11} & A\_{12} \ A\_{21} & A\_{22} \end{bmatrix}$
-* $B = \begin{bmatrix} B\_{11} & B\_{12} \ B\_{21} & B\_{22} \end{bmatrix}$
-* $AB = \begin{bmatrix} A\_{11}B\_{11} + A\_{12}B\_{21} & A\_{11}B\_{12} + A\_{12}B\_{22} \ A\_{21}B\_{11} + A\_{22}B\_{21} & A\_{21}B\_{12} + A\_{22}B\_{22} \end{bmatrix}$
-* $A+B = \begin{bmatrix} A\_{11}+B\_{11} & A\_{12}+B\_{12} \ A\_{21}+B\_{21} & A\_{22}+B\_{22} \end{bmatrix}$
+* $$A = \begin{bmatrix} A_{11} & A_{12} \\ A_{21} & A_{22} \end{bmatrix}$$
+* $$B = \begin{bmatrix} B_{11} & B_{12} \\ B_{21} & B_{22} \end{bmatrix}$$
+* $$AB = \begin{bmatrix} A_{11}B_{11} + A_{12}B_{21} & A_{11}B_{12} + A_{12}B_{22} \\ A_{21}B_{11} + A_{22}B_{21} & A_{21}B_{12} + A_{22}B_{22} \end{bmatrix}$$
+* $$A+B = \begin{bmatrix} A_{11}+B_{11} & A_{12}+B_{12} \\ A_{21}+B_{21} & A_{22}+B_{22} \end{bmatrix}$$
 
 ## 2 Determinant
 
 ### 2.1 Laplace Expansion
 
-* 设$B=(b\_{i,j})$是一个$n$阶方阵
+* 设$$B=(b_{i,j})$$是一个$$n$$阶方阵
 
 $$
 |B| = \sum_{j=1}^{n}(-1)^{i+j}b_{i,j}|B_{i,j}|
 $$
 
-其中，$B\_{i,j}$是$B$去掉第$i$行第$j$列后的矩阵 例如：
+其中，$$B_{i,j}$$是$$B$$去掉第$$i$$行第$$j$$列后的矩阵 例如：
 
 $$
 B = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix}
@@ -111,39 +111,39 @@ $$
 \begin{cases} a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n = b_1 \\ a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n = b_2 \\ \cdots \\ a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nn}x_n = b_n \end{cases}
 $$
 
-的系数行列式$|A| \neq 0$，则方程组有唯一解：
+的系数行列式$$|A| \neq 0$$，则方程组有唯一解：
 
 $$
 x_i = \frac{|A_i|}{|A|}
 $$
 
-其中，$A\_i$是将$A$的第$i$列替换为$b$得到的矩阵
+其中，$$A_i$$是将$$A$$的第$$i$$列替换为$$b$$得到的矩阵
 
 ### 2.4 Interpretation as volume of parallelepiped
 
-对于二阶行列式$A$,$A=\begin{bmatrix} a\_{1,1} & a\_{1,2} \ a\_{2,1} & a\_{2,2} \end{bmatrix}$，$|A|$表示以$a\_{1,1}$和$a\_{1,2}$为边的平行四边形的面积
+对于二阶行列式$$A$$,$$A=\begin{bmatrix} a_{1,1} & a_{1,2} \\ a_{2,1} & a_{2,2} \end{bmatrix}$$，$$|A|$$表示以$$a_{1,1}$$和$$a_{1,2}$$为边的平行四边形的面积
 
-对于三阶行列式$A$,$A=\begin{bmatrix} a\_{1,1} & a\_{1,2} & a\_{1,3} \ a\_{2,1} & a\_{2,2} & a\_{2,3} \ a\_{3,1} & a\_{3,2} & a\_{3,3} \end{bmatrix}$，$|A|$表示以$a\_{1,1}$,$a\_{1,2}$和$a\_{1,3}$为边的平行六面体的体积
+对于三阶行列式$$A$$,$$A=\begin{bmatrix} a_{1,1} & a_{1,2} & a_{1,3} \\ a_{2,1} & a_{2,2} & a_{2,3} \\ a_{3,1} & a_{3,2} & a_{3,3} \end{bmatrix}$$，$$|A|$$表示以$$a_{1,1}$$,$$a_{1,2}$$和$$a_{1,3}$$为边的平行六面体的体积
 
 ## 3 Vector Space
 
-向量空间$R^n$由所有的$n$维向量组成，向量中每个元素都是实数。
+向量空间$$R^n$$由所有的$$n$$维向量组成，向量中每个元素都是实数。
 
-1. 如果$u$和$v$是$R^n$中的向量，$\lambda$是实数，则$u+v$和$\lambda u$也是$R^n$中的向量
+1. 如果$$u$$和$$v$$是$$R^n$$中的向量，$$\lambda$$是实数，则$$u+v$$和$$\lambda u$$也是$$R^n$$中的向量
 2. 向量空间中的向量满足交换律和结合律
-3. 向量空间中存在零向量，对于任意向量$u$，$u+0=u$
-4. 对于任意向量$u$，存在$-u$，使得$u+(-u)=0$
+3. 向量空间中存在零向量，对于任意向量$$u$$，$$u+0=u$$
+4. 对于任意向量$$u$$，存在$$-u$$，使得$$u+(-u)=0$$
 
 ### 3.1 Linear Independence
 
 线性无关一般指向量的线性无关，指一组向量中任意一个向量都不能由其它几个向量线性表示，即：
 
-对于$u, v, w$，不存在$\lambda\_1, \lambda\_2, \lambda\_3$，使得$\lambda\_1u + \lambda\_2v + \lambda\_3w = 0$
+对于$$u, v, w$$，不存在$$\lambda_1, \lambda_2, \lambda_3$$，使得$$\lambda_1u + \lambda_2v + \lambda_3w = 0$$
 
-* 从矩阵上理解，线性无关是矩阵方程$Ax=0$只有零解
-* 相互独立的几个向量，$v\_1, v\_2, \cdots, v\_n$，如果$\lambda\_1v\_1 + \lambda\_2v\_2 + \cdots + \lambda\_nv\_n = 0$，则$\lambda\_1 = \lambda\_2 = \cdots = \lambda\_n = 0$
+* 从矩阵上理解，线性无关是矩阵方程$$Ax=0$$只有零解
+* 相互独立的几个向量，$$v_1, v_2, \cdots, v_n$$，如果$$\lambda_1v_1 + \lambda_2v_2 + \cdots + \lambda_nv_n = 0$$，则$$\lambda_1 = \lambda_2 = \cdots = \lambda_n = 0$$
 * 一个矩阵是列满秩矩阵，则说明该矩阵的主元数目等于列数，即矩阵的列向量线性无关
-* 如果我们有一个$m \times n$的矩阵$A$，$n>m$，列向量空间的维度最多为$m$，即最多有$m$个线性无关的列向量，那么在$m$维空间中，任意$n$个向量一定线性相关
+* 如果我们有一个$$m \times n$$的矩阵$$A$$，$$n>m$$，列向量空间的维度最多为$$m$$，即最多有$$m$$个线性无关的列向量，那么在$$m$$维空间中，任意$$n$$个向量一定线性相关
 
 ### 3.2 basis
 
@@ -154,8 +154,8 @@ $$
 
 ### 3.3 invertible matrix and singular matrix
 
-* 如果方阵的列向量能够成为一组基，化简后能够得到它的秩$r=n$，即满秩，这样的矩阵称为可逆矩阵
-* 如果不能成为一组基，即$r\<n$，不满秩，这样的矩阵称为奇异矩阵
+* 如果方阵的列向量能够成为一组基，化简后能够得到它的秩$$r=n$$，即满秩，这样的矩阵称为可逆矩阵
+* 如果不能成为一组基，即$$r<n$$，不满秩，这样的矩阵称为奇异矩阵
 
 ### 3.4 dimension
 
@@ -163,7 +163,7 @@ $$
 
 ### 3.5 span
 
-* 一个向量空间的span是指这个向量空间中所有可能的线性组合 例如，$v\_1 = \begin{bmatrix} 1 \ 0 \end{bmatrix}$，$v\_2 = \begin{bmatrix} 0 \ 1 \end{bmatrix}$，则$span(v\_1, v\_2)$是所有的二维向量
+* 一个向量空间的span是指这个向量空间中所有可能的线性组合 例如，$$v_1 = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$，$$v_2 = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$，则$$span(v_1, v_2)$$是所有的二维向量
 
 ## 4 Normed and Inner product space
 
@@ -173,17 +173,17 @@ $$
 
 * Normed space = Vector space + Norm
 * 范数可以看作向量的长度，即对向量大小的度量方式
-  * $L\_0$范数：向量中非零元素的个数
-  * $L\_1$范数：向量中所有元素的绝对值之和
-  * $L\_2$范数：向量中所有元素的平方和再开方
-  * $L\_{\infty}$范数：向量中所有元素的绝对值的最大值
-  * $L\_p$范数：向量中所有元素的绝对值的p次方和再开p次方
+  * $$L_0$$范数：向量中非零元素的个数
+  * $$L_1$$范数：向量中所有元素的绝对值之和
+  * $$L_2$$范数：向量中所有元素的平方和再开方
+  * $$L_{\infty}$$范数：向量中所有元素的绝对值的最大值
+  * $$L_p$$范数：向量中所有元素的绝对值的p次方和再开p次方
 
 范数的性质：
 
-* 非负性：$||x|| \geq 0$，且$||x|| = 0$当且仅当$x=0$
-* 齐次性：$||\lambda x|| = |\lambda| ||x||$
-* 三角不等式：$||x+y|| \leq ||x|| + ||y||$
+* 非负性：$$||x|| \geq 0$$，且$$||x|| = 0$$当且仅当$$x=0$$
+* 齐次性：$$||\lambda x|| = |\lambda| ||x||$$
+* 三角不等式：$$||x+y|| \leq ||x|| + ||y||$$
 
 ### 4.2 Inner product space
 
@@ -191,14 +191,14 @@ $$
 
 内积空间满足的条件：
 
-* 对于任意向量$x, y, z$和任意标量$\alpha, \beta$，有：
-  * $\langle x, y \rangle = \langle y, x \rangle$
-  * $\langle x, \alpha y + \beta z \rangle = \alpha \langle x, y \rangle + \beta \langle x, z \rangle$
-  * $\langle x, x \rangle \geq 0$，且$\langle x, x \rangle = 0$当且仅当$x=0$
+* 对于任意向量$$x, y, z$$和任意标量$$\alpha, \beta$$，有：
+  * $$\langle x, y \rangle = \langle y, x \rangle$$
+  * $$\langle x, \alpha y + \beta z \rangle = \alpha \langle x, y \rangle + \beta \langle x, z \rangle$$
+  * $$\langle x, x \rangle \geq 0$$，且$$\langle x, x \rangle = 0$$当且仅当$$x=0$$
 
 ### 4.3 Cauchy-Schwarz inequality
 
-对于内积空间中的任意两个向量$x, y$，有：
+对于内积空间中的任意两个向量$$x, y$$，有：
 
 $$
 |\langle x, y \rangle| \leq ||x|| \cdot ||y||
@@ -206,7 +206,7 @@ $$
 
 ### 4.4 Induced norm
 
-诱导范数是由内积定义的范数，对于内积空间中的向量$x$，有：
+诱导范数是由内积定义的范数，对于内积空间中的向量$$x$$，有：
 
 $$
 ||x|| = \sqrt{\langle x, x \rangle}
@@ -214,31 +214,31 @@ $$
 
 ### 4.5 Orthogonality
 
-两个向量$x, y$正交，如果$\langle x, y \rangle = 0$
+两个向量$$x, y$$正交，如果$$\langle x, y \rangle = 0$$
 
-* $v^Tw = 0$，则$v$和$w$正交
-* $||v+w||^2 = ||v||^2 + ||w||^2$，则$v$和$w$正交
+* $$v^Tw = 0$$，则$$v$$和$$w$$正交
+* $$||v+w||^2 = ||v||^2 + ||w||^2$$，则$$v$$和$$w$$正交
 
 ### 4.6 Orthonormal basis
 
 标准正交基
 
-在$n$维欧式空间中，如果存在一组向量$e\_1, e\_2, \cdots, e\_n$，满足：
+在$$n$$维欧式空间中，如果存在一组向量$$e_1, e_2, \cdots, e_n$$，满足：
 
-* $||e\_i|| = 1$
-* $\langle e\_i, e\_j \rangle = 0$，$i \neq j$
-* $span(e\_1, e\_2, \cdots, e\_n) = R^n$
+* $$||e_i|| = 1$$
+* $$\langle e_i, e_j \rangle = 0$$，$$i \neq j$$
+* $$span(e_1, e_2, \cdots, e_n) = R^n$$
 
-则称$e\_1, e\_2, \cdots, e\_n$是$R^n$的标准正交基
+则称$$e_1, e_2, \cdots, e_n$$是$$R^n$$的标准正交基
 
 ### 4.7 Gram-Schmidt orthonormalization
 
-对于一组线性无关的向量$u\_1, u\_2, \cdots, u\_n$，我们可以通过Gram-Schmidt正交化方法得到一组标准正交基$e\_1, e\_2, \cdots, e\_n$：
+对于一组线性无关的向量$$u_1, u_2, \cdots, u_n$$，我们可以通过Gram-Schmidt正交化方法得到一组标准正交基$$e_1, e_2, \cdots, e_n$$：
 
-1. $e\_1 = \frac{u\_1}{||u\_1||}$
-2. $e\_2 = \frac{u\_2 - \langle u\_2, e\_1 \rangle e\_1}{||u\_2 - \langle u\_2, e\_1 \rangle e\_1||}$
-3. $e\_3 = \frac{u\_3 - \langle u\_3, e\_1 \rangle e\_1 - \langle u\_3, e\_2 \rangle e\_2}{||u\_3 - \langle u\_3, e\_1 \rangle e\_1 - \langle u\_3, e\_2 \rangle e\_2||}$
-4. $\cdots$
+1. $$e_1 = \frac{u_1}{||u_1||}$$
+2. $$e_2 = \frac{u_2 - \langle u_2, e_1 \rangle e_1}{||u_2 - \langle u_2, e_1 \rangle e_1||}$$
+3. $$e_3 = \frac{u_3 - \langle u_3, e_1 \rangle e_1 - \langle u_3, e_2 \rangle e_2}{||u_3 - \langle u_3, e_1 \rangle e_1 - \langle u_3, e_2 \rangle e_2||}$$
+4. $$\cdots$$
 
 例子：
 
@@ -260,7 +260,7 @@ $$
 
 其中：
 
-* $\langle u\_2, e\_1 \rangle = \begin{bmatrix} 1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1/\sqrt{2} \ 1/\sqrt{2} \ 0 \end{bmatrix} = 1/\sqrt{2}$
+* $$\langle u_2, e_1 \rangle = \begin{bmatrix} 1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1/\sqrt{2} \\ 1/\sqrt{2} \\ 0 \end{bmatrix} = 1/\sqrt{2}$$
 
 ## 5 Linear Maps
 
@@ -300,15 +300,15 @@ $$
 
 ### 5.2 kernel
 
-假设有一个$n \times m$的矩阵$A$，$A$的kernel是指所有满足$Ax=0$的向量$x$的集合，记作$ker(A)$
+假设有一个$$n \times m$$的矩阵$$A$$，$$A$$的kernel是指所有满足$$Ax=0$$的向量$$x$$的集合，记作$$ker(A)$$
 
 ### 5.3 range
 
-$A$的range是指所有满足$Ax=b$的向量$b$的集合，记作$range(A)$
+$$A$$的range是指所有满足$$Ax=b$$的向量$$b$$的集合，记作$$range(A)$$
 
 ### 5.4 dimension formula
 
-对于一个线性变换$T: V \rightarrow W$，$V$和$W$是有限维向量空间，有：
+对于一个线性变换$$T: V \rightarrow W$$，$$V$$和$$W$$是有限维向量空间，有：
 
 $$
 dim(V) = dim(ker(T)) + dim(range(T))
@@ -318,65 +318,65 @@ $$
 
 ### 6.1 Eigenvalues and eigenvectors
 
-对于一个$n \times n$的矩阵$A$，如果存在一个标量$\lambda$和一个非零向量$x$，使得：
+对于一个$$n \times n$$的矩阵$$A$$，如果存在一个标量$$\lambda$$和一个非零向量$$x$$，使得：
 
 $$
 Ax = \lambda x
 $$
 
-则称$\lambda$是$A$的特征值，$x$是$A$的特征向量
+则称$$\lambda$$是$$A$$的特征值，$$x$$是$$A$$的特征向量
 
-计算特征值只需要解方程$|A-\lambda I|=0$，其中$I$是单位矩阵
+计算特征值只需要解方程$$|A-\lambda I|=0$$，其中$$I$$是单位矩阵
 
-针对每个特征值，通过求解$(A-\lambda I)x=0$，可以得到对应的特征向量
+针对每个特征值，通过求解$$(A-\lambda I)x=0$$，可以得到对应的特征向量
 
-* 该方程组的解的个数取决于矩阵$A-\lambda I$的秩
-  * 如果秩为$n$，则有唯一解
-  * 如果秩为$r$，特征向量的个数为$n-r$
+* 该方程组的解的个数取决于矩阵$$A-\lambda I$$的秩
+  * 如果秩为$$n$$，则有唯一解
+  * 如果秩为$$r$$，特征向量的个数为$$n-r$$
 
 ### 6.2 Diagonalization
 
-如果一个$n \times n$的矩阵$A$有$n$个线性无关的特征向量，那么$A$可以对角化，即：
+如果一个$$n \times n$$的矩阵$$A$$有$$n$$个线性无关的特征向量，那么$$A$$可以对角化，即：
 
 $$
 A = PDP^{-1}
 $$
 
-其中，$P$是由$A$的特征向量组成的矩阵，$D$是由$A$的特征值组成的对角矩阵
+其中，$$P$$是由$$A$$的特征向量组成的矩阵，$$D$$是由$$A$$的特征值组成的对角矩阵
 
 ### 6.3 Spectral theorem for symmetric matrices
 
-对于一个对称矩阵$A$，存在一个正交矩阵$P$，使得：
+对于一个对称矩阵$$A$$，存在一个正交矩阵$$P$$，使得：
 
 $$
 A = PDP^T
 $$
 
-其中，$D$是$A$的特征值组成的对角矩阵
+其中，$$D$$是$$A$$的特征值组成的对角矩阵
 
 ### 6.4 Similarity
 
-如果存在一个可逆矩阵$P$，使得：
+如果存在一个可逆矩阵$$P$$，使得：
 
 $$
 B = PAP^{-1}
 $$
 
-则称$A$和$B$是相似的
+则称$$A$$和$$B$$是相似的
 
 ### 6.5 Generalized eigenvectors
 
-对于一个$n \times n$的矩阵$A$，如果存在一个标量$\lambda$和一个非零向量$x$，使得：
+对于一个$$n \times n$$的矩阵$$A$$，如果存在一个标量$$\lambda$$和一个非零向量$$x$$，使得：
 
 $$
 (A-\lambda I)^k x = 0
 $$
 
-则称$x$是$A$的$k$阶广义特征向量
+则称$$x$$是$$A$$的$$k$$阶广义特征向量
 
 ### 6.6 Jordan form
 
-对于一个$n \times n$的矩阵$A$，如果$A$有$k$个线性无关的特征向量，但是没有$n$个线性无关的特征向量，那么$A$的Jordan标准形式是：
+对于一个$$n \times n$$的矩阵$$A$$，如果$$A$$有$$k$$个线性无关的特征向量，但是没有$$n$$个线性无关的特征向量，那么$$A$$的Jordan标准形式是：
 
 $$
 J = \begin{bmatrix} J_1 & 0 & 0 \\ 0 & J_2 & 0 \\ 0 & 0 & J_3 \end{bmatrix}
@@ -443,7 +443,7 @@ $$
 
 Null Space
 
-* $Ax=0$的解空间称为$A$的零空间
+* $$Ax=0$$的解空间称为$$A$$的零空间
 
 上三角矩阵：
 
@@ -463,7 +463,7 @@ $$
 
 ## 8 Trace
 
-矩阵的迹是矩阵主对角线上元素的和，记作$tr(A)$
+矩阵的迹是矩阵主对角线上元素的和，记作$$tr(A)$$
 
 $$
 tr(A) = \Sigma_{i=1}^{n}a_{i,i}
@@ -471,5 +471,5 @@ $$
 
 迹的性质：
 
-* $tr(A+B) = tr(A) + tr(B)$
-* $tr(AB) = tr(BA)$
+* $$tr(A+B) = tr(A) + tr(B)$$
+* $$tr(AB) = tr(BA)$$
