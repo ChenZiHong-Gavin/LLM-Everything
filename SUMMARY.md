@@ -12,3 +12,4 @@
 * [Prompt Engineering](prompt-engineering/README.md)
   * [Tree of Thoughts](prompt-engineering/tree-of-thoughts.md)
 * [LLM Application](llm-application.md)
+* [Linear Algebra](linear-algebra.md)
