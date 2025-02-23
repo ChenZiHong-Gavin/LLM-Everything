@@ -1,6 +1,6 @@
 import torch
 
-from src.transformer.mul_head_atten import MultiHeadAttention
+from src.transformer.atten.mul_head_atten import MultiHeadAttention
 
 def test_multi_head_attention():
     model = MultiHeadAttention(512, 8, 768)

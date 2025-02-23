@@ -1,6 +1,6 @@
 import torch
 
-from src.transformer.cross_atten import CrossAttention
+from src.transformer.atten.cross_atten import CrossAttention
 
 def test_cross_attention():
     model = CrossAttention(512)

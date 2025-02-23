@@ -1,6 +1,6 @@
 import torch
 
-from src.transformer.masked_atten import MaskedAttention
+from src.transformer.atten.masked_atten import MaskedAttention
 
 def test_masked_attention():
     model = MaskedAttention(512)

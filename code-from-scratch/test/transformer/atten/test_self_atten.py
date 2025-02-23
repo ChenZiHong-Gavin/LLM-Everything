@@ -1,6 +1,6 @@
 import torch
 
-from src.transformer.self_atten import SelfAttention
+from src.transformer.atten.self_atten import SelfAttention
 
 def test_self_atten():
     model = SelfAttention(512)
