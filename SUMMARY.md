@@ -1,6 +1,10 @@
 # Table of contents
 
 * [前言](README.md)
+* [基础部分](basics/README.md)
+  * [机器学习基础](basics/machine-learning-basics.md)
+  * [深度学习基础](basics/deep-learning-basics.md)
+  * [LLM基础](basics/llm-basics.md)
 * [Transformer](transformer/README.md)
   * [Tokenizer](transformer/tokenizer.md)
   * [Embeddings](transformer/embeddings/README.md)
