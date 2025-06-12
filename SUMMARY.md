@@ -1,10 +1,10 @@
 # Table of contents
 
-* [前言](README.md)
+* [📃 前言](README.md)
 * [基础部分](basics/README.md)
   * [机器学习基础](basics/machine-learning-basics.md)
-  * [深度学习基础](basics/deep-learning-basics.md)
-  * [LLM基础](basics/llm-basics.md)
+  * [深度学习基础](basics/shen-du-xue-xi-ji-chu.md)
+  * [LLM基础](basics/llm-ji-chu.md)
 * [Transformer](transformer/README.md)
   * [Tokenizer](transformer/tokenizer.md)
   * [Embeddings](transformer/embeddings/README.md)
@@ -17,3 +17,5 @@
   * [Tree of Thoughts](prompt-engineering/tree-of-thoughts.md)
 * [LLM Application](llm-application.md)
 * [Linear Algebra](linear-algebra.md)
+* [🧠 模型训练](train/README.md)
+  * [LLM精度问题](train/llm-precision.md)
