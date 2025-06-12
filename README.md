@@ -14,7 +14,7 @@
 * **Transformer结构**
 * **Prompt工程**
 * **模型训练**
-  * 250612 LLM精度问题：[github](train/llm-precision.md) [gitbook](train/llm-precision.md)
+  * 250612 [llm-precision.md](train/llm-precision.md "mention")
 * **模型推理/部署**
 * **知识编辑**
 * **LLM应用**
