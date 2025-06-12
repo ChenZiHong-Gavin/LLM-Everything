@@ -1,5 +1,3 @@
-# LLM-Everything
-
 <figure><img src="images/cover.png" alt="LLM-Everything"></figure>
 
 [![GitBook](https://img.shields.io/static/v1?message=Documented%20on%20GitBook&logo=gitbook&logoColor=ffffff&label=%20&labelColor=5c5c5c&color=3F89A1)](https://chenzihong.gitbook.io/llm-everything)
@@ -12,7 +10,7 @@
 # 📚 LLM知识地图
 - **Transformer结构**
 - **Prompt工程**
-- **模型微调**
+- **模型训练**
 - **模型推理/部署**
 - **知识编辑**
 - **LLM应用**
