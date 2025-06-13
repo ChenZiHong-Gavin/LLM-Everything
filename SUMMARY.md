@@ -19,4 +19,4 @@
 * [Linear Algebra](linear-algebra.md)
 * [🧠 模型训练](train/README.md)
   * [LLM精度问题](train/llm-precision.md)
-  * [LLM训练需要多少显存](train/llm-xun-lian-xu-yao-duo-shao-xian-cun.md)
+  * [LLM训练需要多少显存](train/vram_needs_for_llm_training.md)

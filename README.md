@@ -15,7 +15,7 @@
 * **Prompt工程**
 * **模型训练**
   * 250612 LLM精度问题（ [llm-precision.md](train/llm-precision.md "mention")）
-  * **250613 LLM训练需要多少显存 （** [llm-xun-lian-xu-yao-duo-shao-xian-cun.md](train/llm-xun-lian-xu-yao-duo-shao-xian-cun.md "mention")）
+  * **250613 LLM训练需要多少显存 （** [vram\_needs\_for\_llm\_training.md](train/vram_needs_for_llm_training.md "mention")）
 * **模型推理/部署**
 * **知识编辑**
 * **LLM应用**
