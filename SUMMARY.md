@@ -5,7 +5,7 @@
   * [机器学习基础](basics/machine-learning-basics.md)
   * [深度学习基础](basics/deep-learning-basics.md)
   * [LLM基础](basics/llm-basics.md)
-* [Transformer](transformer/README.md)
+* [🦖 Transformer](transformer/README.md)
   * [Tokenizer](transformer/tokenizer.md)
   * [Embeddings](transformer/embeddings/README.md)
     * [Bag-of-words](transformer/embeddings/bag-of-words.md)

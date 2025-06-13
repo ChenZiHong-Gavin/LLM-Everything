@@ -12,6 +12,8 @@
 ### 📚 LLM知识地图
 
 * **Transformer结构**
+  * **250614 Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
+  * 250614 Embedding （ [embeddings](transformer/embeddings/ "mention")）
 * **Prompt工程**
 * **模型训练**
   * 250612 LLM精度问题（ [llm-precision.md](train/llm-precision.md "mention")）
