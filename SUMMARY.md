@@ -18,5 +18,6 @@
 * [LLM Application](llm-application.md)
 * [Linear Algebra](linear-algebra.md)
 * [🧠 模型训练](train/README.md)
-  * [LLM精度问题](train/llm-precision.md)
-  * [LLM训练需要多少显存](train/vram_needs_for_llm_training.md)
+  * [LLM显存需求](train/llm-vram-needs/README.md)
+    * [LLM精度问题](train/llm-vram-needs/llm-precision.md)
+    * [LLM训练需要多少显存](train/llm-vram-needs/vram_needs_for_llm_training.md)

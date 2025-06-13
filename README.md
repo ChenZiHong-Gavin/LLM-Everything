@@ -12,12 +12,17 @@
 ### 📚 LLM知识地图
 
 * **Transformer结构**
-  * **250614 Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
-  * 250614 Embedding （ [embeddings](transformer/embeddings/ "mention")）
+  * **Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
+  * Embedding （ [embeddings](transformer/embeddings/ "mention")）
+    * Bag-of-words （ [bag-of-words.md](transformer/embeddings/bag-of-words.md "mention")）
+    * Topic Model （ [topic-model.md](transformer/embeddings/topic-model.md "mention")）
+    * Static Word Embedding （ [static-word-embeddings.md](transformer/embeddings/static-word-embeddings.md "mention")）
+    * Dynamic Word Embedding （ [dynamic-word-embeddings.md](transformer/embeddings/dynamic-word-embeddings.md "mention")）
 * **Prompt工程**
 * **模型训练**
-  * 250612 LLM精度问题（ [llm-precision.md](train/llm-precision.md "mention")）
-  * **250613 LLM训练需要多少显存 （** [vram\_needs\_for\_llm\_training.md](train/vram_needs_for_llm_training.md "mention")）
+  * LLM显存需求 （ [llm-vram-needs](train/llm-vram-needs/ "mention")）
+    * LLM精度问题（ [llm-precision.md](train/llm-vram-needs/llm-precision.md "mention")）
+    * **LLM训练需要多少显存 （** [vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention")）
 * **模型推理/部署**
 * **知识编辑**
 * **LLM应用**
@@ -26,5 +31,5 @@
 
 ### 🤝 与社区一起成长
 
-本项目正在快速迭代中。\
+本文档正在快速迭代中。\
 分享你的见解，提出你的疑问，共同进步。

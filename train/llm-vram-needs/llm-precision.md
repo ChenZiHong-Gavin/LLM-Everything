@@ -21,7 +21,7 @@ $$
 
 传统深度学习训练（高精度，但计算慢、内存占用高）
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 * 位分配
   * 1位符号位
@@ -37,7 +37,7 @@ $$
 
 深度学习领域正呈现出一种从 FP32 转向使用 FP16 的趋势，因为对于神经网络而言，低精度计算似乎并不关键。额外的精度并无实际益处，反而会使运算速度变慢、占用更多内存且降低通信速度。
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 * 位分配
   * 1位符号位
@@ -53,7 +53,7 @@ $$
 
 最初设计的FP16并未考虑深度学习应用需求，其动态范围过于狭窄。而BF16解决了这个问题，提供了与FP32完全相同的动态范围。
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 * **位分配**：
   * 符号位：**1位**
@@ -75,7 +75,7 @@ $$
 | **动态范围** | $$\sim 10^{-38} \text { to } 10^{38}$$ | $$\sim 10^{-8} \text { to } 10^4$$ | $$\sim 10^{-38} \text { to } 10^{38}$$ |
 | **典型场景** | 传统训练                                   | 推理、轻量训练                            | 现代大模型训练                                |
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 ### 参考
 
