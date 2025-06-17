@@ -11,6 +11,12 @@
 
 ### 📚 LLM知识地图
 
+* 基础部分
+  * Python基础
+    * Logging模块 （ [logging.md](basics/python-basics/logging.md "mention")）
+  * 机器学习基础
+  * 深度学习基础
+  * LLM基础
 * **Transformer结构**
   * **Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
   * Embedding （ [embeddings](transformer/embeddings/ "mention")）
