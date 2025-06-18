@@ -23,5 +23,5 @@
   * [LLM显存需求](train/llm-vram-needs/README.md)
     * [LLM精度问题](train/llm-vram-needs/llm-precision.md)
     * [LLM训练需要多少显存](train/llm-vram-needs/vram_needs_for_llm_training.md)
-* [🐒 MoE](moe/README.md)
+* [🐒 MoE](moe.md)
   * [专家并行](moe/zhuan-jia-bing-xing.md)
