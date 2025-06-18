@@ -31,7 +31,7 @@
     * **LLM训练需要多少显存 （** [vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention")）
 * **模型推理/部署**
 * **MoE**
-  * **专家并行 （** [zhuan-jia-bing-xing.md](moe/zhuan-jia-bing-xing.md "mention")）
+  * **专家并行 （** [expert-parallelism.md](moe/expert-parallelism.md "mention")）
 * **知识编辑**
 * **LLM应用**
 * **多模态大模型**
