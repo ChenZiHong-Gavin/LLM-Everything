@@ -15,14 +15,16 @@
   * Python基础
     * Logging模块 （ [logging.md](basics/python-basics/logging.md "mention")）
   * 机器学习基础
+    * 特征提取
+      * 文本表示模型
+        * Bag-of-words （ [bag-of-words.md](basics/machine-learning-basics/feature-extraction/text-representation-models/bag-of-words.md "mention")）
+          * Topic Model （ [topic-model.md](basics/machine-learning-basics/feature-extraction/text-representation-models/topic-model.md "mention")）
+          * Static Word Embedding （ [static-word-embeddings.md](basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention")）
   * 深度学习基础
   * LLM基础
 * **Transformer结构**
   * **Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
   * Embedding （ [embeddings](transformer/embeddings/ "mention")）
-    * Bag-of-words （ [bag-of-words.md](transformer/embeddings/bag-of-words.md "mention")）
-    * Topic Model （ [topic-model.md](transformer/embeddings/topic-model.md "mention")）
-    * Static Word Embedding （ [static-word-embeddings.md](transformer/embeddings/static-word-embeddings.md "mention")）
     * Dynamic Word Embedding （ [dynamic-word-embeddings.md](transformer/embeddings/dynamic-word-embeddings.md "mention")）
 * **Prompt工程**
 * **模型训练**

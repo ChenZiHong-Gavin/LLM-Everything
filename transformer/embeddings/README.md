@@ -20,10 +20,12 @@ LLM的输入是一个token序列，Embedding的作用是将词汇映射到向量
 
 文本表示的类型：
 
-* 基于one-hot、tf-idf等的bag-of-words
-* 主题模型：LSA（SVD）、pLSA、LDA
-* 基于词向量的固定表征：word2vec、fastText、glove
-* 基于词向量的动态表征：ELMO、GPT、bert
+* 基于one-hot、tf-idf等的bag-of-words：[bag-of-words.md](../../basics/machine-learning-basics/feature-extraction/text-representation-models/bag-of-words.md "mention")
+* 主题模型：LSA（SVD）、pLSA、LDA： [topic-model.md](../../basics/machine-learning-basics/feature-extraction/text-representation-models/topic-model.md "mention")
+* 基于词向量的固定表征：word2vec、fastText、glove： [static-word-embeddings.md](../../basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention")
+* 基于词向量的动态表征：ELMO、GPT、bert： [dynamic-word-embeddings.md](dynamic-word-embeddings.md "mention")
+
+LLM 的 Embedding 模型通常是**基于词向量的动态表征，**&#x662F;LLM模型架构本身的一部分，通常是输入层（有时也包括输出层）。
 
 ## 参考资料
 

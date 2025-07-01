@@ -4,7 +4,7 @@
 
 ### 4.1 Word2Vec
 
-<figure><img src="../../.gitbook/assets/WORD2VEC-1.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WORD2VEC-1.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
 
 Word2Vec通过一个简单的双层神经网络来从大量文本中学习单词之间的联系。
 
@@ -13,7 +13,7 @@ Word2Vec有两种模型：
 * Skip-gram：通过一个词预测它周围的词，即输入一个词，输出多个词。
 * CBOW：通过周围的词预测中心词，即输入多个词，输出一个词。
 
-<figure><img src="../../.gitbook/assets/WORD2VEC-2.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/WORD2VEC-2.png" alt=""><figcaption><p>Word2Vec</p></figcaption></figure>
 
 #### 4.1.1 CBOW
 
@@ -129,7 +129,7 @@ for epoch in range(epochs):
 
 损失函数的变化如下：
 
-<figure><img src="../../.gitbook/assets/CBOW-LOSS.png" alt=""><figcaption><p>CBOW-LOSS</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/CBOW-LOSS.png" alt=""><figcaption><p>CBOW-LOSS</p></figcaption></figure>
 
 ```python
 # 获取嵌入
@@ -143,7 +143,7 @@ plt.show()
 
 结果如下：
 
-<figure><img src="../../.gitbook/assets/CBOW-EMBEDDING.png" alt=""><figcaption><p>CBOW-EMBEDDING</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/CBOW-EMBEDDING.png" alt=""><figcaption><p>CBOW-EMBEDDING</p></figcaption></figure>
 
 #### 4.1.2 Skip-gram
 
@@ -184,7 +184,7 @@ softmax函数计算的是某一项$$x_i$$在所有项中出现的概率，分母
 
 #### 4.2.2 fastText的原理
 
-<figure><img src="../../.gitbook/assets/FASTTEXT.jpg" alt=""><figcaption><p>fastText</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/FASTTEXT.jpg" alt=""><figcaption><p>fastText</p></figcaption></figure>
 
 fastText模型架构和word2vec中的CBOW十分类似。不同的是：
 
@@ -290,6 +290,7 @@ $$
 TODO: 可以阅读mittens Glove源码
 
 ## 参考资料
+
 1. https://www.jiqizhixin.com/articles/2018-12-03-6
 2. https://zhuanlan.zhihu.com/p/568064512
 3. https://zhuanlan.zhihu.com/p/79573970

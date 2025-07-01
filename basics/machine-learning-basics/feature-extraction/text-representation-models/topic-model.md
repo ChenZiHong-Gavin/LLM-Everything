@@ -4,7 +4,7 @@
 
 主题模型是一种特殊的概率图模型，可以识别两个不同的词或者词组是否具有相同的主题。
 
-<figure><img src="../../.gitbook/assets/TOPIC-MODEL.png" alt=""><figcaption><p>Topic Model</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/TOPIC-MODEL.png" alt=""><figcaption><p>Topic Model</p></figcaption></figure>
 
 主题模型将相似/相关的词语聚集成簇，称为主题。
 
@@ -60,12 +60,12 @@ $$
 
 1.  生成一个m×n维的文档-词项矩阵（Document-Term Matrix），矩阵元素为TF-IDF分数
 
-    <figure><img src="../../.gitbook/assets/LSA-1.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
+    <figure><img src="../../../../.gitbook/assets/LSA-1.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
 2.  使用SVD将上述矩阵的维度降到K维
 
     SVD首先将矩阵$$A$$分解为三个矩阵的乘积：
 
-    <figure><img src="../../.gitbook/assets/LSA-2.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
+    <figure><img src="../../../../.gitbook/assets/LSA-2.png" alt=""><figcaption><p>LSA</p></figcaption></figure>
 
     由于我们只需要前K个奇异值，所以只保留前K个奇异值，并相应地截断矩阵$$U$$和$$V$$，重新构造近似矩阵。
 
@@ -195,7 +195,7 @@ pLSA通过一个生成模型来为LSA提供概率意义上的解释。该模型�
 
 假设有M个单词集合$$W={w_1, w_2, ..., w_M}$$，N个文档集合$$D={d_1, d_2, ..., d_N}$$，K个主题集合$$Z={z_1, z_2, ..., z_K}$$。概率分布$$P(d)$$表示生成文档$$d$$的概率，$$P(w|z)$$表示在主题$$z$$下生成单词$$w$$的概率，$$P(z|d)$$表示在文档$$d$$中生成主题$$z$$的概率。
 
-<figure><img src="../../.gitbook/assets/PLSA.png" alt=""><figcaption><p>pLSA</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/PLSA.png" alt=""><figcaption><p>pLSA</p></figcaption></figure>
 
 则$$p(w|d)$$的推导为：
 
@@ -346,7 +346,7 @@ $$
 
 pLSA采用的是频率派观点，将每篇文章对应的主题分布$$P(z|d)$$和每个主题对应的词分布$$P(w|z)$$看成未知常数，并可以求解出来。LDA采用的是贝叶斯学派的观点，认为待估计的参数（主题分布和词分布）不再是一个固定的常数，而是服从一定分布的随机变量。这个分布符合一定的先验概率分布（即Dirichlet分布），通过观测数据来更新这个分布的参数。
 
-<figure><img src="../../.gitbook/assets/LDA.png" alt=""><figcaption><p>LDA</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/LDA.png" alt=""><figcaption><p>LDA</p></figcaption></figure>
 
 #### 3.3.3 LDA的原理
 
@@ -359,7 +359,7 @@ pLSA采用的是频率派观点，将每篇文章对应的主题分布$$P(z|d)$$
 4. 从超参数$$\beta$$的Dirichlet分布中抽样生成主题$$z_{ij}$$的词分布$$\phi_{z_{ij}}$$
 5. 从词分布$$\phi_{z_{ij}}$$中抽样生成词$$w_{ij}$$
 
-<figure><img src="../../.gitbook/assets/LDA-EXAMPLE.png" alt=""><figcaption><p>LDA EXAMPLE</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/LDA-EXAMPLE.png" alt=""><figcaption><p>LDA EXAMPLE</p></figcaption></figure>
 
 在PLSA中，会使用固定的概率来抽取主题词，主题分布和词分布都是唯一确定的。而在LDA中，主题分布和词分布是不确定的，它们是服从Dirichlet分布的随机变量。
 
@@ -368,6 +368,7 @@ pLSA采用的是频率派观点，将每篇文章对应的主题分布$$P(z|d)$$
 TODO：参考baidu https://github.com/baidu/Familia/wiki
 
 ## 参考资料
+
 1. https://blog.csdn.net/mch2869253130/article/details/100629262
 2. https://www.jiqizhixin.com/articles/2018-12-07-10
 3. https://zhuanlan.zhihu.com/p/71027182
