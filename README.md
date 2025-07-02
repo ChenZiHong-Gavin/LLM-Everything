@@ -14,6 +14,7 @@
 * 基础部分
   * Python基础
     * Logging模块 （ [logging.md](basics/python-basics/logging.md "mention")）
+    * Import模块（ [import.md](basics/python-basics/import.md "mention")）
   * 机器学习基础
     * 特征提取
       * 文本表示模型
