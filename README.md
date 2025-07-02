@@ -1,6 +1,6 @@
 # 📃 前言
 
-<figure><img src="images/cover.png" alt="LLM-Everything"><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/Gemini_Generated_Image_nvoawnnvoawnnvoa.png" alt=""><figcaption></figcaption></figure>
 
 [![GitBook](https://img.shields.io/static/v1?message=Documented%20on%20GitBook\&logo=gitbook\&logoColor=ffffff\&label=%20\&labelColor=5c5c5c\&color=3F89A1)](https://chenzihong.gitbook.io/llm-everything)
 
