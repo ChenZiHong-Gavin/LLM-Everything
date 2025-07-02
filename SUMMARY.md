@@ -4,6 +4,7 @@
 * [🎚️ 基础部分](basics/README.md)
   * [🐍 Python基础](basics/python-basics/README.md)
     * [Logging模块](basics/python-basics/logging.md)
+    * [Import模块](basics/python-basics/import.md)
   * [🐘 机器学习基础](basics/machine-learning-basics/README.md)
     * [特征提取](basics/machine-learning-basics/feature-extraction/README.md)
       * [文本表示模型](basics/machine-learning-basics/feature-extraction/text-representation-models/README.md)
