@@ -27,18 +27,19 @@
   * **Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
   * Embedding （ [embeddings](transformer/embeddings/ "mention")）
     * Dynamic Word Embedding （ [dynamic-word-embeddings.md](transformer/embeddings/dynamic-word-embeddings.md "mention")）
-* **Prompt工程**
-* **模型训练**
+  * FeedForward ( [feedforward.md](transformer/feedforward.md "mention")）
+* Prompt工程
+* 模型训练
   * LLM显存需求 （ [llm-vram-needs](train/llm-vram-needs/ "mention")）
     * LLM精度问题（ [llm-precision.md](train/llm-vram-needs/llm-precision.md "mention")）
-    * **LLM训练需要多少显存 （** [vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention")）
-* **模型推理/部署**
-* **MoE**
-  * **专家并行 （** [expert-parallelism.md](moe/expert-parallelism.md "mention")）
-* **知识编辑**
-* **LLM应用**
-* **多模态大模型**
-* **LLM安全**
+    * LLM训练需要多少显存 （ [vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention")）
+* 模型推理/部署
+* MoE
+  * 专家并行 （ [expert-parallelism.md](moe/expert-parallelism.md "mention")）
+* 知识编辑
+* LLM应用
+* 多模态大模型
+* LLM安全
 
 ### 🤝 与社区一起成长
 

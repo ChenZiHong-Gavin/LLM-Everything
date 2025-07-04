@@ -2,7 +2,7 @@
 
 ### 1 import原理
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 导入一个模块时，Python 首先会检查 `sys.modules` 这个字典。如果模块已经存在于 `sys.modules` 中（即已经被导入过），Python 会直接返回该模块，避免重复加载，确保了模块的单例性。
 
