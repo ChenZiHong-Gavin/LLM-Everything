@@ -1,12 +1,6 @@
-# Dynamic Word Embeddings
+# ELMO
 
-## 1 基于词向量的动态表征
-
-在固定表征中，每个词都有一个固定的向量表示。但是在动态表征中，每个词的向量表示是根据上下文动态生成的。
-
-### 5.1 ELMO
-
-#### 5.1.1 ELMO模型结构
+## 1 ELMO模型结构
 
 <figure><img src="../../.gitbook/assets/ELMO-1.png" alt=""><figcaption><p>ELMO</p></figcaption></figure>
 
@@ -18,7 +12,7 @@ biLMs层是一个双向语言模型，分开训练了正向和反向的语言模
 
 得到biLMs层的表征后，会经过一个混合层，会将前面的biLMs层的输出进行线性融合，得到最终的ELMO向量，维度为$$B \times W \times 2D$$。
 
-#### 5.1.2 Char Encoder Layer
+### 1.1 Char Encoder Layer
 
 <figure><img src="../../.gitbook/assets/ELMO-2.png" alt=""><figcaption><p>Char Encoder Layer</p></figcaption></figure>
 
@@ -28,7 +22,7 @@ biLMs层是一个双向语言模型，分开训练了正向和反向的语言模
 4. Highway层。全连接+残差。
 5. Linear映射。将输出的维度映射到$$B \times W \times D$$。
 
-#### 5.1.3 biLMs
+### 1.2 biLMs
 
 ELMo主要是建立在biLMs（双向语言模型）上的。
 
@@ -44,28 +38,60 @@ $$
 
 <figure><img src="../../.gitbook/assets/ELMO-3.png" alt=""><figcaption><p>biLMs</p></figcaption></figure>
 
-#### 5.1.4 EMLO代码实现
+## 2 ELMO两阶段
 
-TODO
+ELMO是一个两阶段过程：
 
-### 5.2 Bert
+第一阶段：利用biLMs语言模型训练。
 
-BERT Embedding由三种Embedding求和而成：
+第二阶段：做下游任务时，从预训练网络中提取对应单词的网络各层的Word Embedding作为新特征补充到下游任务中。
 
-<figure><img src="../../.gitbook/assets/BERT-1.png" alt=""><figcaption><p>BERT Embedding</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
-1. Token Embeddings：输入的句子首先会被分词，然后每个词会被映射到一个词向量。最初的词向量是随机初始化的，然后会在训练过程中通过优化目标（如Masked Language Model）进行调整。
-2. Segment Embeddings：BERT是为了处理句子对任务而设计的，因此在输入的时候会加入句子对的信息。对于一个句子对，BERT会在输入的时候加入一个特殊的标记，用来区分两个句子。第一个句子的segment embedding是全0，第二个句子的segment embedding是全1。
-3. Position Embeddings：BERT没有使用RNN或CNN，因此没有位置信息。为了加入位置信息，BERT使用了位置编码。位置编码是一个维度为$$d_{model}$$的向量，对于一个长度为$$L$$的句子，每个位置$$l$$都会有一个位置编码$$PE_l$$，然后将Token Embeddings、Segment Embeddings和Position Embeddings相加，得到最终的BERT Embedding。BERT使用的是交替三角函数的位置编码。
+输入文本后分别可以的得到三个特征：
 
-### 5.3 GPT
+1. E1：单词特征
+2. E2：句法特征
+3. E3：语义特征
 
-GPT是一个单向语言模型，输入的句子是从左到右的，因此在训练的时候，每个位置的词都可以看到前面的词，但是不能看到后面的词。
+之后给这三个Embedding分别一个权重（可以通过学习获得），加权整合成一个Embedding，作为下游任务的输入。
 
-可以将BERT理解为Transformer的Encoder，而GPT可以理解为Transformer的Decoder。
+ELMO缺点（与BERT和GPT对比）：
 
-## 参考资料
+1. LSTM抽取特征的能力远弱于Transformer
+2. 拼接方式双向融合特征融合能力偏弱
 
-1. https://blog.csdn.net/Magical\_Bubble/article/details/89160032
-2. https://arxiv.org/pdf/1810.04805
-3. https://zhuanlan.zhihu.com/p/403495863
+## 3 ELMO代码实现
+
+```python
+import torch.nn as nn
+
+class ELMo(nn.Module):
+    def __init__(self, vocab_size, embedding_dim, hidden_dim, num_layers):
+        super(ELMo, self).__init__()
+        self.embedding = nn.Embedding(vocab_size, embedding_dim)
+        self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers, bidirectional=True)
+        self.linear = nn.Linear(hidden_dim * 2, vocab_size)
+
+    def forward(self, x):
+        x = self.embedding(x)
+        x, _ = self.lstm(x)
+        x = self.linear(x)
+        return x
+
+vocab_size = len(vocab)
+embedding_dim = 100
+hidden_dim = 128
+num_layers = 2
+model = ELMo(vocab_size, embedding_dim, hidden_dim, num_layers)
+```
+
+## 参考
+
+1. [从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史 - 知乎](https://zhuanlan.zhihu.com/p/49271699)
+2. [https://blog.csdn.net/weixin\_42878111/article/details/131024910](https://blog.csdn.net/weixin_42878111/article/details/131024910)
+
+
+
+
+

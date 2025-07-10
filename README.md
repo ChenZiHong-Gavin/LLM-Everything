@@ -26,7 +26,7 @@
 * **Transformer结构**
   * **Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
   * Embedding （ [embeddings](transformer/embeddings/ "mention")）
-    * Dynamic Word Embedding （ [dynamic-word-embeddings.md](transformer/embeddings/dynamic-word-embeddings.md "mention")）
+    * EMLO （ [elmo.md](transformer/embeddings/elmo.md "mention")）
   * FeedForward ( [feedforward.md](transformer/feedforward.md "mention")）
 * Prompt工程
 * 模型训练

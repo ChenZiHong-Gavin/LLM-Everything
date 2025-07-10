@@ -18,14 +18,16 @@ LLM的输入是一个token序列，Embedding的作用是将词汇映射到向量
 
 <figure><img src="../../.gitbook/assets/EMBEDDING-1.png" alt=""><figcaption><p>Embedding</p></figcaption></figure>
 
+## 2 Embedding分类
+
 文本表示的类型：
 
 * 基于one-hot、tf-idf等的bag-of-words：[bag-of-words.md](../../basics/machine-learning-basics/feature-extraction/text-representation-models/bag-of-words.md "mention")
 * 主题模型：LSA（SVD）、pLSA、LDA： [topic-model.md](../../basics/machine-learning-basics/feature-extraction/text-representation-models/topic-model.md "mention")
 * 基于词向量的固定表征：word2vec、fastText、glove： [static-word-embeddings.md](../../basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention")
-* 基于词向量的动态表征：ELMO、GPT、bert： [dynamic-word-embeddings.md](dynamic-word-embeddings.md "mention")
+* 基于词向量的动态表征：ELMO、GPT、bert： [elmo.md](elmo.md "mention")、 [bert.md](bert.md "mention")、 [gpt.md](gpt.md "mention")
 
-LLM 的 Embedding 模型通常是**基于词向量的动态表征，**&#x662F;LLM模型架构本身的一部分，通常是输入层（有时也包括输出层）。
+LLM 的 Embedding 模型通常是**基于词向量的动态表征，**&#x662F;LLM模型架构本身的一部分，通常是输入层（有时也包括输出层）。在固定表征中，每个词都有一个固定的向量表示。但是在动态表征中，每个词的向量表示是根据上下文动态生成的。这种上下文感知的 embedding 能更好地捕捉词义的多样性。
 
 ## 参考资料
 
