@@ -90,6 +90,7 @@ model = ELMo(vocab_size, embedding_dim, hidden_dim, num_layers)
 
 1. [从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史 - 知乎](https://zhuanlan.zhihu.com/p/49271699)
 2. [https://blog.csdn.net/weixin\_42878111/article/details/131024910](https://blog.csdn.net/weixin_42878111/article/details/131024910)
+3. [https://blog.csdn.net/Magical\_Bubble/article/details/89160032](https://blog.csdn.net/Magical_Bubble/article/details/89160032)
 
 
 
