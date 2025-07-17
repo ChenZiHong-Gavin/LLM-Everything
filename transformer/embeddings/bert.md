@@ -15,7 +15,7 @@ BERT的输入是一串 token 序列，该向量既可以随机初始化，也可
 
 如何才能在Transformer这个结构上做双向语言模型任务？
 
-![image.png](attachment:81df5923-b61e-4b0e-bcd7-a00ebdc7635c:image.png)
+<figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
 在Word2Vec的介绍中曾提到CBOW方法，就是选择一个单词，根据它的上文Context-Before和下文Context-after来预测。BERT采用了类似的方法来训练语言模型：
 
