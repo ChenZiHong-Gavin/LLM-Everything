@@ -28,6 +28,7 @@
   * **Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
   * Embedding （ [embeddings](transformer/embeddings/ "mention")）
     * EMLO （ [elmo.md](transformer/embeddings/elmo.md "mention")）
+    * BERT ( [bert.md](transformer/embeddings/bert.md "mention"))
   * FeedForward ( [feedforward.md](transformer/feedforward.md "mention")）
 * Prompt工程
 * 模型训练
