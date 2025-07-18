@@ -37,7 +37,7 @@ $$
 
 深度学习领域正呈现出一种从 FP32 转向使用 FP16 的趋势，因为对于神经网络而言，低精度计算似乎并不关键。额外的精度并无实际益处，反而会使运算速度变慢、占用更多内存且降低通信速度。
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * 位分配
   * 1位符号位

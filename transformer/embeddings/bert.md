@@ -109,3 +109,4 @@ class BERT(nn.Module):
 2. [从Word Embedding到Bert模型—自然语言处理中的预训练技术发展史 - 知乎](https://zhuanlan.zhihu.com/p/49271699)
 3. [万字长文，带你搞懂什么是BERT模型（非常详细）看这一篇就够了！-CSDN博客](https://blog.csdn.net/star_nwe/article/details/143227601)
 4. [https://github.com/codertimo/BERT-pytorch/blob/master/bert\_pytorch/model/bert.py](https://github.com/codertimo/BERT-pytorch/blob/master/bert_pytorch/model/bert.py)
+5. [https://zhuanlan.zhihu.com/p/403495863](https://zhuanlan.zhihu.com/p/403495863)
