@@ -20,6 +20,7 @@
     * [ELMO](transformer/embeddings/elmo.md)
     * [BERT](transformer/embeddings/bert.md)
     * [GPT](transformer/embeddings/gpt.md)
+  * [Positional Encoding](transformer/positional-encoding.md)
   * [Self Attention](transformer/self-attention.md)
   * [FeedForward](transformer/feedforward.md)
 * [Prompt Engineering](prompt-engineering/README.md)
