@@ -31,6 +31,7 @@
     * BERT ( [bert.md](transformer/embeddings/bert.md "mention"))
     * GPT ( [gpt.md](transformer/embeddings/gpt.md "mention")）
   * Positional Encoding ( [positional-encoding.md](transformer/positional-encoding.md "mention")）
+  * Self Attention (WIP)
   * FeedForward ( [feedforward.md](transformer/feedforward.md "mention")）
 * Prompt工程
 * 模型训练
