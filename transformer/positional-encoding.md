@@ -89,7 +89,7 @@ $$sin(\alpha+\beta)=sin\alpha \cdot cos\beta + cos\alpha\cdot sin\beta$$
 
 $$cos(\alpha+\beta) = cos\alpha\cdot cos\beta - sin\alpha\cdot sin\beta$$
 
-对于位置pos+k的：
+对于位置pos+k的positional encoding：
 
 $$PE_{(pos+k, 2i)} = sin(w_{i}\cdot (pos+k)) = sin(w_{i}pos)cos(w_{i}k)+cos(w_{i}pos)sin(w_{i}k)$$
 
@@ -122,6 +122,8 @@ $$\begin{align} PE_{pos} \cdot PE_{pos+k} &= \sum_{i=0}^{\frac{d}{2}-1}sin(w_ipo
 
 
 **位置嵌入还有一种更直觉的解释，就是把它想象成一个钟（因为余弦和正弦就是单元圆的概念）。位置编码的每两个维度可以看成是钟的针（时针、分针、秒针等）。它们从一个位置移动到下一个位置就是在不同的频率下旋转它们的针。所以，尽管没有公式推导，它也能立刻告诉你为什么那个旋转矩阵存在。**
+
+#### **3.2.1 正余弦位置编码的代码实现**
 
 ```python
 import torch
@@ -186,48 +188,71 @@ class TransformerEmbedding(nn.Module):
         return self.drop_out(tok_emb + pos_emb)
 ```
 
-#### **3.3 旋转位置编码RoPE**
+### **3.3 旋转位置编码RoPE**
 
 RoPE主要借助了复数的思想
 
-\$$ \begin{equation}\begin{aligned}\boldsymbol{q}\_m & =f\_q\left(\boldsymbol{x}\_m, m\right) \\\\\boldsymbol{k}\_n & =f\_k\left(\boldsymbol{x}\_n, n\right) \\\\\boldsymbol{v}\_n & =f\_v\left(\boldsymbol{x}\_n, n\right)\end{aligned}\end{equation} \$$
+$$\begin{equation}\begin{aligned}\boldsymbol{q}_m & =f_q\left(\boldsymbol{x}_m, m\right) \\\boldsymbol{k}_n & =f_k\left(\boldsymbol{x}_n, n\right) \\\boldsymbol{v}_n & =f_v\left(\boldsymbol{x}_n, n\right)\end{aligned}\end{equation}$$
 
-为了能利用上 token 之间的相对位置信息，假定query向量$q\_m$和key向量$k\_n$之间的内积操作，可以被一个函数g表示：
+为了能利用上 token 之间的相对位置信息，假定query向量$$q_m$$和key向量$$k_n$$之间的内积操作，可以被一个函数$$g$$表示：
 
-\$$ \begin{equation}\<f\_q\left(x\_m, m\right), f\_k\left(x\_n, n\right)>=g\left(x\_m, x\_n, m-n\right)\end{equation} \$$
+$$\begin{equation}<f_q\left(x_m, m\right), f_k\left(x_n, n\right)>=g\left(x_m, x_n, m-n\right)\end{equation}$$
 
 * 左边是含有绝对位置信息的q和k，右边的输入是相对位置信息
 
-假定现在词嵌入向量的维度是两维d=2，
+假定现在词嵌入向量的维度是两维$$d=2$$，RoPE利用2维度平面上的向量的几何性质，再结合复数的性质，神奇般的找到了满足上述等式的$$f$$和$$g$$，其形式如下：
 
-RoPE利用2维度平面上的向量的几何性质，再结合复数的性质，神奇般的找到了满足上述等式的f和
+$$
+\begin{equation}\begin{aligned}& f_q\left(\boldsymbol{x}_m, m\right)=\left(\boldsymbol{W}_q \boldsymbol{x}_m\right) e^{i m \theta} \\& f_k\left(\boldsymbol{x}_n, n\right)=\left(\boldsymbol{W}_k \boldsymbol{x}_n\right) e^{i n \theta} \\& g\left(\boldsymbol{x}_m, \boldsymbol{x}_n, m-n\right)=\operatorname{Re}\left[\left(\boldsymbol{W}_q \boldsymbol{x}_m\right)\left(\boldsymbol{W}_k \boldsymbol{x}_n\right)^* e^{i(m-n) \theta}\right]\end{aligned}\end{equation}
+$$
 
-g，其形式如下：
+这里面的 Re 表示复数的实部，推导后可以这样表示：
 
-\$$ \begin{equation}\begin{aligned}& f\_q\left(\boldsymbol{x}\_m, m\right)=\left(\boldsymbol{W}\_q \boldsymbol{x}\_m\right) e^{i m \theta} \\\\& f\_k\left(\boldsymbol{x}\_n, n\right)=\left(\boldsymbol{W}\_k \boldsymbol{x}\_n\right) e^{i n \theta} \\\\& g\left(\boldsymbol{x}\_m, \boldsymbol{x}\_n, m-n\right)=\operatorname{Re}\left\[\left(\boldsymbol{W}\_q \boldsymbol{x}\_m\right)\left(\boldsymbol{W}\_k \boldsymbol{x}\_n\right)^\* e^{i(m-n) \theta}\right]\end{aligned}\end{equation} \$$
-
-这里面的 Re 表示复数的实部
-
-推导后可以这样表示：
-
-\$$ \begin{equation}\begin{aligned}f\_q\left(\boldsymbol{x}\_m, m\right) & =\left(\begin{array}{cc}\cos m \theta & -\sin m \theta) \\\\\sin m \theta & \cos m \theta\end{array}\right)\left(\begin{array}{ll}W\_q^{(1,1)} & W\_q^{(1,2)} \\\W\_q^{(2,1)} & W\_q^{(2,2)}\end{array}\right)\binom{x\_m^{(1)\}}{x\_m^{(2)\}} \\\\& =\left(\begin{array}{cc}\cos m \theta & -\sin m \theta) \\\\\sin m \theta & \cos m \theta\end{array}\right)\binom{q\_m^{(1)\}}{q\_m^{(2)\}}\end{aligned}\end{equation} \$$
+$$\begin{equation}\begin{aligned}f_q\left(\boldsymbol{x}_m, m\right) & =\left(\begin{array}{cc}\cos m \theta & -\sin m \theta) \\\sin m \theta & \cos m \theta\end{array}\right)\left(\begin{array}{ll}W_q^{(1,1)} & W_q^{(1,2)} \\W_q^{(2,1)} & W_q^{(2,2)}\end{array}\right)\binom{x_m^{(1)}}{x_m^{(2)}} \\& =\left(\begin{array}{cc}\cos m \theta & -\sin m \theta) \\\sin m \theta & \cos m \theta\end{array}\right)\binom{q_m^{(1)}}{q_m^{(2)}}\end{aligned}\end{equation}$$
 
 同理，
 
-![image.png](attachment:1d7ef299-12ce-4686-ba53-58e6fcdb9f87:image.png)
+$$
+\begin{align*}
+f_k(x_m, m) &= 
+\begin{pmatrix}
+\cos m\theta & -\sin m\theta \\
+\sin m\theta & \cos m\theta
+\end{pmatrix}
+\begin{pmatrix}
+W_k^{(1,1)} & W_k^{(1,2)} \\
+W_k^{(2,1)} & W_k^{(2,2)}
+\end{pmatrix}
+\begin{pmatrix}
+x_m^{(1)} \\
+x_m^{(2)}
+\end{pmatrix} \\
+&= 
+\begin{pmatrix}
+\cos m\theta & -\sin m\theta \\
+\sin m\theta & \cos m\theta
+\end{pmatrix}
+\begin{pmatrix}
+k_m^{(1)} \\
+k_m^{(2)}
+\end{pmatrix}
+\end{align*}
+$$
 
 最终，
 
-![image.png](attachment:48538bc1-060c-4ff6-b0d3-801a4331559b:image.png)
+$$\begin{align*} g(\mathbf{x}_m, \mathbf{x}_n, m - n) =  \begin{pmatrix} \mathbf{q}_m^{(1)} & \mathbf{q}_m^{(2)} \end{pmatrix} \begin{pmatrix} \cos((m - n)\theta) & -\sin((m - n)\theta) \\ \sin((m - n)\theta) & \cos((m - n)\theta) \end{pmatrix} \begin{pmatrix} k_n^{(1)} \\ k_n^{(2)} \end{pmatrix} \end{align*}$$
 
-RoPe self-attention的原理是：
+RoPe self-attention的计算步骤是：
 
-![image.png](attachment:4e8d7be6-1185-4e0d-ad5f-df7d05e9e1f3:image.png)
+<figure><img src="../.gitbook/assets/image (21).png" alt=""><figcaption></figcaption></figure>
 
 1. 对于 token 序列中的每个词嵌入向量，首先计算其对应的 query 和 key 向量
 2. 然后对每个 token 位置都计算对应的旋转位置编码
 3. 接着对每个 token 位置的 query 和 key 向量的元素按照 两两一组 应用旋转变换
 4. 最后再计算 query 和 key 之间的内积得到 self-attention 的计算结果
+
+#### **3.3.1 旋转位置编码的代码实现**
 
 ```python
 import torch
@@ -267,34 +292,54 @@ def RoPE(q, k):
     return q, k
 ```
 
-#### 3.4 ALiBi
+### 3.4 ALiBi
 
-ALiBi全称是Attention with Linear Biases，线性偏差注意力
+ALiBi全称是Attention with Linear Biases，线性偏差注意力。不像标准transformer那样，在embedding层添加位置编码，而是在softmax的结果后添加一个静态的不可学习的偏置项。也就是说，通过改变 **注意力机制的权重计算** 来实现对位置的记录。
 
-不像标准transformer那样，在embedding层添加位置编码，而是在softmax的结果后添加一个静态的不可学习的偏置项(说白了，就是数值固定)
+<figure><img src="../.gitbook/assets/image (22).png" alt=""><figcaption></figcaption></figure>
 
-![image.png](attachment:30605920-525b-4828-8fda-b0c3c7e5a275:image.png)
+传统注意力计算公式为：
 
-当计算每个头注意力分数时，线性偏差注意力方法ALiBi会向每个注意力分数添加一个偏置常数
+$$\text{Attention}(Q, K, V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right)V$$
 
-左边是自注意力得分，关于q和k的内积
+加入 ALiBi 偏置后的注意力机制公式为：
 
-右边是一个相对距离的矩阵，
+$$\text{Attention}(Q, K, V) = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} + b \right)V$$
 
-q1和k1之间的距离是0，所以对应位置就是0
+$$b$$ 是一个与**每对 Query-Key 之间的相对距离相关的偏置矩阵。**
 
-q2和k1之间的距离是「相对位置偏移为“
+#### **3.4.1 偏置矩阵的构造方式**
 
-**k的索引**
+1. 一个二维矩阵，其中第 $$(i,j)$$ 项表示第 $$i$$ 个token和第 $$j$$ 个token的相对距离
+2. 对于每一个注意力头，指定一个斜率，越靠近的 token，其偏置越小，越远的 token，其偏置越大。
+3. 整个偏置矩阵会被加到注意力 logits 上
 
-”1」 - 「q的索引2」，得到1-2 = -1，就对应到了中间矩阵的取值为-1了
-
-以此类推，相对距离矩阵的中间对角线上都是0，然后左下角的取值都是对应的「k的索引」-「q的索引」了
-
-手撕代码ALiBi
+#### 3.4.2 ALiBi的代码实现
 
 ```python
+import torch
+
+def build_alibi_bias(seq_len, num_heads):
+    # 斜率的设定，通常用不同的值给不同头（这只是个例子）
+    slopes = torch.tensor([-(2 ** (-i)) for i in range(num_heads)]).unsqueeze(1).unsqueeze(1)  # shape: (heads, 1, 1)
+
+    # 构造相对距离矩阵 shape: (1, seq_len, seq_len)
+    # entry [i][j] = j - i
+    position_ids = torch.arange(seq_len).unsqueeze(0)
+    relative_positions = position_ids - position_ids.T  # shape: (seq_len, seq_len)
+    relative_positions = relative_positions.unsqueeze(0)  # (1, seq_len, seq_len)
+
+    # 广播乘法，得到最终 bias：每个头一个
+    alibi_bias = slopes * relative_positions  # shape: (heads, seq_len, seq_len)
+    return alibi_bias
+
+# 示例
+num_heads = 4
+seq_len = 6
+alibi_bias = build_alibi_bias(seq_len, num_heads)
 ```
+
+y
 
 * 好处是不用对模型结构做任何更改
 * 坏处是直接把位置外推到没见过的地方会导致模型灾难性崩溃（例如PPL陡增）
