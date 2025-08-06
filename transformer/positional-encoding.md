@@ -20,7 +20,7 @@ Positional Encoding就是将位置信息嵌入到Embedding词向量中，让Tran
 
 理想的位置编码应该满足：
 
-1. 为每个时间（序列中token的位置）输出唯一的编码
+1. 为序列中每个位置的token输出唯一的编码
 2. 不同长度的句子之间，任意两个字的差值应该保持一致
 3. 外推性：编码值应该是有界的，应该能在不付出任何努力的条件下泛化到更长的句子中
 
@@ -37,6 +37,15 @@ Positional Encoding就是将位置信息嵌入到Embedding词向量中，让Tran
 <figure><img src="../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
 BERT使用的位置编码就是可学习位置编码。
+
+**优点**
+
+1. **灵活性高：**&#x80FD;适应特定任务的需求，无需人工设计规则
+
+**缺点**
+
+1. **外推性差：**&#x8BAD;练时的最大序列长度限制了推理时的外推能力。若测试文本远超训练长度，新增位置编码未经过训练，可能导致性能下降
+2. **依赖海量数据：**&#x9700;要大量数据才能学习到有意义的编码，小数据集可能导致过拟合或编码无意义
 
 ### 3.2 sinusoidal位置编码
 
@@ -58,11 +67,11 @@ $$
 \begin{equation}\overrightarrow{PE}=\left[\begin{array}{c}\sin \left(\omega_1 \cdot pos\right) \\\cos \left(\omega_1 \cdot pos\right) \\\sin \left(\omega_2 \cdot pos\right) \\\cos \left(\omega_2 \cdot pos\right) \\\vdots \\\vdots \\\sin \left(\omega_{d / 2} \cdot pos\right) \\\cos \left(\omega_{d / 2} \cdot t\right)\end{array}\right]_{d \times 1}\end{equation}
 $$
 
-* `10000` 是一个经验值，其作用类似于**调节频率范围的超参数**
-  * 较小的分母会导致波长较短，过度关注局部信息，难以建立长依赖
-  * 较大的分母会导致波长较长，丢失局部细节
+* `10000` 是一个经验值，其作用类似于**调节频率范围的超参**
+  * 较小的分母会导致波长较短，**意味着相邻位置的编码差异剧烈，**&#x76F8;隔稍远的两个位置，其编码值已经几乎没有统计相关性，导致过度关注局部信息，难以建立长依赖
+  * 较大的分母会导致波长较长，**意味着相邻 token 之间的位置编码差值非常小**，容易丢失局部细节
 
-**这样的正余弦的组合如何表示一个位置或者顺序？**
+**为什么这样的正余弦的组合可以表示一个位置或者顺序？**
 
 假设用一个二进制的形式表示数字：
 
@@ -80,7 +89,7 @@ $$sin(\alpha+\beta)=sin\alpha \cdot cos\beta + cos\alpha\cdot sin\beta$$
 
 $$cos(\alpha+\beta) = cos\alpha\cdot cos\beta - sin\alpha\cdot sin\beta$$
 
-对于位置pos+k的positional encoding：
+对于位置pos+k的：
 
 $$PE_{(pos+k, 2i)} = sin(w_{i}\cdot (pos+k)) = sin(w_{i}pos)cos(w_{i}k)+cos(w_{i}pos)sin(w_{i}k)$$
 
