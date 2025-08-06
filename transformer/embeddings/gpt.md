@@ -11,7 +11,7 @@ GPT也采用两阶段过程：
 * 第一阶段使用LM进行预训练
 * 第二阶段使用fine-tuning的方式处理下游任务
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 GPT使用的是单项的语言模型：严格的“从左到右”的预测模式，通过 Decoder 内部使用 **Masked Self-Attention** 实现。与 BERT 复杂的 MLM 策略（`[MASK]`, `random`, `unchanged`）不同，GPT 的训练目标更加简单。通过大量数据，使得模型能够深入学习语言的内在结构和逻辑，从而获得了更好的生成能力。
 

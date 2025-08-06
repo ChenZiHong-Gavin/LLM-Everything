@@ -241,7 +241,7 @@ $$
 
 最终，
 
-$$\begin{align*} g(\mathbf{x}_m, \mathbf{x}_n, m - n) =  \begin{pmatrix} \mathbf{q}_m^{(1)} & \mathbf{q}_m^{(2)} \end{pmatrix} \begin{pmatrix} \cos((m - n)\theta) & -\sin((m - n)\theta) \\ \sin((m - n)\theta) & \cos((m - n)\theta) \end{pmatrix} \begin{pmatrix} k_n^{(1)} \\ k_n^{(2)} \end{pmatrix} \end{align*}$$
+$$\begin{align*} g(\mathbf{x}_m, \mathbf{x}_n, m - n) =  \begin{pmatrix} \mathbf{q}_m^{(1)} & \mathbf{q}_m^{(2)} \end{pmatrix} \begin{pmatrix} \cos((m - n)\theta) & -\sin((m - n)\theta) \\ \sin((m - n)\theta) & \cos((m - n)\theta) \end{pmatrix} \begin{pmatrix} k_n^{(1)} \\ k_n^{(2)} \end{pmatrix} \end{align*}$$$$\begin{align*} g(\mathbf{x}_m, \mathbf{x}_n, m - n) =  \begin{pmatrix} \mathbf{q}_m^{(1)} & \mathbf{q}_m^{(2)} \end{pmatrix} \begin{pmatrix} \cos((m - n)\theta) & -\sin((m - n)\theta) \\ \sin((m - n)\theta) & \cos((m - n)\theta) \end{pmatrix} \begin{pmatrix} k_n^{(1)} \\ k_n^{(2)} \end{pmatrix} \end{align*}$$
 
 RoPe self-attention的计算步骤是：
 
@@ -339,38 +339,35 @@ seq_len = 6
 alibi_bias = build_alibi_bias(seq_len, num_heads)
 ```
 
-y
+优点
 
-* 好处是不用对模型结构做任何更改
-* 坏处是直接把位置外推到没见过的地方会导致模型灾难性崩溃（例如PPL陡增）
+* 不用对模型结构做任何更改
 
-### 4 外推性
+缺点
+
+* 如果直接把位置外推到没见过的地方会导致模型灾难性崩溃
+
+## 4 外推性问题
 
 现如今很多大模型都开始支持超过4096长度的推理，例如GPT-4支持超过30k，ChatGLM2-6B也支持最长为32K的文本，但是由于显存资源的限制，这些大模型在真正在训练过程中不一定要训练这么长的文本，通常在预训练时只会设计到4k左右，因此如何确保在模型推理阶段可以支持远远超过预训练时的长度，是目前大模型的核心问题之一，我们将这一问题归为大模型的外推性。
 
-**外推性**
-
-的含义是在长文本表征过程中，如何在训练阶段只需要学习有限的长度，即可以在推理阶段能够延伸长度至若干倍且依然保持不错的性能和效果。
-
-长度外推性是一个训练和预测的长度不一致的问题，主要体现在两个方面：
+训练和预测的长度不一致的问题，主要体现在两个方面：
 
 * 预测的时候用到了没训练过的位置编码（不论是绝对位置还是相对位置）
 * 预测的时候注意力机制所处理的token数量远超训练时的数量。
 
 解决长文本外推性问题的一个简单有效的方法是Attention Mask，如图所示：
 
-![image.png](attachment:e2aada7d-5290-4a22-912a-66afc69e9db0:image.png)
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-* 通过类似滑动窗口的结构，约束一个每个token只能对局部区域的token计算Attention值，因此对于相对位置大小不会超过窗口大小，解决了第一个问题；
+* 通过类似滑动窗口的结构，约束一个每个token只能对局部区域的token计算Attention值，因此对于相对位置大小不会超过窗口大小
 * Attention只会在窗口内计算，避免了对大量的token的Attention进行加权平均导致最终权重过度“平滑”现象。
 
 qk之后减去一个矩阵M，M的形状如下：
 
-![image.png](attachment:9a950647-d4ee-43fb-91e5-39797ba5c6dc:image.png)
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
-### 6 实战
-
-### 7 总结
+## 5 总结
 
 * 为什么需要位置编码
 * 什么是位置敏感性

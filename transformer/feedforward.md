@@ -4,11 +4,11 @@
 
 FeedForward的输入是Multi-Head Attention的输出做了残差连接和Norm之后的数据。
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 FeedForward做了两次线性线性变换，为的是更加深入的提取特征。每次线性变换都引入了非线性激活函数。在Multi-Head Attention中，对于输入主要是进行矩阵乘法进行线性变换，而线性变换的学习能力不如非线性变换的学习能力强。
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### 1.1 激活函数的选择
 
