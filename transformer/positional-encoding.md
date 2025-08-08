@@ -358,14 +358,14 @@ alibi_bias = build_alibi_bias(seq_len, num_heads)
 
 解决长文本外推性问题的一个简单有效的方法是Attention Mask，如图所示：
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/attention-mask.png" alt=""><figcaption></figcaption></figure>
 
 * 通过类似滑动窗口的结构，约束一个每个token只能对局部区域的token计算Attention值，因此对于相对位置大小不会超过窗口大小
 * Attention只会在窗口内计算，避免了对大量的token的Attention进行加权平均导致最终权重过度“平滑”现象。
 
 qk之后减去一个矩阵M，M的形状如下：
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/matrix-m.png" alt=""><figcaption></figcaption></figure>
 
 ## 5 总结
 
