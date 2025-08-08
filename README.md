@@ -43,6 +43,8 @@
   * 专家并行 （ [expert-parallelism.md](moe/expert-parallelism.md "mention")）
 * 知识编辑
 * LLM应用
+  * RAG
+    * Graph RAG
 * 多模态大模型
 * LLM安全
 
