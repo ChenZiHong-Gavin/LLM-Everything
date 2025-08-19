@@ -13,34 +13,35 @@
 
 * 基础部分
   * Python基础
-    * logging模块 （ [logging.md](basics/python-basics/logging.md "mention")）
-    * import模块（ [import.md](basics/python-basics/import.md "mention")）
-    * multiprocessing模块（ [multiprocessing.md](basics/python-basics/multiprocessing.md "mention")）
+    * logging模块 ([logging.md](basics/python-basics/logging.md "mention"))
+    * import模块 ([import.md](basics/python-basics/import.md "mention"))
+    * multiprocessing模块( [multiprocessing.md](basics/python-basics/multiprocessing.md "mention"))
   * 机器学习基础
     * 特征提取
       * 文本表示模型
-        * Bag-of-words （ [bag-of-words.md](basics/machine-learning-basics/feature-extraction/text-representation-models/bag-of-words.md "mention")）
-          * Topic Model （ [topic-model.md](basics/machine-learning-basics/feature-extraction/text-representation-models/topic-model.md "mention")）
-          * Static Word Embedding （ [static-word-embeddings.md](basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention")）
+        * Bag-of-words ([bag-of-words.md](basics/machine-learning-basics/feature-extraction/text-representation-models/bag-of-words.md "mention"))
+          * Topic Model ([topic-model.md](basics/machine-learning-basics/feature-extraction/text-representation-models/topic-model.md "mention"))
+          * Static Word Embedding ( [static-word-embeddings.md](basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention"))
   * 深度学习基础
   * LLM基础
 * **Transformer结构**
-  * **Tokenizer （**[tokenizer.md](transformer/tokenizer.md "mention")）
-  * Embedding （ [embeddings](transformer/embeddings/ "mention")）
-    * EMLO （ [elmo.md](transformer/embeddings/elmo.md "mention")）
-    * BERT ( [bert.md](transformer/embeddings/bert.md "mention"))
-    * GPT ( [gpt.md](transformer/embeddings/gpt.md "mention")）
-  * Positional Encoding ( [positional-encoding.md](transformer/positional-encoding.md "mention")）
-  * Self Attention (WIP)
+  * Tokenizer ([tokenizer.md](transformer/tokenizer.md "mention"))
+  * Embedding ([embeddings](transformer/embeddings/ "mention"))
+    * EMLO ([elmo.md](transformer/embeddings/elmo.md "mention"))
+    * BERT ([bert.md](transformer/embeddings/bert.md "mention"))
+    * GPT ([gpt.md](transformer/embeddings/gpt.md "mention"))
+  * Positional Encoding ([positional-encoding.md](transformer/positional-encoding.md "mention"))
+  * Self Attention ([self-attention.md](transformer/self-attention.md "mention"))
+  * Multi-Head Attention (WIP)
   * FeedForward ( [feedforward.md](transformer/feedforward.md "mention")）
 * Prompt工程
 * 模型训练
-  * LLM显存需求 （ [llm-vram-needs](train/llm-vram-needs/ "mention")）
-    * LLM精度问题（ [llm-precision.md](train/llm-vram-needs/llm-precision.md "mention")）
-    * LLM训练需要多少显存 （ [vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention")）
+  * LLM显存需求 ([llm-vram-needs](train/llm-vram-needs/ "mention"))
+    * LLM精度问题 ([llm-precision.md](train/llm-vram-needs/llm-precision.md "mention"))
+    * LLM训练需要多少显存 ([vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention"))
 * 模型推理/部署
 * MoE
-  * 专家并行 （ [expert-parallelism.md](moe/expert-parallelism.md "mention")）
+  * 专家并行 ([expert-parallelism.md](moe/expert-parallelism.md "mention"))
 * 知识编辑
 * LLM应用
   * RAG
