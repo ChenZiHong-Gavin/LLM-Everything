@@ -32,7 +32,8 @@
     * GPT ([gpt.md](transformer/embeddings/gpt.md "mention"))
   * Positional Encoding ([positional-encoding.md](transformer/positional-encoding.md "mention"))
   * Self Attention ([self-attention.md](transformer/self-attention.md "mention"))
-  * Multi-Head Attention (WIP)
+  * Multi-Head Attention ( [multi-head-attention.md](transformer/multi-head-attention.md "mention"))
+  * Add & Norm (WIP)
   * FeedForward ( [feedforward.md](transformer/feedforward.md "mention")）
 * Prompt工程
 * 模型训练
