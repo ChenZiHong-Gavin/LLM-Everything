@@ -22,6 +22,7 @@
     * [GPT](transformer/embeddings/gpt.md)
   * [Positional Encoding](transformer/positional-encoding.md)
   * [Self Attention](transformer/self-attention.md)
+  * [Multi-Head Attention](transformer/multi-head-attention.md)
   * [FeedForward](transformer/feedforward.md)
 * [Prompt Engineering](prompt-engineering/README.md)
   * [Tree of Thoughts](prompt-engineering/tree-of-thoughts.md)
