@@ -56,6 +56,8 @@ Attention函数将query和一系列键值对mapping到一个output。
 
 <figure><img src="../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
 
+## 4 代码实现
+
 ```python
 import torch
 import torch.nn as nn
@@ -90,7 +92,7 @@ class Attention(nn.module):
 
 * 由于 softmax 函数会将输入转换成一个概率分布，其输出值的范围在0到1之间，并且各输出值的和为1，这减少了偏置项对模型性能的影响。因此，在这种情况下，省略偏置项可以减少模型的参数数量，提高训练速度，简化模型复杂度，并且有助于避免过拟合，提高模型的泛化能力。
 
-## 4 Self-Attention例子
+## 5 Self-Attention例子
 
 输入：
 
@@ -111,7 +113,7 @@ class Attention(nn.module):
 3. 对上面的结果进行softmax处理，softmax使得上面的score都为正值，并相加等于1。这里得到的是在处理当前单词的时候每个单词的重要程度
 4. 最后，用soft score和value相乘，这一步中，我们保持了那些需要注意的单词的完整性，并冲淡了那些与单词关联性不强的单词
 
-## 5 Self-Attention的问题
+## 6 Self-Attention的问题
 
 1. **缺乏位置信息**：Self-Attention虽然考虑了所有的输入向量，但是没有考虑到向量的位置信息。可以通过位置编码来解决这个问题，将位置信息添加到输入序列中。
 2.  **计算复杂度高**：计算复杂度为$$n^2$$，对于长序列，计算成本显著增加
@@ -122,7 +124,7 @@ class Attention(nn.module):
     可以使用分段注意力机制或者层次化注意力结构
 4. 对小数据集泛化能力有限
 
-## 6 总结
+## 7 总结
 
 * 解释self-attention
 * self-atten和CNN做对比（NLP和CV）
