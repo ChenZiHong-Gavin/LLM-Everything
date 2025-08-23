@@ -33,8 +33,10 @@
   * Positional Encoding ([positional-encoding.md](transformer/positional-encoding.md "mention"))
   * Self Attention ([self-attention.md](transformer/self-attention.md "mention"))
   * Multi-Head Attention ( [multi-head-attention.md](transformer/multi-head-attention.md "mention"))
-  * Add & Norm (WIP)
-  * FeedForward ( [feedforward.md](transformer/feedforward.md "mention")）
+  * Add & Norm ([add-and-norm.md](transformer/add-and-norm.md "mention"))
+  * FeedForward ([feedforward.md](transformer/feedforward.md "mention"))
+  * Linear & Softmax (WIP)
+  * Decoding Strategy (WIP)
 * Prompt工程
 * 模型训练
   * LLM显存需求 ([llm-vram-needs](train/llm-vram-needs/ "mention"))
