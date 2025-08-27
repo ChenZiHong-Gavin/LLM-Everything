@@ -11,7 +11,7 @@
 
 ### 📚 LLM知识地图
 
-* 基础部分
+* **基础部分**
   * Python基础
     * logging模块 ([logging.md](basics/python-basics/logging.md "mention"))
     * import模块 ([import.md](basics/python-basics/import.md "mention"))
@@ -24,6 +24,7 @@
         * Static Word Embedding ([static-word-embeddings.md](basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention"))
   * 深度学习基础
   * LLM基础
+* **Prompt工程**
 * **Transformer结构**
   * Tokenizer ([tokenizer.md](transformer/tokenizer.md "mention"))
   * Embedding ([embeddings](transformer/embeddings/ "mention"))
@@ -37,11 +38,11 @@
   * FeedForward ([feedforward.md](transformer/feedforward.md "mention"))
   * Linear & Softmax ([linear-and-softmax.md](transformer/linear-and-softmax.md "mention"))
   * Decoding Strategy ([decoding-strategy.md](transformer/decoding-strategy.md "mention"))
-* Prompt工程
-* 模型训练
+* **LLM训练**
   * LLM显存需求 ([llm-vram-needs](train/llm-vram-needs/ "mention"))
     * LLM精度问题 ([llm-precision.md](train/llm-vram-needs/llm-precision.md "mention"))
     * LLM训练需要多少显存 ([vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention"))
+  * 分布式训练并行 (WIP)
 * 模型推理/部署
 * MoE
   * 专家并行 ([expert-parallelism.md](moe/expert-parallelism.md "mention"))
