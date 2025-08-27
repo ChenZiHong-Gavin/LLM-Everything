@@ -1,6 +1,6 @@
 # Self Attention
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (23).png" alt=""><figcaption></figcaption></figure>
 
 ## 1 Self-Attention的概念
 
@@ -30,11 +30,11 @@ Self Attention可以捕获同一个句子中单词之间的一些句法特征或
 
 Self-Attention的**架构**
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (2).png" alt=""><figcaption></figcaption></figure>
 
 Attention函数将query和一系列键值对mapping到一个output。
 
-<figure><img src="../.gitbook/assets/image (23).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (23) (1).png" alt=""><figcaption></figcaption></figure>
 
 主要步骤如下：
 

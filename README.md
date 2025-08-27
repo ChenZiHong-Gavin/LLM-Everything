@@ -15,13 +15,13 @@
   * Python基础
     * logging模块 ([logging.md](basics/python-basics/logging.md "mention"))
     * import模块 ([import.md](basics/python-basics/import.md "mention"))
-    * multiprocessing模块( [multiprocessing.md](basics/python-basics/multiprocessing.md "mention"))
+    * multiprocessing模块 ([multiprocessing.md](basics/python-basics/multiprocessing.md "mention"))
   * 机器学习基础
     * 特征提取
       * 文本表示模型
         * Bag-of-words ([bag-of-words.md](basics/machine-learning-basics/feature-extraction/text-representation-models/bag-of-words.md "mention"))
-          * Topic Model ([topic-model.md](basics/machine-learning-basics/feature-extraction/text-representation-models/topic-model.md "mention"))
-          * Static Word Embedding ( [static-word-embeddings.md](basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention"))
+        * Topic Model ([topic-model.md](basics/machine-learning-basics/feature-extraction/text-representation-models/topic-model.md "mention"))
+        * Static Word Embedding ([static-word-embeddings.md](basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention"))
   * 深度学习基础
   * LLM基础
 * **Transformer结构**
@@ -32,11 +32,11 @@
     * GPT ([gpt.md](transformer/embeddings/gpt.md "mention"))
   * Positional Encoding ([positional-encoding.md](transformer/positional-encoding.md "mention"))
   * Self Attention ([self-attention.md](transformer/self-attention.md "mention"))
-  * Multi-Head Attention ( [multi-head-attention.md](transformer/multi-head-attention.md "mention"))
+  * Multi-Head Attention ([multi-head-attention.md](transformer/multi-head-attention.md "mention"))
   * Add & Norm ([add-and-norm.md](transformer/add-and-norm.md "mention"))
   * FeedForward ([feedforward.md](transformer/feedforward.md "mention"))
   * Linear & Softmax ([linear-and-softmax.md](transformer/linear-and-softmax.md "mention"))
-  * Decoding Strategy (WIP)
+  * Decoding Strategy ([decoding-strategy.md](transformer/decoding-strategy.md "mention"))
 * Prompt工程
 * 模型训练
   * LLM显存需求 ([llm-vram-needs](train/llm-vram-needs/ "mention"))
