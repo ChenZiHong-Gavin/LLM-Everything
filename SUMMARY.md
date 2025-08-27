@@ -25,6 +25,7 @@
   * [Multi-Head Attention](transformer/multi-head-attention.md)
   * [Add & Norm](transformer/add-and-norm.md)
   * [FeedForward](transformer/feedforward.md)
+  * [Linear & Softmax](transformer/linear-and-softmax.md)
 * [Prompt Engineering](prompt-engineering/README.md)
   * [Tree of Thoughts](prompt-engineering/tree-of-thoughts.md)
 * [LLM应用](llm-application/README.md)
