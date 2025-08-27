@@ -35,7 +35,7 @@
   * Multi-Head Attention ( [multi-head-attention.md](transformer/multi-head-attention.md "mention"))
   * Add & Norm ([add-and-norm.md](transformer/add-and-norm.md "mention"))
   * FeedForward ([feedforward.md](transformer/feedforward.md "mention"))
-  * Linear & Softmax (WIP)
+  * Linear & Softmax ([linear-and-softmax.md](transformer/linear-and-softmax.md "mention"))
   * Decoding Strategy (WIP)
 * Prompt工程
 * 模型训练
