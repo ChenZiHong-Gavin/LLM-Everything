@@ -42,14 +42,15 @@
   * LLM显存需求 ([llm-vram-needs](train/llm-vram-needs/ "mention"))
     * LLM精度问题 ([llm-precision.md](train/llm-vram-needs/llm-precision.md "mention"))
     * LLM训练需要多少显存 ([vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention"))
-  * 分布式训练并行 (WIP)
+  * 分布式训练并行
+    * 数据并行 (WIP)
 * 模型推理/部署
 * MoE
   * 专家并行 ([expert-parallelism.md](moe/expert-parallelism.md "mention"))
 * 知识编辑
 * LLM应用
   * RAG
-    * Graph RAG
+  * Graph RAG
 * 多模态大模型
 * LLM安全
 
