@@ -32,7 +32,6 @@
 * [🪿 LLM应用](llm-application/README.md)
   * [RAG](llm-application/rag.md)
   * [Graph RAG](llm-application/graph-rag.md)
-* [Linear Algebra](linear-algebra.md)
 * [🎄 LLM训练](train/README.md)
   * [LLM显存需求](train/llm-vram-needs/README.md)
     * [LLM精度问题](train/llm-vram-needs/llm-precision.md)
