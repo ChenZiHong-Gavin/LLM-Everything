@@ -43,7 +43,7 @@
     * LLM精度问题 ([llm-precision.md](train/llm-vram-needs/llm-precision.md "mention"))
     * LLM训练需要多少显存 ([vram\_needs\_for\_llm\_training.md](train/llm-vram-needs/vram_needs_for_llm_training.md "mention"))
   * 分布式训练并行
-    * 数据并行 (WIP)
+    * 数据并行 ([data-parallelism.md](train/distributed-training-parallelism/data-parallelism.md "mention"))
 * 模型推理/部署
 * MoE
   * 专家并行 ([expert-parallelism.md](moe/expert-parallelism.md "mention"))
