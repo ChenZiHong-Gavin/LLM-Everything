@@ -6,7 +6,7 @@
 
 以下是 The Benchmarks Game 面向主流编程语言设计的性能测试榜单，灰色反映的是时间效率，越短代表性能越好，棕色则是基于执行时间和内存开销的加权值。
 
-<figure><img src="../../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (12) (1).png" alt=""><figcaption></figcaption></figure>
 
 Pthon3处于垫底水平，那Python为什么会慢呢？
 
