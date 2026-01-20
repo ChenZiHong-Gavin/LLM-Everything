@@ -403,8 +403,8 @@ GPU1 接收数据，计算第二部分，传给 GPU2。
 
 ## 参考
 
-1. [(3 封私信 / 1 条消息) 大模型分布式训练并行技术（四）-张量并行 - 知乎](https://zhuanlan.zhihu.com/p/657921100)
-2. [(3 封私信) 大模型分布式训练并行技术（三）-流水线并行 - 知乎](https://zhuanlan.zhihu.com/p/653860567)
+1. [大模型分布式训练并行技术（四）-张量并行 - 知乎](https://zhuanlan.zhihu.com/p/657921100)
+2. [大模型分布式训练并行技术（三）-流水线并行 - 知乎](https://zhuanlan.zhihu.com/p/653860567)
 3. [1D 张量并行 | Colossal-AI](https://colossalai.org/zh-Hans/docs/features/1D_tensor_parallel/)
 4. [Efficient Large-Scale Language Model Training on GPU Clusters Using Megatron-LM](https://deepakn94.github.io/assets/papers/megatron-sc21.pdf)
 5. [An Efficient 2D Method for Training Super-Large Deep Learning Models](https://arxiv.org/pdf/2104.05343)
