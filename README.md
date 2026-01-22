@@ -46,6 +46,7 @@
     * 数据并行 ([data-parallelism.md](train/distributed-training-parallelism/data-parallelism.md "mention"))
     * 模型并行 ([model-parallelism.md](train/distributed-training-parallelism/model-parallelism.md "mention"))
     * 优化器并行 ([optimizer-parallelism.md](train/distributed-training-parallelism/optimizer-parallelism.md "mention"))
+    * 异构系统并行 ([heterogeneous-system-parallelism.md](train/distributed-training-parallelism/heterogeneous-system-parallelism.md "mention"))
 * 模型推理/部署
 * MoE
   * 专家并行 ([expert-parallelism.md](moe/expert-parallelism.md "mention"))

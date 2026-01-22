@@ -201,7 +201,7 @@ while cur_len < max_length:
 
 Beam Search 每次会选择在 Beam 中最大概率的词汇，Top-k 采样是对 Greedy Search 的优化，它从排名前 k 的 token 中进行抽样，允许其他概率较高的 token 也有机会被选中，也就是有一定机率不选最大概率的词，而其引入的随机性有助于在许多情况下提高生成质量。
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 #### **3.1.1 代码实现**
 
@@ -249,7 +249,7 @@ def top_k_sampling(logits, k, temperature=1.0):
 
 Top-P方法可以动态设置token候选列表的大小。这种方法也称为 _Nucleus Sampling（核采样）_，通过选择可能性总和不超过特定值的高概率token来创建候选名单。可以看下面的示意图：
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### 3.2.1 代码实现
 
