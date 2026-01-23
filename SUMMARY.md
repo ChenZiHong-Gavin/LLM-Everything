@@ -41,7 +41,5 @@
     * [模型并行](train/distributed-training-parallelism/model-parallelism.md)
     * [优化器并行](train/distributed-training-parallelism/optimizer-parallelism.md)
     * [异构系统并行](train/distributed-training-parallelism/heterogeneous-system-parallelism.md)
-    * [多维混合并行](train/distributed-training-parallelism/multi-dimensional-hybrid-parallelism.md)
-    * [自动并行](train/distributed-training-parallelism/auto-parallelism.md)
 * [🐒 MoE](moe/README.md)
   * [专家并行](moe/expert-parallelism.md)

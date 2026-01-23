@@ -8,7 +8,7 @@ LLM的参数量已达到前所未有的级别。这种指数级的增长使得�
 * [model-parallelism.md](model-parallelism.md "mention") (Model Parallelism)：当模型本身过于庞大，无法容纳于单张显卡时，可以将模型拆分到多个设备上，包括张量并行 (Tensor Parallelism)（层内并行）和流水线并行 (Pipeline Parallelism)（层间并行）。
 * [optimizer-parallelism.md](optimizer-parallelism.md "mention") (Optimizer Parallelism)：针对优化器状态、梯度和模型参数等占用大量显存的部分进行分片，如 ZeRO 优化器系列。
 * [heterogeneous-system-parallelism.md](heterogeneous-system-parallelism.md "mention") (Heterogeneous System Parallelism)：利用 CPU 内存甚至 NVMe 磁盘的巨大容量，将模型的部分数据卸载，以容纳更大的模型。
-* [multi-dimensional-hybrid-parallelism.md](multi-dimensional-hybrid-parallelism.md "mention") (Multi-dimensional Hybrid Parallelism)：将数据并行、模型并行（张量并行、流水线并行）等多种策略融合，以应对超大规模模型的训练挑战。
-* [auto-parallelism.md](auto-parallelism.md "mention")(Auto Parallelism)：旨在自动化模型切分和并行策略的选择，降低开发者的使用门槛。
+* [Broken link](/broken/pages/QsOZRP1vMDYhTSEY92mC "mention") (Multi-dimensional Hybrid Parallelism)：将数据并行、模型并行（张量并行、流水线并行）等多种策略融合，以应对超大规模模型的训练挑战。
+* [Broken link](/broken/pages/nuNTK1hsdQYaBF43siqG "mention")(Auto Parallelism)：旨在自动化模型切分和并行策略的选择，降低开发者的使用门槛。
 * [expert-parallelism.md](../../moe/expert-parallelism.md "mention") (Mixture-of-Experts Parallelism)：针对稀疏激活的模型架构，将计算任务分配给不同的“专家”模型。
 
