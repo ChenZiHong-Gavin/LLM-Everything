@@ -42,6 +42,7 @@
     * [优化器并行](train/distributed-training-parallelism/optimizer-parallelism.md)
     * [异构系统并行](train/distributed-training-parallelism/heterogeneous-system-parallelism.md)
   * [预训练](train/pre-train.md)
-  * [数据准备](train/data-preparation.md)
+  * [数据准备](train/data-preparation/README.md)
+    * [课程学习](train/data-preparation/curriculum-learning.md)
 * [🐒 MoE](moe/README.md)
   * [专家并行](moe/expert-parallelism.md)
