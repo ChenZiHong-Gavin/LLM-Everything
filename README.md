@@ -50,6 +50,8 @@
   * 预训练
   * 监督微调
   * 强化学习
+  * 数据准备
+    * 课程学习 ([curriculum-learning.md](train/data-preparation/curriculum-learning.md "mention"))
 * 模型推理/部署
 * MoE
   * 专家并行 ([expert-parallelism.md](moe/expert-parallelism.md "mention"))
