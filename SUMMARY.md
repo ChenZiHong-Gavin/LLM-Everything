@@ -46,3 +46,5 @@
     * [课程学习](train/data-preparation/curriculum-learning.md)
 * [🐒 MoE](moe/README.md)
   * [专家并行](moe/expert-parallelism.md)
+* [🐢 多模态大模型](multi-modal-llm/README.md)
+  * [Qformer](multi-modal-llm/qformer.md)

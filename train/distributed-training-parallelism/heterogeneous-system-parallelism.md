@@ -4,7 +4,7 @@
 
 通过使用异构系统架构，有可能在一台机器上容纳一个巨大的模型。
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 异构系统并行让 **GPU** 和 **CPU**协同工作：
 
