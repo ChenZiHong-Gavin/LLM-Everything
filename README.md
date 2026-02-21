@@ -60,6 +60,7 @@
   * RAG
   * Graph RAG
 * 多模态大模型
+  * Qformer ([qformer.md](multi-modal-llm/qformer.md "mention"))
 * LLM安全
 
 ### 🤝 与社区一起成长
