@@ -49,6 +49,13 @@ Q-Former在阶段一同时优化三个互补任务：
 
 * 将Q-Former连接到**冻结的LLM**（OPT, Flan-T5等）
 * 添加全连接层将Q-Former输出投影到LLM的嵌入维度
-*   训练目标变为：让LLM基于Q-Former提取的视觉特征生成文本描述
+* 训练目标变为：让LLM基于Q-Former提取的视觉特征生成文本描述
 
-    <br>
+
+
+### 参考
+
+1. [https://www.emergentmind.com/articles/transformer-based-adapters-q-former](https://www.emergentmind.com/articles/transformer-based-adapters-q-former)
+2. [\[2301.12597\] BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models](https://arxiv.org/abs/2301.12597)
+
+<br>
