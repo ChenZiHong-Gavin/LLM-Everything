@@ -24,6 +24,7 @@
         * Static Word Embedding ([static-word-embeddings.md](basics/machine-learning-basics/feature-extraction/text-representation-models/static-word-embeddings.md "mention"))
   * 深度学习基础
   * LLM基础
+    * 思考模式切换 ([switch-thinking.md](basics/llm-basics/switch-thinking.md "mention"))
 * **Prompt工程**
 * **Transformer结构**
   * Tokenizer ([tokenizer.md](transformer/tokenizer.md "mention"))
