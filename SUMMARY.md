@@ -15,6 +15,7 @@
   * [🪿 深度学习基础](basics/deep-learning-basics.md)
   * [🐬 LLM基础](basics/llm-basics/README.md)
     * [思考模式切换](basics/llm-basics/switch-thinking.md)
+    * [为什么现在的LLM都是decoder-only架构](basics/llm-basics/why-decoder-only.md)
 * [🐬 Prompt Engineering](prompt-engineering/README.md)
   * [Tree of Thoughts](prompt-engineering/tree-of-thoughts.md)
 * [🦖 Transformer](transformer/README.md)
