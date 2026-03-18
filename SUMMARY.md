@@ -47,6 +47,7 @@
   * [监督微调](train/sft.md)
   * [数据准备](train/data-preparation.md)
     * [课程学习](train/data-preparation/curriculum-learning.md)
+  * [强化学习](train/reinforce-learning.md)
 * [🐒 MoE](moe/README.md)
   * [专家并行](moe/expert-parallelism.md)
 * [🐢 多模态大模型](multi-modal-llm/README.md)
