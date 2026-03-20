@@ -4,16 +4,15 @@
 
 {% stepper %}
 {% step %}
-#### **数据工程**
+### **数据工程**
 
 * **大规模语料采集**：Common Crawl、GitHub、书籍、论文、代码等多源数据
 * **质量控制**：启发式过滤（长度 / 重复 / 符号比）、基于模型的质量打分（如 FastText/Perplexity 过滤）、去重策略（MinHash/LSH）、隐私脱敏（PII 移除）
 * **数据配比**：不同领域数据的最优混合比例（DoReMi、课程学习）
-* **Tokenization 再训练**：大规模语料下 BPE/SentencePiece 的训练与词汇表设计考量
 {% endstep %}
 
 {% step %}
-#### **预训练策略与超参配置**
+### **超参配置**
 
 * **学习率调度**：Warmup-Stable-Decay（WSD）、Cosine decay with restarts、Linear decay 的具体选择
 * **Batch Size 调度**：从 small batch 逐渐增大到 full batch（LARGE BATCH TRAINING）
@@ -22,7 +21,7 @@
 {% endstep %}
 
 {% step %}
-#### **训练稳定性与效率技巧**
+### **训练稳定性**
 
 * **混合精度训练**：FP16/BF16 的选择标准、Loss scaling 机制、GradScaler 原理
 * **激活重计算（Gradient Checkpointing）**：时间与显存的 trade-off
@@ -40,7 +39,7 @@
 {% endstep %}
 
 {% step %}
-### **评估与监控体系**
+### **评估与监控**
 
 * **中间评估（Mid-training Eval）**：PPL 之外，阶段性的下游任务 zero-shot/few-shot 评测（HellaSwag、MMLU 等）
 * **训练动态监控**：梯度范数、激活值分布、权重矩阵的奇异值监控（防止坍塌）
