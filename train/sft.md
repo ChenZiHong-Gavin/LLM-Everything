@@ -23,3 +23,9 @@
 
 * **指令跟随能力评估**：MT-Bench、AlpacaEval、IFEval（指令遵循专项测试）
 * **安全性对齐初步**：SFT 阶段的安全数据注入（Refusal Training）、毒性内容过滤策略
+
+
+
+### 参考
+
+1. [https://zhuanlan.zhihu.com/p/809229182](https://zhuanlan.zhihu.com/p/809229182)

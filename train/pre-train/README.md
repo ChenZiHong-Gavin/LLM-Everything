@@ -7,8 +7,8 @@
 #### **数据工程**
 
 * **大规模语料采集**：Common Crawl、GitHub、书籍、论文、代码等多源数据
-* **质量控制链路**：启发式过滤（长度/重复/符号比）、基于模型的质量打分（如 FastText/Perplexity 过滤）、去重策略（MinHash/LSH）、隐私脱敏（PII 移除）
-* **数据配比（Data Mixing）**：不同领域数据的最优混合比例（DoReMi、课程学习只是其中一种策略）
+* **质量控制**：启发式过滤（长度 / 重复 / 符号比）、基于模型的质量打分（如 FastText/Perplexity 过滤）、去重策略（MinHash/LSH）、隐私脱敏（PII 移除）
+* **数据配比**：不同领域数据的最优混合比例（DoReMi、课程学习）
 * **Tokenization 再训练**：大规模语料下 BPE/SentencePiece 的训练与词汇表设计考量
 {% endstep %}
 
@@ -34,8 +34,6 @@
 {% step %}
 ### **长上下文扩展策略**
 
-
-
 * **渐进式扩展**：从 4k → 32k → 128k 的多阶段预训练
 * **位置编码适配**：ALiBi、RoPE 外推/内插（NTK-aware, YaRN）、动态位置编码
 * **稀疏注意力**：Sliding Window、FlashAttention 在预训练中的集成
@@ -57,3 +55,10 @@
 * **数据加载优化**：Megatron-LM/DeepSpeed 中的数据并行加载与预取
 {% endstep %}
 {% endstepper %}
+
+
+
+### 参考
+
+1. [https://zhuanlan.zhihu.com/p/718354385](https://zhuanlan.zhihu.com/p/718354385)
+
