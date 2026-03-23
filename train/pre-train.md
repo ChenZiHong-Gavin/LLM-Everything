@@ -16,8 +16,8 @@
 
 * **学习率调度**：Warmup-Stable-Decay（WSD）、Cosine decay with restarts、Linear decay 的具体选择
 * **Batch Size 调度**：从 small batch 逐渐增大到 full batch（LARGE BATCH TRAINING）
-* **优化器细节**：AdamW（β1/β2/ε 的设置）、Adafactor、Sophia 等新型优化器对比
-* **权重衰减与正则化**：Dropout 在预训练中的使用
+* **优化器细节**：AdamW（β1/β2/ε 的设置）、Adafactor等新型优化器对比
+* **权重衰减与正则化**：为什么 Dropout 一般在预训练中不使用
 {% endstep %}
 
 {% step %}
