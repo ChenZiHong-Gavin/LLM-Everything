@@ -18,6 +18,7 @@
 * **Batch Size 调度**：从 small batch 逐渐增大到 full batch（LARGE BATCH TRAINING）
 * **优化器细节**：AdamW（β1/β2/ε 的设置）、Adafactor等新型优化器对比
 * **权重衰减与正则化**：为什么 Dropout 一般在预训练中不使用
+* **超参数搜索：**&#x81EA;动寻找最佳参数
 {% endstep %}
 
 {% step %}
@@ -27,11 +28,10 @@
 * **激活重计算（Gradient Checkpointing）**：时间与显存的 trade-off
 * **梯度裁剪（Gradient Clipping）**：global norm 阈值设置
 * **损失尖峰（Loss Spike）处理**：检测机制与回滚策略
-* **确定性训练（Deterministic Training）**：保证可复现性的种子设置与 CUDA 确定性配置
 {% endstep %}
 
 {% step %}
-### **长上下文扩展策略**
+### **长上下文扩展**
 
 * **渐进式扩展**：从 4k → 32k → 128k 的多阶段预训练
 * **位置编码适配**：ALiBi、RoPE 外推/内插（NTK-aware, YaRN）、动态位置编码
@@ -47,7 +47,7 @@
 {% endstep %}
 
 {% step %}
-### **工程化与容错**
+### **工程化**
 
 * **断点续训（Checkpointing Strategy）**：高频 checkpoint 与异步保存策略
 * **故障自动恢复**：节点掉线时的弹性训练（Elastic Training）
