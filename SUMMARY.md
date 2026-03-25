@@ -48,7 +48,7 @@
     * [超参配置](train/pre-train/hyper-param.md)
     * [训练稳定性](train/pre-train/stability_of_training.md)
     * [长文本拓展](train/pre-train/long-text-extension.md)
-    * [评估与工程化](train/pre-train/evaluation_and_engineering.md)
+    * [评估](train/pre-train/evaluation_and_engineering.md)
   * [监督微调](train/sft/README.md)
     * [数据工程](train/sft/data_engineering.md)
   * [数据准备](train/data-preparation.md)
