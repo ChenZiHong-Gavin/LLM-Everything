@@ -27,7 +27,6 @@
   * [Positional Encoding](transformer/positional-encoding.md)
   * [Self Attention](transformer/self-attention.md)
   * [Multi-Head Attention](transformer/multi-head-attention.md)
-  * [Grouped Query Attention](transformer/grouped-query-attention.md)
   * [Add & Norm](transformer/add-and-norm.md)
   * [FeedForward](transformer/feedforward.md)
   * [Linear & Softmax](transformer/linear-and-softmax.md)
