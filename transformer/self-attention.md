@@ -130,7 +130,7 @@ class Attention(nn.module):
 * self-atten和CNN做对比（NLP和CV）
 * self-atten和CNN的本质区别
 * self-atten的公式
-* **为什么要除以$\sqrt{d\_k}$**
+* **为什么要除以** $$\sqrt{d_k}$$
 * **为什么bias=False**
 * self-atten的问题
 * 手撕self-atten
