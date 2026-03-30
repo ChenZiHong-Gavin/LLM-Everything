@@ -1,5 +1,7 @@
 # 优化器并行
 
+### 为什么需要优化器并行
+
 随着模型越来越大，单张 GPU 的显存（即使是 80GB 的 A100/H100）通常无法装下完整的模型，所以需要想办法对占显存的地方进行优化。
 
 通常来说，模型训练的过程中，GPU上需要进行存储的参数包括了模型本身的参数、优化器状态、激活函数的输出值、梯度以及一些临时的Buffer。各种数据的占比如下图所示：
@@ -25,6 +27,8 @@
 {% endhint %}
 
 而优化器相关的并行就是一种去除冗余数据的并行方案，目前这种并行最流行的方法是 [ZeRO](https://zhida.zhihu.com/search?content_id=221180389\&content_type=Article\&match_order=1\&q=ZeRO\&zhida_source=entity) **(Zero Redundancy Optimizer)**，由微软 DeepSpeed 团队提出。
+
+### Deepspeed ZeRo-1\~ZeRo-3
 
 针对模型状态的存储优化（去除冗余），ZeRO使用的方法是分片，即每张卡只存 1/N 的模型状态量，这样系统内只维护一份模型状态。ZeRO有三个不同级别，对模型状态进行不同程度的分片：
 
