@@ -2,8 +2,8 @@
 
 #### 1. **数据工程**
 
-* **对话模板（Chat Template）**：Base 模型与 Instruct 模型的差异，Jinja2 模板配置（如 ChatML、Llama-2/3、Qwen 等格式），特殊 Token（`<|im_start|>`、`<|eot_id|>`）的注入逻辑
-* **数据拼接策略**：Pack vs Truncation，Attention Mask 的正确处理（防止不同样本间交叉注意力）
+* Base 模型与 Instruct 模型的差异
+* **数据拼接策略**：Pack vs Truncation，Attention Mask 的正确处理
 * **指令多样性设计**：多轮对话构造、工具调用数据格式
 * **数据质量过滤**：基于 Reward Model 或困惑度的数据筛选，指令复杂度评估（Instag、Self-Instruct 方法）
 
