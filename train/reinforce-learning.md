@@ -20,7 +20,7 @@
   * Clipped Surrogate Objective：PPO 核心裁剪机制（ε 参数）
 * **训练稳定性**：Value Loss 爆炸、Entropy Collapse、KL 散度突然增大的诊断与修复
 
-#### 4. **Direct Preference Optimization（DPO）及变体**（现代主流，必须包含）
+#### 4. **Direct Preference Optimization（DPO）及变体**
 
 * **DPO 原理**：跳过显式 RM，直接偏好优化，交叉熵损失与 Bradley-Terry 模型的等价推导
 * **DPO 的改进变体**：
@@ -29,6 +29,7 @@
   * **RPO（Robust Preference Optimization）**：处理噪声偏好数据
   * **SimPO（Simple Preference Optimization）**：去除参考模型，降低显存占用
 * **DPO vs PPO**：显存效率对比、数据效率对比、何时选择何种算法
+* **GRPO**
 
 #### 5. **进阶 RL 方法（前沿必备）**
 
