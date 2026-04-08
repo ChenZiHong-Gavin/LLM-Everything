@@ -117,7 +117,10 @@ Decoding Strategy
   * [evaluation\_and\_engineering.md](train/pre-train/evaluation_and_engineering.md "mention")
 * [监督微调](train/sft/)
   * [data\_engineering.md](train/sft/data_engineering.md "mention")
-* 强化学习 🚧
+  * [peft.md](train/sft/peft.md "mention")
+  * [training-strategy.md](train/sft/training-strategy.md "mention")
+  * [evaluation.md](train/sft/evaluation.md "mention")
+* 强化学习
 
 #### 🐒 MoE（混合专家模型）
 
