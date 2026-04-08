@@ -177,7 +177,7 @@ if __name__ == "__main__":
 
 loop是占用了CPU，而同一进程内只能有一个线程执行，所以会慢，这个代码只是虚有多线程的壳子，没有起到多线程的作用。
 
-## 2 Python并发解决方案
+#### 2 Python并发解决方案
 
 当然，对于IO密集型的任务（比如文件读写），上面的多线程代码是成立的，因为计算机在等待IO的过程中不占用CPU，可以切换下一个线程。针对IO密集型的任务可以使用各类异步编程库：asyncio, aiohttp, eventlet, twisted等，可以后续文章再细讲。
 
@@ -351,7 +351,7 @@ if __name__ == "__main__":
 
 <figure><img src="../../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
 
-## 4 条件变量与生产者消费者
+### 3 条件变量与生产者消费者
 
 上面的过程实际就是生产者与消费者的关系。
 

@@ -1,17 +1,17 @@
 # 强化学习
 
-#### 1. **RLHF 基础框架**
+#### 1. **RLHF 基础**
 
 * **两阶段流程详解**：Reward Model（RM）训练 + 强化学习策略优化（PPO）
 * **偏好数据构造**：Bradley-Terry 模型假设、成对比较数据标注（Chosen vs Rejected）、Elo 评分体系在数据筛选中的应用
 
-#### 2. **Reward Model（奖励模型）**
+#### 2. **Reward Model**
 
 * **模型架构**：基于预训练模型的输出头改造（Regression Head）、共享参数 vs 冻结部分层
 * **损失函数**：Pairwise Ranking Loss、Margin 设置、In-batch Negative Sampling
 * **RM 的陷阱与局限**：Reward Hacking（奖励作弊）、分布外（OOD）泛化能力差、长度偏好（Length Bias）问题
 
-#### 3. **PPO（Proximal Policy Optimization）算法深度解析**
+#### 3. **PPO 算法深度解析**
 
 * **Actor-Critic 架构**：策略模型（Actor）与价值模型（Critic）的初始化与更新策略
 * **关键组件**：
@@ -31,7 +31,7 @@
 * **DPO vs PPO**：显存效率对比、数据效率对比、何时选择何种算法
 * **GRPO**
 
-#### 5. **进阶 RL 方法（前沿必备）**
+#### 5. **进阶 RL 方法**
 
 * **RLAIF（AI Feedback）**：Constitutional AI（CAI）流程，LLM 作为标注者生成 Critique 与修订
 * **Self-Play 与对抗训练**：SPIN（Self-Play Fine-Tuning）、Gouda（基于博弈论的方法）
