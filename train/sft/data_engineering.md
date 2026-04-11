@@ -2,7 +2,7 @@
 
 ### 1 Base 模型和 Instruct 模型的区别
 
-**Base模型和Instruct模型在模型结构上完全相同**，差异仅体现在**训练数据的组织方式**和**损失函数的计算范围**。
+我们经常在开源模型权重中看到base和instruct后缀，但其实这两个不是两个不同的模型。Base模型和Instruct模型在模型结构上完全相同，差异仅体现在训练数据的组织方式和损失函数的计算范围。
 
 * Base 模型
   * 在海量无标注文本上做 Next Token Prediction
@@ -14,13 +14,15 @@
   * 仅 **Assistant 回复部分计算 loss**
   * 包含 `im_start`, `im_end`, `eot_id`, `tool_call` 等角色标记
 
+简单来说，就是 Base 模型的输入是文本块，Instruct 模型的输入是问答对。通常我们命名只经历 pretrain 阶段的模型为 xxx-base，命名经历了 SFT 阶段后的模型为 xxx-instruct。
+
 ### 2 训练数据拼接策略
 
-在 SFT 阶段，数据样本的长度往往呈现**极端长尾分布**：
+在 SFT 阶段，数据样本的长度往往呈现**极端长尾分布，也就是短文本很多，长文本很少。**
 
 如果简单使用 **Truncation（截断）** 或 **Padding（填充）** 到固定长度，会遇到两个问题：
 
-* **Truncation**：长样本被砍断（丢失关键上下文），短样本没问题
+* **Truncation**：短样本没问题，长样本被砍断（丢失关键上下文）
 * **Padding**：短样本带来 70%+ 的无效计算（GPU 并行计算时，padding位置会有计算浪费）
 
 <mark style="color:$warning;">Packing 策略将多个独立样本</mark> <mark style="color:$warning;"></mark><mark style="color:$warning;">`[A][B][C]`</mark> <mark style="color:$warning;"></mark><mark style="color:$warning;">拼接为连续序列，一次性计算，减少 padding 浪费。</mark>
