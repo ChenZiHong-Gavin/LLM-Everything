@@ -120,7 +120,8 @@ Decoding Strategy
   * [peft.md](train/sft/peft.md "mention")
   * [training-strategy.md](train/sft/training-strategy.md "mention")
   * [evaluation.md](train/sft/evaluation.md "mention")
-* 强化学习
+* [reinforce-learning](train/reinforce-learning/ "mention")
+  * [rlhf-basics.md](train/reinforce-learning/rlhf-basics.md "mention")
 
 #### 🐒 MoE（混合专家模型）
 
