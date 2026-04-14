@@ -66,3 +66,4 @@
   * [专家并行](moe/expert-parallelism.md)
 * [🐢 多模态大模型](multi-modal-llm/README.md)
   * [Qformer](multi-modal-llm/qformer.md)
+  * [ViT](multi-modal-llm/vit.md)
