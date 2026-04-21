@@ -23,7 +23,7 @@
 1. **连续训练友好**：无需预先确定总步数，可从stable阶段的任意checkpoint分支进行decay实验
 2. **loss动态独特**：stable阶段loss下降缓慢（高于Cosine schedule），但decay阶段会出现**sharp drop**（DeepSeek、OLMo、MiniMax 等训练日志中均有记录），最终性能往往优于Cosine
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Cosine Decay with Restarts vs. Linear Decay**
 
