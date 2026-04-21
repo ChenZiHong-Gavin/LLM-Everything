@@ -129,6 +129,9 @@ Decoding Strategy
 
 #### 🪿 LLM 应用
 
+* [info-retrieval](llm-application/info-retrieval/ "mention")
+  * [similarity.md](llm-application/info-retrieval/similarity.md "mention")
+  * [text-representation.md](llm-application/info-retrieval/text-representation.md "mention")
 * [RAG](llm-application/rag.md)
 * [Graph RAG](llm-application/graph-rag.md)
 
