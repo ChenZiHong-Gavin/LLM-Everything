@@ -132,16 +132,15 @@ Decoding Strategy
 * [info-retrieval](llm-application/info-retrieval/ "mention")
   * [similarity.md](llm-application/info-retrieval/similarity.md "mention")
   * [text-representation.md](llm-application/info-retrieval/text-representation.md "mention")
+  * [word-vector.md](llm-application/info-retrieval/word-vector.md "mention")
+  * [cross-modal-similarity.md](llm-application/info-retrieval/cross-modal-similarity.md "mention")
+  * [large-scale-retrieval.md](llm-application/info-retrieval/large-scale-retrieval.md "mention")
 * [RAG](llm-application/rag.md)
 * [Graph RAG](llm-application/graph-rag.md)
 
 #### 🐢 多模态大模型
 
 * [QFormer](multi-modal-llm/qformer.md)
-
-#### 🔒 LLM 安全
-
-* 🚧 持续更新中...
 
 ***
 
