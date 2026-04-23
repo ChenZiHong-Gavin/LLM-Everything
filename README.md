@@ -54,43 +54,27 @@
 
 > 逐模块拆解 Transformer
 
-Tokenizer
+[tokenizer.md](transformer/tokenizer.md "mention")
 
-* [tokenizer.md](transformer/tokenizer.md)
-
-Embeddings
+[embeddings](transformer/embeddings/ "mention")
 
 * [ELMo](transformer/embeddings/elmo.md)&#x20;
 * [BERT](transformer/embeddings/bert.md)
 * [GPT](transformer/embeddings/gpt.md)
 
-Positional Encoding
+[positional-encoding.md](transformer/positional-encoding.md "mention")
 
-* [positional-encoding.md](transformer/positional-encoding.md)
+[self-attention.md](transformer/self-attention.md "mention")
 
-Self Attention
+[multi-head-attention.md](transformer/multi-head-attention.md "mention")
 
-* [self-attention.md](transformer/self-attention.md)
+[add-and-norm.md](transformer/add-and-norm.md "mention")
 
-Multi-Head Attention
+[feedforward.md](transformer/feedforward.md "mention")
 
-* [multi-head-attention.md](transformer/multi-head-attention.md)
+[linear-and-softmax.md](transformer/linear-and-softmax.md "mention")
 
-Add & Norm
-
-* [add-and-norm.md](transformer/add-and-norm.md)
-
-FeedForward
-
-* [feedforward.md](transformer/feedforward.md)
-
-Linear & Softmax
-
-* [linear-and-softmax.md](transformer/linear-and-softmax.md)
-
-Decoding Strategy
-
-* [decoding-strategy.md](transformer/decoding-strategy.md)
+[decoding-strategy.md](transformer/decoding-strategy.md "mention")
 
 #### 🎄 LLM 训练
 
