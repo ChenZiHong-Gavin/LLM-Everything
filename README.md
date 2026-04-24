@@ -106,6 +106,9 @@
   * [evaluation.md](train/sft/evaluation.md "mention")
 * [reinforce-learning](train/reinforce-learning/ "mention")
   * [rlhf-basics-and-ppo.md](train/reinforce-learning/rlhf-basics-and-ppo.md "mention")
+  * [dpo.md](train/reinforce-learning/dpo.md "mention")
+  * [grpo-dapo.md](train/reinforce-learning/grpo-dapo.md "mention")
+  * [dapo.md](train/reinforce-learning/dapo.md "mention")
 
 #### 🐒 MoE（混合专家模型）
 
