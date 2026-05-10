@@ -1,0 +1,130 @@
+# AutoResearch
+
+AutoResearch = 基模 + Agent Loop。当基模固定时，方法循环设计成为了竞争的本质。
+
+这篇文章讲一下 AutoResearch 发展到现在的几种常见循环设计。以及一个通用的分析框架，当有新的AutoResearch方法出现时，你可以使用这个分析框架直接得出这个新方法的优劣势。
+
+### 1 七种循环
+
+#### 1.1 **线性循环 Keep-or-Discard**
+
+> **代表系统**：Karpathy autoresearch（2025）
+
+<figure><img src="../.gitbook/assets/nano_task_ce72d56d18264be9a31cc87ed8e56401 (1).png" alt=""><figcaption></figcaption></figure>
+
+线性循环是最简单也最直觉的循环设计：每次尝试一个想法，如果结果更好就保留，否则回退。Karpathy 的 autoresearch 只有三个文件，循环逻辑由一个Markdown 指令（[program.md](http://program.md)）定义。
+
+```python
+【初始化】与用户确认运行标签 → 创建 git 分支 → 读取所有源文件 → 验证数据 → 确认启动
+
+【主循环】
+    1. 检查 git 状态（当前分支和 commit）
+    2. 修改 train.py，实现一个实验想法
+    3. 提交 commit
+    4. 运行实验（固定 5 分钟时间预算）
+    5. 提取指标（val_bpb，越低越好）
+    6. 若崩溃 → 尝试修复（最多几次）→ 重试或记录失败
+    7. 将结果记录到 results.tsv
+    8. 若 val_bpb 改善 → 保留 commit，推进分支
+       否则 → git reset，回退到上一个基线
+```
+
+设计的最大亮点在于“固定5 分钟的时间预算”这个约束选择，它迫使 Agent 思考的是"什么改动能在极短训练后就产生可测量的收益”，淘汰了那些需要训练很久才能看到效果的方案。人类的参与在编辑完 [program.md](http://program.md) 后达到了最小化，这个循环不会停下来问人类的意见，而是会自主执行，直到人类手动中断。
+
+但是简洁的同时也带来了很多结构性的局限：
+
+1. 它无法并行探索多个方向
+2. 失败实验的经验没有被结构化保存（可能反复尝试同一个idea死循环）
+3. 短时间约束容易让框架陷入局部最优
+4. 只看最终指标这个标量反馈无法传达"为什么失败"，可解释性不够
+
+#### 1.2 **树搜索循环搜索**
+
+> **代表系统**：AIDE（2024）、AI Scientist v2（2025）
+
+<figure><img src="../.gitbook/assets/nano_task_04ce63aabf15413085acf71027e29f23.png" alt=""><figcaption></figcaption></figure>
+
+树搜索的核心思想是：不要把解空间的探索限制在一条线性路径上，而是维护一棵搜索树，允许同时保持多个探索方向，并在任意节点发起新的分支。树的每个节点是一个完整的代码解决方案，边是代码变换操作。
+
+```
+【初始化】创建根节点（空白方案或基线代码）
+
+【主循环】重复 N 步：
+    1. 选择：从树中挑选一个有潜力的节点
+    2. 扩展：对该节点施加变换，生成子节点
+       - 草稿：从头生成全新方案
+       - 调试：修复当前节点的错误
+       - 改进：在当前节点基础上优化
+    3. 评估：运行代码，计算指标
+    4. 回传：将结果添加到树中，更新节点统计
+    5. 剪枝：移除明显无望的分支（可选）
+
+【输出】树中找到的最优方案
+```
+
+树搜索相比线性循环的根本优势在于**回溯能力**和**方案多样性**。当某条路径走进死胡同时，线性循环只能通过 git reset 回到上一步然后尝试另一个方向，而树搜索可以回到树中任意一个历史节点重新出发。
+
+听起来有点抽象，下面以 AIDE 的具体实现为例：
+
+AIDE 中的每个节点是一个完整的、可独立运行的 Python 脚本，是一个从数据加载到模型训练到输出指标的完整 ML pipeline。有三种算子类型（算子代表对节点的更改）：
+
+* **Draft（草稿）** 是从零开始生成一个全新方案。LLM 收到的 prompt 包含：任务描述、当前所有成功方案的摘要（称为 Memory），以及"不要重复已有方案"的指令。这确保每个 draft 尝试不同的建模方向——比如第一个 draft 可能用 XGBoost，第二个可能用神经网络，第三个可能用 feature engineering + 线性模型。
+* **Debug（调试）** 针对有 bug 的节点。LLM 收到的 prompt 包含：完整的 buggy 代码、终端输出（包含报错信息和 traceback），以及"修复这个 bug"的指令。LLM 需要阅读错误信息并产出修复后的完整代码。如果修复后仍然有 bug，可以继续 debug（直到深度上限）。
+* **Improve（改进）** 针对已经能正常运行的节点。LLM 收到的 prompt 包含：当前方案的完整代码、所有成功方案的摘要，以及"提出一个单一的、可实验验证的改进"的指令。关键约束是"atomic improvement"——每次只改一个东西（比如只换特征工程方法，或只换模型超参数），这样可以清楚地归因效果。
+
+AIDE 认为有 bug 的节点代表已投入精力但尚未成功的探索方向，值得修复，所以会从有bug且为叶节点且调试深度没有达到上限的节点中随机选一个进行调试。如果存在好的节点，选择指标最好的那个节点，对其进行改进。
+
+AIDE 采用的是贪婪策略——总是选当前最优节点做 improve。优势是收敛很快，但是如果Draft 1 很早就获得了好指标，后续所有 improve 都会集中在它的子树上，其他 draft 的子树被"饿死"。
+
+**MCTS 选择**（ML-Master 等系统）用 UCB（Upper Confidence Bound）公式解决这个问题：
+
+```
+UCB(node) = 平均收益 + C × sqrt(ln(总访问次数) / 该节点访问次数)
+```
+
+第一项倾向于已知的好节点（利用），第二项倾向于被访问次数少的节点（探索）。系数 C 控制二者的平衡。这意味着即使 Draft 5 的初始指标较差，只要它被访问的次数少，UCB 公式就会给它一个"好奇心加分"，使系统偶尔去探索它。
+
+类似 AI Scientist v2 的工作则完全抛弃了公式化的选择策略，让 Agent 自主判断"现在应该深耕哪个方向"。这种方式的优势在于 Agent 可以利用语义理解做出更智能的选择。
+
+#### 1.3 遗传进化池循环
+
+> **代表系统**：FunSearch（2023）、AlphaEvolve（2024）、GEPA（2025）
+
+<figure><img src="../.gitbook/assets/nano_task_d2896b34874f4e1d867f3f4fedf2e1dd.png" alt=""><figcaption></figcaption></figure>
+
+遗传进化的核心思想来自生物演化：维护一个候选种群，通过选择优秀个体、对其施加突变（在这里由 LLM 完成）、评估后代的适应度，逐代推动种群向更优方向进化。与树搜索不同的是，进化池中的个体之间没有严格的父子拓扑——任何个体都可以被选为突变的起点，多个个体可以被交叉组合。
+
+```
+【初始化】
+    候选种群 P = {种子方案}
+
+【主循环】直到预算耗尽：
+    1. 选择：从种群中挑选父本（根据适应度加权采样）
+    2. 突变：LLM 基于父本生成变体
+    3. 评估：计算新候选的适应度
+    4. 更新种群：若满足条件则加入种群
+    5. 剪枝：移除被支配的候选
+
+【输出】种群中的最优候选
+```
+
+**FunSearch**（DeepMind, 2023）使用 MAP-Elites 算法维护种群——不只保留最优个体，而是在多个行为维度的每个 niche 中都保留最优个体，从而维持种群的多样性。但在 FunSearch 中，所有搜索规则（选择策略、评估标准、种群管理）都是人工硬编码的，LLM 只负责变体生成。
+
+**GEPA**（2025）用**文本反馈取代标量奖励**来驱动突变方向。具体而言，系统先对当前候选进行 rollout，记录完整的执行轨迹（包括每一步的推理过程、工具调用和输出），然后让 LLM 阅读这些轨迹来诊断问题、归因原因、提出有针对性的修改方案。
+
+
+
+### 通用分析框架
+
+在分析具体系统之前，先建立一个通用的分析框架。任何 AutoResearch 方法循环都可以从以下四个维度进行解构：
+
+
+
+
+
+### 参考
+
+1. [https://github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch)
+2. [https://arxiv.org/abs/2403.17373](https://arxiv.org/abs/2403.17373)
+3. [https://github.com/SakanaAI/AI-Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2)
+4. [https://deepmind.google/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/#:\~:text=Update%3A%20In%20December%202024%2C%20we%20published%20a%20report,to%20amplify%20human%20performance%20in%20combinatorial%20competitive%20programming.](https://deepmind.google/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/)

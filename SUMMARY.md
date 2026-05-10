@@ -40,6 +40,7 @@
     * [大规模向量检索](llm-application/info-retrieval/large-scale-retrieval.md)
   * [RAG](llm-application/rag.md)
   * [Graph RAG](llm-application/graph-rag.md)
+  * [AutoResearch](llm-application/autoresearch.md)
 * [🎄 LLM训练](train/README.md)
   * [LLM显存需求](train/llm-vram-needs/README.md)
     * [LLM精度问题](train/llm-vram-needs/llm-precision.md)
