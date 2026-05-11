@@ -122,6 +122,7 @@
   * [word-vector.md](llm-application/info-retrieval/word-vector.md "mention")
   * [cross-modal-similarity.md](llm-application/info-retrieval/cross-modal-similarity.md "mention")
   * [large-scale-retrieval.md](llm-application/info-retrieval/large-scale-retrieval.md "mention")
+* [autoresearch.md](llm-application/autoresearch.md "mention")
 * [RAG](llm-application/rag.md)
 * [Graph RAG](llm-application/graph-rag.md)
 
