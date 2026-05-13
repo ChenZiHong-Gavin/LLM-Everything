@@ -54,27 +54,18 @@
 
 > 逐模块拆解 Transformer
 
-[tokenizer.md](transformer/tokenizer.md "mention")
-
-[embeddings](transformer/embeddings/ "mention")
-
-* [ELMo](transformer/embeddings/elmo.md)&#x20;
-* [BERT](transformer/embeddings/bert.md)
-* [GPT](transformer/embeddings/gpt.md)
-
-[positional-encoding.md](transformer/positional-encoding.md "mention")
-
-[self-attention.md](transformer/self-attention.md "mention")
-
-[multi-head-attention.md](transformer/multi-head-attention.md "mention")
-
-[add-and-norm.md](transformer/add-and-norm.md "mention")
-
-[feedforward.md](transformer/feedforward.md "mention")
-
-[linear-and-softmax.md](transformer/linear-and-softmax.md "mention")
-
-[decoding-strategy.md](transformer/decoding-strategy.md "mention")
+* [tokenizer.md](transformer/tokenizer.md "mention")
+* [embeddings](transformer/embeddings/ "mention")
+  * [ELMo](transformer/embeddings/elmo.md)&#x20;
+  * [BERT](transformer/embeddings/bert.md)
+  * [GPT](transformer/embeddings/gpt.md)
+* [positional-encoding.md](transformer/positional-encoding.md "mention")
+* [self-attention.md](transformer/self-attention.md "mention")
+* [multi-head-attention.md](transformer/multi-head-attention.md "mention")
+* [add-and-norm.md](transformer/add-and-norm.md "mention")
+* [feedforward.md](transformer/feedforward.md "mention")
+* [linear-and-softmax.md](transformer/linear-and-softmax.md "mention")
+* [decoding-strategy.md](transformer/decoding-strategy.md "mention")
 
 #### 🎄 LLM 训练
 
