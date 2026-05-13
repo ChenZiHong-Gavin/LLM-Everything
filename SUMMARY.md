@@ -78,3 +78,5 @@
     * [模态连接器](multi-modal-llm/components/connector/README.md)
       * [Qformer](multi-modal-llm/components/connector/qformer.md)
     * [视觉分词器](multi-modal-llm/components/visual-tokenizer.md)
+  * [工程实现](multi-modal-llm/engineering/README.md)
+    * [WebDataset](multi-modal-llm/engineering/webdataset.md)
