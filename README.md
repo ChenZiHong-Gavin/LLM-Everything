@@ -119,7 +119,7 @@
 
 #### 🐢 多模态大模型
 
-* [QFormer](multi-modal-llm/qformer.md)
+* [QFormer](multi-modal-llm/components/connector/qformer.md)
 
 ***
 
