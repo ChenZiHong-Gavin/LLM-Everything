@@ -1,5 +1,7 @@
 # WebDataset
 
+## 1 顺序 I/O
+
 训练多模态大模型时，数据集往往包含数百万到数十亿个小文件（图片、文本、点云等）。数据量大并不是问题，训练文本语言模型的时候我们也经历过tb甚至pb级别的数据量，实际的瓶颈是**访问次数太多。**
 
 我们首先需要复习一下计算机组织原理，关于存储设备的物理原理。存储设备一般有机械硬盘（HDD）、固态硬盘（SSD）、网络存储（S3/GCS/OSS）。
@@ -64,7 +66,134 @@ SSD（Solid State Drive，固态硬盘）数据存储在 NAND 闪存芯片上，
 
 
 
+总而言之，无论哪种存储介质，**顺序 I/O 都显著优于随机 I/O**。 tar 打包的本质就是：把随机 I/O 模式转换为顺序 I/O 模式。
 
+
+
+### 2 tar 如何实现顺序 I/O
+
+tar（Tape Archive）最初设计用于磁带备份，而磁带是**纯顺序设备**—— 只能从头到尾读，不能跳转。这个历史原因决定了 tar 的内部结构：
+
+<figure><img src="../../.gitbook/assets/nano_task_37f912c7ca6c4bb29ed85c84f59c1236.png" alt=""><figcaption></figcaption></figure>
+
+每个文件由两部分组成：
+
+* **Header**（512 字节）：文件名、大小、权限、时间戳等元数据
+* **Data**：文件内容，填充到 512 字节的整数倍
+
+关键特点：
+
+* **没有中央目录/索引**（与 zip 不同）。找到第 N 个文件的唯一方式是从头读到第 N 个
+* 这正好适合流式读取——从头到尾扫一遍，遇到什么处理什么
+* 512 字节对齐是因为磁带和早期硬盘的最小读写单位就是 512 字节（一个扇区）
+
+#### 2.1 流式模式
+
+```python
+tarfile.open(fileobj=stream, mode="r|*")
+```
+
+`seek` 指的是把"读取位置指针"跳转到文件的任意位置的操作。
+
+```python
+f = open("data.bin", "rb")
+f.seek(0)           # 跳到文件开头
+f.seek(1000)        # 跳到第 1000 字节
+f.seek(0, 2)        # 跳到文件末尾
+f.read(100)         # 从当前位置往后读 100 字节
+```
+
+本都文件可以进行`seek` 操作，因为任意位置都可以读，但是像 HTTP 相应流、S3 流式下载、子进程的 stdout 管道是不行的。
+
+`r:*` 代表随机访问模式：
+
+tar 文件本身没有中央目录（与 zip 不同），但 Python 的 `tarfile` 在 `r:*` 模式下会**预先把整个 tar 扫一遍**，把每个文件的位置（offset）记到内存里建成索引。之后就可以按名字直接跳转：
+
+```python
+tar = tarfile.open("a.tar", "r:*")
+tar.getmember("xxx.jpg")    # 按名字查找 → 内部 seek 到那个位置
+tar.extractfile("xxx.jpg")  # 跳过去读 → 内部又 seek 一次
+```
+
+这要求底层文件对象**必须支持 seek**。HTTP 流不支持 seek，所以这种模式根本没法用在网络流上。
+
+`r|*` 代表流式模式：
+
+```python
+tar = tarfile.open(fileobj=stream, mode="r|*")
+for member in tar:                         # 顺序遍历
+    data = tar.extractfile(member).read()  # 当前条目立刻读
+```
+
+tarfile 内部只会调用 `read()` ，不调用`seek()` 。
+
+但是天下没有免费的午餐：
+
+流式模式使得webdataset可以从网络流直接读，不用先把整个 tar 下载到本地，也不需要预先建索引，内存占用低。但是只能从头到尾遍历一次，对象用完即弃，没法通过名字查找。
+
+#### 2.2 处理内存泄露
+
+`tar.members` 是 `tarfile` 对象内部维护的一个 **Python 列表**，记录"目前为止见过的所有文件条目"。每次 `for member in tar` 迭代一步，tarfile 都会把当前的 TarInfo 对象追加到这个列表里：
+
+```python
+tar = tarfile.open(fileobj=stream, mode="r|*")
+for member in tar:
+    # tarfile 内部相当于做了：
+    #     self.members.append(member)
+    process(member)
+```
+
+TarInfo 是一个小对象，存的是文件名、大小、权限、修改时间这些元数据，本身不大（几百字节）。但条目数量乘上去就可观了。
+
+这个本来是给随机访问模式 `r:*` 设计的，因此流式模式 `r|*` 下我们不会用这份清单，所以每次 yield 之后会手动 `tar.members = []` 把列表重置为空。
+
+
+
+## 2 Group by keys
+
+tar 内部的文件以共享前缀的方式组织同一个样本：
+
+```
+000042.jpg
+000042.txt
+000042.json
+```
+
+需要将它们聚合成一个样本字典：
+
+```python
+{"__key__": "000042", "jpg": <bytes>, "txt": <bytes>, "json": <bytes>}
+```
+
+但是如果从多个 shard 串联读取时，shard A 的最后一个样本和 shard B 的第一个样本 可能具有相同前缀（例如都叫 `000000`）。如果没有隔离机制，它们会被错误地合并。
+
+WebDataset用了 EOF 哨兵机制，`tar_file_expander` 在每个 shard 的文件读完后发射 `{}`（空字典）：
+
+```python
+for sample in tar_file_iterator(source["stream"]):
+    yield sample
+yield {}  # EOF 哨兵
+```
+
+`group_by_keys` 检测到哨兵后强制刷新：
+
+```python
+if filesample == {}:           # shard 边界
+    if valid_sample(current_sample):
+        yield current_sample
+    current_sample = None      # 重置为 None，而不是 {}
+    continue
+```
+
+重置为 `None`（而不是 `{}`）确保下一个文件会创建全新的样本字典。
+
+## 3 惰性生成器链
+
+所有 stage 都是惰性生成器。**在从最外层迭代器拉取数据之前，不会执行任何操作。** 整个 pipeline 的内存占用 ≈ 一个 shuffle 缓冲区 + 当前 batch，与数据集大小无关。 这使得在有限内存的机器上处理 TB 级数据集成为可能。
+
+
+
+## 4 lt
 
 
 
