@@ -66,11 +66,13 @@ SSD（Solid State Drive，固态硬盘）数据存储在 NAND 闪存芯片上，
 
 
 
-总而言之，无论哪种存储介质，**顺序 I/O 都显著优于随机 I/O**。 tar 打包的本质就是：把随机 I/O 模式转换为顺序 I/O 模式。
+总而言之，无论哪种存储介质，**顺序 I/O 都显著优于随机 I/O**。&#x20;
 
-
+tar 打包的本质就是：**把小文件合并成大文件，把随机访问模式强制转换为顺序访问模式。**
 
 ### 2 tar 如何实现顺序 I/O
+
+tar 做的事情很简单：在训练前把这海量小文件首尾相接，写成一个连续的大文件。
 
 tar（Tape Archive）最初设计用于磁带备份，而磁带是**纯顺序设备**—— 只能从头到尾读，不能跳转。这个历史原因决定了 tar 的内部结构：
 
@@ -87,23 +89,15 @@ tar（Tape Archive）最初设计用于磁带备份，而磁带是**纯顺序设
 * 这正好适合流式读取——从头到尾扫一遍，遇到什么处理什么
 * 512 字节对齐是因为磁带和早期硬盘的最小读写单位就是 512 字节（一个扇区）
 
-#### 2.1 流式模式
+#### 2.1 流式读取的实现细节
+
+在 Python 中，这对应 `tarfile.open(fileobj=stream, mode="r|*")` 的流式模式：
 
 ```python
 tarfile.open(fileobj=stream, mode="r|*")
 ```
 
-`seek` 指的是把"读取位置指针"跳转到文件的任意位置的操作。
-
-```python
-f = open("data.bin", "rb")
-f.seek(0)           # 跳到文件开头
-f.seek(1000)        # 跳到第 1000 字节
-f.seek(0, 2)        # 跳到文件末尾
-f.read(100)         # 从当前位置往后读 100 字节
-```
-
-本都文件可以进行`seek` 操作，因为任意位置都可以读，但是像 HTTP 相应流、S3 流式下载、子进程的 stdout 管道是不行的。
+本地文件可以进行`seek` 操作，因为任意位置都可以读，但是像 HTTP 相应流、S3 流式下载、子进程的 stdout 管道是不行的。
 
 `r:*` 代表随机访问模式：
 
@@ -189,11 +183,39 @@ if filesample == {}:           # shard 边界
 
 ## 3 惰性生成器链
 
-所有 stage 都是惰性生成器。**在从最外层迭代器拉取数据之前，不会执行任何操作。** 整个 pipeline 的内存占用 ≈ 一个 shuffle 缓冲区 + 当前 batch，与数据集大小无关。 这使得在有限内存的机器上处理 TB 级数据集成为可能。
+WebDataset的api如下：
+
+```
+dataset = (
+    wds.WebDataset("shard_{000..999}.tar")
+    .shuffle(1000)              # ← 传入配置，返回 DataPipeline
+    .decode("rgb")              # ← 传入配置，返回 DataPipeline
+    .to_tuple("jpg;png", "json")# ← 传入配置，返回 DataPipeline
+)
+
+for batch in dataset:
+    ...
+```
+
+每个方法（`shuffle`、`decode`、`to_tuple`）都是**配置阶段，**&#x5373;都是惰性生成器。**在从最外层迭代器拉取数据之前，不会执行任何操作。**&#x771F;正的计算延迟到 `for batch in dataset` 时才开始。这要求每个方法返回一个**新的 Pipeline 对象**，并且携带一个「待执行的函数」（柯里化）。整个 pipeline 的内存占用 ≈ 一个 shuffle 缓冲区 + 当前 batch，与数据集大小无关。 这使得在有限内存的机器上处理 TB 级数据集成为可能。
+
+WebDataset的三层柯里化系统：
+
+| 层级  | 类/装饰器            | 职责      | 解决什么问题                                                         |
+| --- | ---------------- | ------- | -------------------------------------------------------------- |
+| 第一层 | `FilterFunction` | 可序列化的闭包 | `multiprocessing` 的 `spawn` 模式需要 pickle 传递函数，普通 lambda/闭包无法序列化 |
+| 第二层 | `RestCurried`    | 工厂      | 接收配置参数（如 `1000`），生产 `FilterFunction`                           |
+| 第三层 | `pipelinefilter` | 装饰器     | 把原始函数包装成 `RestCurried`，并保留 `__name__`、`__doc__`                |
 
 
 
-## 4 lt
+
+
+## 4 两级 Shuffle
+
+
+
+## 5 Decoder 链条
 
 
 
