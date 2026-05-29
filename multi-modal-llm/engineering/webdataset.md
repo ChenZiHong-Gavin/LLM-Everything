@@ -183,6 +183,8 @@ if filesample == {}:           # shard 边界
 
 ## 3 惰性生成器链
 
+#### 3.1 三层柯里化系统
+
 WebDataset的api如下：
 
 ```
@@ -197,7 +199,11 @@ for batch in dataset:
     ...
 ```
 
-每个方法（`shuffle`、`decode`、`to_tuple`）都是**配置阶段，**&#x5373;都是惰性生成器。**在从最外层迭代器拉取数据之前，不会执行任何操作。**&#x771F;正的计算延迟到 `for batch in dataset` 时才开始。这要求每个方法返回一个**新的 Pipeline 对象**，并且携带一个「待执行的函数」（柯里化）。整个 pipeline 的内存占用 ≈ 一个 shuffle 缓冲区 + 当前 batch，与数据集大小无关。 这使得在有限内存的机器上处理 TB 级数据集成为可能。
+每个方法（`shuffle`、`decode`、`to_tuple`）都是**配置阶段，**&#x5373;都是惰性生成器。**在从最外层迭代器拉取数据之前，不会执行任何操作。**&#x771F;正的计算延迟到 `for batch in dataset` 时才开始。这要求每个方法返回一个**新的 Pipeline 对象**，并且携带一个「待执行的函数」（柯里化）。
+
+整个 pipeline 的内存占用 ≈ 一个 shuffle 缓冲区 + 当前 batch，与数据集大小无关。 这使得在有限内存的机器上处理 TB 级数据集成为可能。
+
+Python 里实现柯里化有很多方式（闭包、lambda、`functools.partial`），WebDataset 搞了三个类，用于同时解决另一个问题：**多进程序列化**。
 
 WebDataset的三层柯里化系统：
 
@@ -207,15 +213,155 @@ WebDataset的三层柯里化系统：
 | 第二层 | `RestCurried`    | 工厂      | 接收配置参数（如 `1000`），生产 `FilterFunction`                           |
 | 第三层 | `pipelinefilter` | 装饰器     | 把原始函数包装成 `RestCurried`，并保留 `__name__`、`__doc__`                |
 
+第一层：**`FilterFunction` —— 可序列化的 stage**
 
+```
+class FilterFunction:
+    def __init__(self, f, *args, **kw):
+        self.f = f          # 原始函数，如 _shuffle
+        self.args = args    # 配置参数，如 (1000,)
+        self.kw = kw
 
+    def __call__(self, data):
+        return self.f(data, *self.args, **self.kw)   # 数据注入
+```
 
+Python 的 `pickle` 可以序列化类实例（只要类在顶层定义），但不能序列化内层闭包。这让它能通过 `multiprocessing` 在进程间传递。
+
+**第二层：`RestCurried` —— 工厂**
+
+```
+class RestCurried: def init(self, f): self.f = f
+    def __call__(self, *args, **kw):
+        return FilterFunction(self.f, *args, **kw)
+```
+
+`RestCurried.__call__`返回一个配置好的 `FilterFunction`。
+
+**第三层：`pipelinefilter` —— 入口装饰器**
+
+```
+def pipelinefilter(fn):
+    result = RestCurried(fn)
+    functools.update_wrapper(result, fn)   # 让 result 拥有 fn 的名字和文档
+    return result
+```
+
+使用：
+
+```
+@pipelinefilter
+def _shuffle(data, bufsize):
+    ...
+
+shuffle = _shuffle   # 现在 shuffle 是一个 RestCurried 对象
+stage = shuffle(1000)   # 返回 FilterFunction，等待 data
+```
+
+理论上可以写一个「万能类」同时干三件事，但那样会混淆**配置阶段**和**执行阶段**的语义。WebDataset 拆三层是为了**状态隔离**：
+
+```
+# 如果只有一个类，对象在不同时刻会处于两种矛盾状态：
+class ConfusedStage:
+    def __init__(self, f, *args):
+        self.f = f
+        self.args = args      # 有时这是配置参数
+        # 但有时 args 里又要包含 data？语义混乱
+    
+    def __call__(self, *args):
+        # 这里要判断：我现在是被用户调用（配置），还是被 pipeline 调用（执行）？
+        pass
+```
+
+而三层结构让**每个对象只有一种职责、一种状态**：
+
+* `RestCurried` 实例永远只等**配置参数**，永远不会被传入 `data`
+* `FilterFunction` 实例已经被配好了参数，永远只等**数据流**
+
+这种**不可变性**避免了运行时判断「我现在处于哪个阶段」的混乱。
+
+#### 3.2 Pipeline 如何串联
+
+`DataPipeline` 内部维护一个 `pipeline` 列表，存着所有 stage：
+
+```
+[self.source, shuffle_stage, decode_stage, to_tuple_stage]
+```
+
+`iterator1()` 用**左折叠**把它们串起来：
+
+```
+def iterator1(self):
+    source = self.invoke(self.pipeline[0])   # 第一个 stage 是数据源，无输入
+    for step in self.pipeline[1:]:
+        source = self.invoke(step, source)   # 每个 stage 包一层：step(上游迭代器)
+    return source
+```
+
+#### 3.3 无限流上的虚拟 epoch
+
+有些数据源是**无限流**，例如 `ResampledShards`（有放回地无限重复采样 shard）：
+
+训练需要「每个 epoch 固定 N 个样本」。`with_epoch(nsamples)` 的实现：
+
+```
+def with_epoch(self, nsamples=-1):
+    self.repetitions = sys.maxsize   # 无限重复
+    self.nsamples = nsamples
+    return self
+```
+
+运行时，pipeline 反复调用 `iterator1()` 产生迭代器，用 `islice` 截断到 `nsamples`：
+
+```
+iterator = self.iterator1()
+yield from itertools.islice(iterator, self.nsamples)   # 精确产出 N 条
+```
+
+这样无限流被切成固定长度的 epoch，配合 `repetitions` 实现多 epoch 训练。
 
 ## 4 两级 Shuffle
+
+顺序读取 tar 意味着数据天然有序。但是训练通常需要随机性，我们又不能全量 shuffle，因为数据太大，不能完整放进内存中。
+
+WebDataset 的方案结合两个层级：
+
+1. **Shard 级 shuffle**：打乱 shard 文件的读取顺序（宏观随机性）
+2. **Buffer shuffle**：在固定大小的缓冲区内随机交换（微观随机性）
+
+<figure><img src="../../.gitbook/assets/nano_task_493a2d8e49774d26abee140ba768c561.png" alt=""><figcaption></figcaption></figure>
+
+#### 4.1 实现细节
+
+Shard 级 Shuffle
+
+
 
 
 
 ## 5 Decoder 链条
+
+
+
+## 6 gopen URL 多协议分发
+
+
+
+## 7 分布式分片
+
+
+
+## 8 ShardWriter 自动分片写入
+
+
+
+## 9 ResampleShared 有放回采样
+
+
+
+## 10 FileCache
+
+
 
 
 
