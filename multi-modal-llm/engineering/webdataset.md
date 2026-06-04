@@ -333,9 +333,49 @@ WebDataset 的方案结合两个层级：
 
 #### 4.1 实现细节
 
-Shard 级 Shuffle
+**Shard 级 Shuffle**
 
+一个shard就是一个tar文件，
 
+`SimpleShardList.__iter__` 拷贝 URL 列表后用带种子的 RNG 打乱：
+
+```python
+def __iter__(self):
+    urls = self.urls.copy()
+    if self.seed is not None:
+        random.Random(self.seed).shuffle(urls)
+    for url in urls:
+        yield dict(url=url)
+```
+
+但是这样遇到一个问题：固定seed会导致每个epoch的shuffle顺序一摸一样，缺少多样性
+
+```
+# 假设 seed=42，有 4 个 shard
+Epoch 0: seed=42 → [shard-3, shard-1, shard-0, shard-2]
+Epoch 1: seed=42 → [shard-3, shard-1, shard-0, shard-2]  # 一模一样！
+Epoch 2: seed=42 → [shard-3, shard-1, shard-0, shard-2]
+```
+
+但是也不希望它完全随机，那样实验不可复现。
+
+`detshuffle` 变体让种子 = `base_seed + epoch`，每个 epoch 不同但完全可复现。
+
+```
+# 你只需给一个 base_seed=42
+shuffler = detshuffle(urls, base_seed=42)
+
+Epoch 0: seed = 42 + 0 = 42 → [shard-3, shard-1, shard-0, shard-2]
+Epoch 1: seed = 42 + 1 = 43 → [shard-0, shard-3, shard-2, shard-1]
+Epoch 2: seed = 42 + 2 = 44 → [shard-1, shard-0, shard-3, shard-2]
+```
+
+好处如下：
+
+1. 每个 epoch 顺序不同，保证训练多样性
+2. 给定 (base\_seed, epoch) 就能精确复现
+
+**Buffer 级 Shuffle**
 
 
 
