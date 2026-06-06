@@ -377,11 +377,89 @@ Epoch 2: seed = 42 + 2 = 44 → [shard-1, shard-0, shard-3, shard-2]
 
 **Buffer 级 Shuffle**
 
+Shard 级 shuffle 只解决了"哪个 shard 先被读到"的问题。但在单个 shard 内部，样本仍然是**严格顺序**的。如果直接按顺序输出，模型会在短时间内连续看到同一个 shard 的同类样本（例如同一个视频的所有帧、同一个网页的所有图文对），造成严重的**局部相关性**。
 
+Buffer shuffle 的任务是：在**固定内存**（O(bufsize)）的限制下，打散样本的流出顺序，实现跨 shard 的微观混合。
+
+可以把 Buffer理解成一个滑动窗口：
+
+* Buffer 大小固定为 `bufsize`，不会随着数据量增长。
+* 每次从 Buffer 中**随机挑选**一个样本输出，而不是输出最早进入的那个。
+* Buffer 从上游按顺序接收样本，保持与上游的耦合关系。
+
+这里带来一个问题，Buffer 的"随机输出"操作需要高效，因为要执行 n 次。
+
+我们能想到的最朴素的方法需要 O(n) 时间，因为 pop(k) 需要移动 k 之后的所有元素，示例代码如下：
+
+```python
+k = rng.randint(0, len(buf) - 1)
+return buf.pop(k)
+```
+
+而 WebDataset使用了一个经典的**交换-删除**技巧，将时间复杂度降为 O(1)：
+
+```
+def pick(buf, rng):
+    k = rng.randint(0, len(buf) - 1)
+    # 将选中的第 k 个元素与最后一个元素交换
+    buf[k], buf[-1] = buf[-1], buf[k]
+    # 从末尾 pop，O(1)，因为不涉及中间元素的移动
+    return buf.pop()
+```
+
+**Double-Dipping**
+
+Buffer Shuffle 的完整生命周期分为三个阶段：
+
+1.  预热 （**Warm-up**）
+
+    ```
+    for sample in data:
+        buf.append(sample)
+        if len(buf) >= initial:
+            break
+    ```
+
+    在积累到 `initial` 个样本（默认 100）之前，**不输出任何样本**。这是为了保证第一个输出的样本是从至少 `initial` 个候选中随机选出的。如果没有预热，第一个样本进入 Buffer 后就会被立即输出（此时 Buffer 只有 1 个元素，"随机"毫无意义），前几十个样本的随机性极差，相当于**伪顺序读取**。
+2.  稳态循环 （**Steady State**）
+
+    ```
+    for sample in data:
+        buf.append(sample)                    # 1. 新样本入 Buffer
+        try:
+            buf.append(next(data))            # 2. Double-Dipping：额外多拉一个
+        except StopIteration:
+            pass
+        if len(buf) >= initial:
+            yield pick(buf, rng)              # 3. 随机输出一个
+    ```
+
+    `for sample in data` 本身会消费 1 个样本，额外的 `next(data)` 再消费 1 个。这意味着 Buffer 的**填充速度是输出速度的 2 倍**。为什么需要 Double-Dipping？假设 shard 很大（每个 shard 有 10000 个样本），如果不加速填充，Buffer 会长期处于"半空"状态，导致同一 shard 的样本在 Buffer 中停留时间过长，**跨 shard 混合不充分**。Double-Dipping 让 Buffer 更快达到满容量，增强相邻 shard 的样本共存概率。
+3.  排空 （Drain）
+
+    上游耗尽后，Buffer 中剩余样本被逐个随机抽出，直到清空。这保证了**最后几个样本也是随机的**，不会出现"末尾样本顺序输出"的偏差。
+
+    ```
+    while len(buf) > 0:
+        yield pick(buf, rng)
+    ```
 
 ## 5 Decoder 链条
 
+一个样本字典包含多种文件类型：`.jpg`、`.txt`、`.json`、`.pcd.npz` 等， 每种需要不同的解码方式。WebDataset 使用责任链模式： handler 列表按顺序尝试，第一个返回非 None 的结果胜出。
 
+这具有良好的可扩展性：添加新 handler 就能支持新文件类型，无需修改现有代码。
+
+每个 handler 具有统一接口：
+
+```python
+def handler(key: str, data: bytes) -> Any | None
+```
+
+* `key`：带前导点的文件后缀（如 `.jpg`、`.pcd.npz`）
+* `data`：原始字节
+* 返回 `None` 表示传递给下一个 handler（"我不处理这种类型"）
+* 返回任意非 None 值表示认领（"这是解码结果"）
 
 ## 6 gopen URL 多协议分发
 
