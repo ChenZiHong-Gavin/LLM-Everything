@@ -119,7 +119,14 @@
 
 #### 🐢 多模态大模型
 
-* [QFormer](multi-modal-llm/components/connector/qformer.md)
+* 多模态大模型基础
+* 核心组件
+  * 视觉编码器
+  * 模态连接器
+    * [QFormer](multi-modal-llm/components/connector/qformer.md)
+  * 视觉分词器
+* 工程实现
+  * 最常用的数据集格式—— [webdataset.md](multi-modal-llm/engineering/webdataset.md "mention")
 
 ***
 
