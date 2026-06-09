@@ -461,28 +461,284 @@ def handler(key: str, data: bytes) -> Any | None
 * 返回 `None` 表示传递给下一个 handler（"我不处理这种类型"）
 * 返回任意非 None 值表示认领（"这是解码结果"）
 
-## 6 gopen URL 多协议分发
+外层循环（最多 10 次迭代）处理链式 Continue 返回 （如 `.json.gz.enc` → 解密 → 解压 → 解析）。 `for/else` 结构：`else` 子句仅在内层循环完成且没有 `break` 时执行 （即没有返回 Continue）。
 
+<figure><img src="../../.gitbook/assets/612ed12e7d7a44ce9d4b6807140817bd.png" alt=""><figcaption></figcaption></figure>
 
+## 6 分布式分片
 
-## 7 分布式分片
+多节点多 worker 训练时，每个 (node, worker) 组合必须读取互不重叠的 shard 子集。 WebDataset 的方案极其简洁：用 `itertools.islice(src, offset, None, stride)` 做等间隔抽取。
 
+```python
+def split_by_node(src, group=None):
+    rank, world_size, worker, num_workers = pytorch_worker_info(group)
+    if world_size > 1:
+        yield from islice(src, rank, None, world_size)
+    else:
+        yield from src
 
+def split_by_worker(src):
+    rank, world_size, worker, num_workers = pytorch_worker_info()
+    if num_workers > 1:
+        yield from islice(src, worker, None, num_workers)
+    else:
+        yield from src
+```
 
-## 8 ShardWriter 自动分片写入
+例如，假设我们有 4 节点 × 2 worker，800 个 shard。
 
+```
+所有 shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...]
 
+split_by_node 之后 (stride=4):
+  Node 0: [0, 4, 8, 12, ...]   (200 个 shard)
+  Node 1: [1, 5, 9, 13, ...]   (200 个 shard)
+  Node 2: [2, 6, 10, 14, ...]  (200 个 shard)
+  Node 3: [3, 7, 11, 15, ...]  (200 个 shard)
 
-## 9 ResampleShared 有放回采样
+在 Node 0 上再 split_by_worker (stride=2):
+  Worker 0: [0, 8, 16, ...]    (100 个 shard)
+  Worker 1: [4, 12, 20, ...]   (100 个 shard)
+```
 
+总计：8 路并行读取，每路 100 个独占 shard。
 
+## 7 ShardWriter 自动分片写入
 
-## 10 FileCache
+将海量样本打包成 tar shard 时，需要自动按大小/数量切分：
 
+* 太大：下载慢，部分读取时浪费空间
+* 太小：文件数太多，文件系统开销大
+* 需要一致的命名规范，便于 brace expansion 展开
 
+自动分片有两个触发条件：
 
+```python
+if self.count >= self.maxcount or self.size >= self.maxsize:
+    self.next_stream()
+```
 
+* `maxcount=100000` 每个 shard 最多样本数（默认）
+* `maxsize=3e9` 每个 shard 最大字节数（约 3GB，默认）
 
-### 参考
+Tar 内文件命名：
+
+```
+{sample["__key__"]}.{field_name}
+```
+
+字段按**字母序排列**写入（`sorted(obj.keys())`）：
+
+```
+000001.cls
+000001.jpg
+000001.json
+000001.txt
+```
+
+以 `_` 开头的 key 是元数据，默认跳过（除非 `keep_meta=True`）。
+
+Shard 命名使用 Python `%` 格式化：`pattern % shard_index`
+
+```python
+"dataset-%06d.tar" % 0   → "dataset-000000.tar"
+"dataset-%06d.tar" % 1   → "dataset-000001.tar"
+```
+
+这与 brace expansion 无缝集成：`"dataset-{000000..000099}.tar"` 展开为全部 100 个 shard。
+
+文件按后缀自动序列化：
+
+| 后缀                 | 编码方式                            |
+| ------------------ | ------------------------------- |
+| `cls`、`index`、`id` | `str(x).encode("ascii")`        |
+| `txt`、`text`       | `x.encode("utf-8")`             |
+| `json`、`jsn`       | `json.dumps(x).encode("utf-8")` |
+| `pth`              | `torch.save` 到 BytesIO          |
+| `npy`              | `numpy.lib.format.write_array`  |
+| `npz`              | `np.savez_compressed`           |
+| `jpg`、`jpeg`       | PIL Image → JPEG quality 100    |
+| `png`              | PIL Image → PNG                 |
+| `pkl`、`pickle`     | `pickle.dumps`                  |
+| `mp`、`msgpack`     | `msgpack.packb`                 |
+| bytes/bytearray    | 直接写入                            |
+
+## 8 ResampleShared 有放回采样
+
+假设有 **100 个数据分片（shard）**，要分给 **8 个 Worker** 并行读取：
+
+```
+100 ÷ 8 = 12 余 4
+```
+
+这意味着：
+
+* 4 个 Worker 拿到 **13 个 shard**
+* 4 个 Worker 拿到 **12 个 shard （有闲置状态）**
+
+如果 Worker 数量很大（比如 64 个），余数带来的不均匀会更严重。一些 Worker 会提前空闲，导致 GPU 利用率低。
+
+```python
+def __iter__(self):
+    self.epoch += 1
+    seed = make_seed(self.worker_seed(), self.epoch, self.seed)
+    rng = random.Random(seed)
+    for _ in range(self.nshards):
+        yield {"url": rng.choice(self.urls)}
+```
+
+`ResampledShards` 让**每个 Worker 独立从全量池子里有放回地抽 N 次**。
+
+* 每个 Worker **恰好有 N 个 shard** 可读 → **绝对均衡**
+* 同一个 shard 可能被同一个 Worker 抽到多次 → 没关系，重复读总好过空闲
+
+与 `SimpleSharedList` 对比：
+
+|            | SimpleShardList      | ResampledShards          |
+| ---------- | -------------------- | ------------------------ |
+| 采样方式       | 无放回                  | 有放回                      |
+| Epoch 长度   | 恰好 len(urls) 个 shard | 可配置（nshards）             |
+| 跨 epoch 重叠 | 无（每个 shard 恰好看一次）    | 可能（同一 shard 出现在多个 epoch） |
+| Worker 均衡  | 可能不均匀                | 始终均匀                     |
+| 可复现性       | 有 seed 时确定性          | 可配置                      |
+| 适用场景       | 中小规模数据集              | 大规模分布式训练                 |
+
+## 9 FileCache
+
+#### 9.1 为什么需要缓存？
+
+如果训练数据存在**亚马逊 S3**（或阿里云 OSS）上，每次读取一个 shard 是这样的流程：
+
+```
+Worker → 网络请求 → S3 服务器 → 下载 500MB tar 包 → 解压读取
+```
+
+**痛点**：
+
+* **慢**：网络下载速度慢
+* **重复**：训练有 10 个 epoch，同一个 shard 会被下载 **10 次**
+* **费钱**：每次下载都走公网流量，云厂商按流量计费
+
+**FileCache 的思路**：第一次从远程下载后，把 shard **存到本地硬盘**。之后直接从本地读，速度从 \~100MB/s 提升到 **\~2GB/s**（SSD 本地读取），提升 **10\~20 倍**。
+
+#### 9.2 整体架构
+
+```python
+# 没有缓存：每次 epoch 都重新从 S3 下载
+DataPipeline(
+    ShardList(urls),           # 列出所有 shard URL
+    url_opener,                # 从远程打开流
+    tarfile_to_samples(),      # 解压 tar
+    ...
+)
+
+# 有缓存：第一次下载到本地，之后直接从本地读
+DataPipeline(
+    ShardList(urls),
+    FileCache("./cache", max_size=100e9),  # ← 插入缓存层
+    tarfile_to_samples(),
+    ...
+)
+```
+
+`FileCache` 对外伪装成 `url_opener`：输入是 URL，输出是 `{url, stream, local_path}`。但内部会先检查本地有没有，没有就去远程下载。
+
+#### 9.3 设计细节
+
+**URL 怎么映射到本地路径？**
+
+**问题**：远程 URL 很长，比如 `s3://my-bucket/dataset/train/shard-001.tar`，怎么存到本地？
+
+**方案**：提取 URL 中的"路径部分"，支持保留若干层父目录。
+
+```python
+def url_to_cache_name(url, ndir=0):
+    # 解析 URL，拿到路径部分
+    path = parsed.path.lstrip("/")           # "dataset/train/shard-001.tar"
+    segments = path.split("/")               # ["dataset", "train", "shard-001.tar"]
+    
+    # 只取最后 ndir+1 段
+    return "/".join(segments[-1 - ndir:])   # ndir=0 → "shard-001.tar"
+                                              # ndir=1 → "train/shard-001.tar"
+```
+
+| `ndir` 参数            | 缓存路径                        | 用途                     |
+| -------------------- | --------------------------- | ---------------------- |
+| `0`（默认）              | `cache/shard-001.tar`       | 扁平结构，简单                |
+| `1`                  | `cache/train/shard-001.tar` | 保留一层目录，防止不同文件夹下的同名文件冲突 |
+| 特殊 URL（如 `pipe:` 开头） | URL 编码后取最后 128 字符           | 处理非标准协议                |
+
+**为什么保留目录层级？**&#x20;
+
+防止 `train/shard-001.tar` 和 `val/shard-001.tar` 在扁平缓存中互相覆盖。
+
+**如何防止下了一半的文件污染缓存**
+
+**问题**：如果下载到一半进程崩溃了，缓存目录里会留一个残缺的文件。下次训练读到这个半成品，会直接报错。
+
+**方案**：先写到临时文件，下载完成后再"原子移动"。
+
+```python
+# 临时文件名包含进程 ID，防止多进程冲突
+tmp = dest + f".temp{os.getpid()}"   # 例如：shard-001.tar.temp1234
+
+# 1. 下载到临时文件
+download_fn(url, tmp)
+
+# 2. 原子重命名：这个操作要么成功（文件完整到位），要么失败（什么都没发生）
+os.rename(tmp, dest)                  # tmp → shard-001.tar
+```
+
+`os.rename()` 在同一文件系统内是**原子操作**。即使进程在 `download_fn` 中途被 `kill -9`，也只会留下一个 `.temp1234` 垃圾文件，不会破坏正式的缓存。
+
+**如何做Tar 格式完整性校验**
+
+**问题**：网络不稳定时，下载可能"正常结束"但文件内容被截断或损坏。如果不校验直接进缓存，后续每次读都会报错。
+
+**方案**：下载后检查文件头的前 512 字节。
+
+```python
+with open(dest, "rb") as f:
+    header = f.read(512)
+
+# 检查是否是合法的 tar 或 gzip 文件
+is_gzip = header[0:2] == b"\x1f\x8b"           # gzip 魔数
+is_tar  = header[257:262] == b"ustar\x00"     # POSIX tar 签名
+
+if not (is_gzip or is_tar):
+    os.remove(dest)                              # 删除损坏文件
+    raise ValueError(f"下载的文件格式异常: {url}")
+```
+
+tar 文件的格式签名就在头部，不需要读完整个文件就能判断基本合法性。快速且有效。
+
+**LRU 淘汰：缓存目录满了怎么办？**
+
+**问题**：本地磁盘不是无限的。假设你设置了 100GB 缓存，但数据集有 1TB，迟早会满。
+
+**方案**：按"最久未使用"淘汰，每次下载新文件前清理空间。
+
+```python
+def _evict(self):
+    # 扫描缓存目录，拿到每个文件的（创建时间，大小，路径）
+    files = [(os.stat(f).st_ctime, os.stat(f).st_size, f) for f in cache_dir]
+    
+    # 按创建时间排序：最旧的排在最前面
+    files.sort()
+    
+    # 一直删，直到总大小低于限制
+    while total_size > self.max_size:
+        oldest = files.pop(0)
+        os.remove(oldest.path)
+        total_size -= oldest.size
+```
+
+**设计细节**：
+
+* 用 `st_ctime`（创建时间）近似"最后使用时间"——文件刚下载/创建时这个时间最新
+* **在下载新文件之前清理**，而不是下载之后。防止下载到一半发现磁盘满了
+* **频率限制**：每 30 秒最多执行一次淘汰，避免频繁扫描目录
+
+## 参考
 
 1. [https://zhuanlan.zhihu.com/p/412772439](https://zhuanlan.zhihu.com/p/412772439)
