@@ -128,7 +128,9 @@
 * 工程实现
   * 最常用的数据集格式—— [webdataset.md](multi-modal-llm/engineering/webdataset.md "mention")
 
-#### :thumbsup:ciwei 多模态大模型
+#### 🦔 LLM Infra
+
+* [k8s.md](llm-infra/k8s.md "mention")
 
 ***
 
