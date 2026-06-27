@@ -115,6 +115,7 @@
   * [large-scale-retrieval.md](llm-application/info-retrieval/large-scale-retrieval.md "mention")
 * [autoresearch.md](llm-application/autoresearch.md "mention")
 * [RAG](llm-application/rag/)
+  * [rag-wan-zheng-lian-lu.md](llm-application/rag/rag-wan-zheng-lian-lu.md "mention")
 * [Graph RAG](llm-application/graph-rag.md)
 
 #### 🐢 多模态大模型
