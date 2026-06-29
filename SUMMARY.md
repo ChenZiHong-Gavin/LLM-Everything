@@ -39,7 +39,7 @@
     * [跨模态相似度](llm-application/info-retrieval/cross-modal-similarity.md)
     * [大规模向量检索](llm-application/info-retrieval/large-scale-retrieval.md)
   * [RAG](llm-application/rag/README.md)
-    * [RAG 完整链路](llm-application/rag/rag-wan-zheng-lian-lu.md)
+    * [RAG 完整链路](llm-application/rag/end-to-end-rag-pipeline.md)
     * [Agentic RAG](llm-application/rag/agentic-rag.md)
   * [Graph RAG](llm-application/graph-rag.md)
   * [AutoResearch](llm-application/autoresearch.md)
