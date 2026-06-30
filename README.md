@@ -116,7 +116,7 @@
 * [autoresearch.md](llm-application/autoresearch.md "mention")
 * [RAG](llm-application/rag/)
   * [end-to-end-rag-pipeline.md](llm-application/rag/end-to-end-rag-pipeline.md "mention")
-* [Graph RAG](llm-application/graph-rag.md)
+* [Graph RAG](llm-application/rag/graph-rag.md)
 
 #### 🐢 多模态大模型
 

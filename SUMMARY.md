@@ -41,7 +41,7 @@
   * [RAG](llm-application/rag/README.md)
     * [RAG 完整链路](llm-application/rag/end-to-end-rag-pipeline.md)
     * [Agentic RAG](llm-application/rag/agentic-rag.md)
-  * [Graph RAG](llm-application/graph-rag.md)
+    * [Graph RAG](llm-application/rag/graph-rag.md)
   * [AutoResearch](llm-application/autoresearch.md)
 * [🎄 LLM训练](train/README.md)
   * [LLM显存需求](train/llm-vram-needs/README.md)
