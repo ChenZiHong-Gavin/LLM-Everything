@@ -67,13 +67,11 @@ Plan, retrieve, evaluate, revise, retrieve again, verify, then answer.
 
 总结来说，Agentic RAG 的关键是让模型拥有一个**检索决策循环**。
 
-### 3. Agentic RAG 的典型架构
+### 3 Agentic RAG 的典型架构
 
 一个工程上可落地的 Agentic RAG 系统，可以画成这样：
 
-
-
-
+<figure><img src="../../.gitbook/assets/image (58).png" alt=""><figcaption></figcaption></figure>
 
 这张图的关键是两个循环：
 
@@ -83,7 +81,7 @@ Plan, retrieve, evaluate, revise, retrieve again, verify, then answer.
 Planner -> Retriever -> Evidence Evaluator -> Planner
 ```
 
-t
+解决的问题是：Evidence 不够怎么办？
 
 第二个循环是：
 
@@ -91,15 +89,11 @@ t
 Generator -> Verifier -> Planner
 ```
 
-它解决“答案不可靠怎么办”。
+解决的问题是：答案不可靠怎么办？
 
-所以 Agentic RAG 的本质是：**把检索从一次性动作，变成可反馈、可重试、可收敛的过程。**
+### 4 Agentic RAG 的核心能力
 
-***
-
-### 6. Agentic RAG 的核心能力
-
-#### 6.1 判断是否需要检索
+#### 4.1 判断是否需要检索
 
 不是所有问题都需要 RAG。
 
@@ -117,24 +111,18 @@ Generator -> Verifier -> Planner
 
 普通 RAG 往往默认所有问题都检索，这会带来两个问题：
 
-一是浪费成本和延迟。\
-二是引入不相关上下文，反而干扰模型。
+1. 浪费成本和延迟。
+2. 引入不相关上下文，反而干扰模型。
 
-Self-RAG 的一个重要思想就是按需检索，而不是对每个输入都固定检索。([arXiv](https://arxiv.org/abs/2310.11511?utm_source=chatgpt.com))
+Self-RAG 的一个重要思想就是按需检索，而不是对每个输入都固定检索。
 
 工程上可以做一个轻量级 router：
 
-```
-无需检索：写作、翻译、格式转换、通用解释
-需要检索：事实查询、企业知识、时间敏感问题、需要引用的问题
-需要多步检索：比较、归因、综合分析、多源交叉验证
-```
+* 无需检索：写作、翻译、格式转换、通用解释
+* 需要检索：事实查询、企业知识、时间敏感问题、需要引用的问题
+* 需要多步检索：比较、归因、综合分析、多源交叉验证
 
-这一步看似简单，但对成本影响很大。
-
-***
-
-#### 6.2 查询改写与问题拆解
+#### 4.2 查询改写与问题拆解
 
 用户的问题通常不是一个好的搜索 query。
 
@@ -185,7 +173,7 @@ Agentic RAG 问的是：
 
 ***
 
-#### 6.3 工具选择：不只是向量数据库
+#### 4.3 工具选择：不只是向量数据库
 
 很多 RAG 系统一开始就把所有问题都丢给向量库。但真实业务知识往往分布在多种系统里：
 
@@ -353,32 +341,11 @@ verifier
 
 ***
 
-### 8. Agentic RAG 和普通 RAG 的对比
-
-| 维度       | 普通 RAG      | Agentic RAG |
-| -------- | ----------- | ----------- |
-| 检索次数     | 通常一次        | 可多轮         |
-| Query    | 用户原始问题或简单改写 | 可拆解、扩展、重写   |
-| 数据源      | 通常单一向量库     | 多数据源、多工具    |
-| 控制流      | 固定 pipeline | 动态 workflow |
-| 是否判断证据充分 | 通常不判断       | 显式判断        |
-| 是否处理冲突证据 | 较弱          | 可检测并继续查证    |
-| 是否适合多跳问题 | 一般          | 更适合         |
-| 成本与延迟    | 较低          | 较高          |
-| 可控性      | 较强          | 需要额外约束      |
-| 工程复杂度    | 低           | 高           |
-
-所以 Agentic RAG 不是银弹。
-
-它适合复杂问题，不适合所有问题。
-
-***
-
-### 9. 什么时候应该用 Agentic RAG？
+### 8 什么时候应该用 Agentic RAG？
 
 适合用 Agentic RAG 的场景，通常有几个特征。
 
-#### 9.1 问题需要多步推理
+#### 8.1 问题需要多步推理
 
 例如：
 
@@ -386,7 +353,7 @@ verifier
 
 这需要查行为数据、客服工单、销售记录、合同信息，最后做归因。
 
-#### 9.2 问题需要多数据源
+#### 8.2 问题需要多数据源
 
 例如：
 
@@ -394,7 +361,7 @@ verifier
 
 可能要查合同、付款记录、审计报告、新闻、黑名单、内部评价。
 
-#### 9.3 问题需要验证
+#### 8.3 问题需要验证
 
 例如：
 
@@ -402,7 +369,7 @@ verifier
 
 这类问题必须有证据、有引用、有差异定位，不能只给一个“感觉”。
 
-#### 9.4 问题本身很模糊
+#### 8.4 问题本身很模糊
 
 例如：
 
@@ -410,7 +377,7 @@ verifier
 
 系统需要先理解“项目”是谁、有哪些相关文档、最近状态是什么、阻塞项来自哪里。
 
-#### 9.5 问题需要全局综合
+#### 8.5 问题需要全局综合
 
 例如：
 
@@ -815,10 +782,12 @@ RAG evaluation survey 已经指出，RAG 的评估需要覆盖系统性能、事
 
 ### 参考资料建议放在文末
 
-* Patrick Lewis et al., **Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks**。RAG 经典论文，提出结合参数化记忆和非参数化外部记忆。([arXiv](https://arxiv.org/abs/2005.11401?utm_source=chatgpt.com))
+1. Akari Asai et al., **Self-RAG** ([arXiv](https://arxiv.org/abs/2310.11511?utm_source=chatgpt.com))
+
+Patrick Lewis et al., **Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks**。RAG 经典论文，提出结合参数化记忆和非参数化外部记忆。([arXiv](https://arxiv.org/abs/2005.11401?utm_source=chatgpt.com))
+
 * Shunyu Yao et al., **ReAct: Synergizing Reasoning and Acting in Language Models**。Agentic RAG 中“推理 + 行动”范式的重要基础。([arXiv](https://arxiv.org/abs/2210.03629?utm_source=chatgpt.com))
 * Zhengbao Jiang et al., **Active Retrieval Augmented Generation / FLARE**。代表主动检索方向。([arXiv](https://arxiv.org/abs/2305.06983?utm_source=chatgpt.com))
-* Akari Asai et al., **Self-RAG**。代表自我反思式检索增强生成。([arXiv](https://arxiv.org/abs/2310.11511?utm_source=chatgpt.com))
 * Shi-Qi Yan et al., **Corrective Retrieval Augmented Generation**。代表带检索质量评估和纠错机制的 RAG。([arXiv](https://arxiv.org/abs/2401.15884?utm_source=chatgpt.com))
 * Soyeong Jeong et al., **Adaptive-RAG**。代表根据问题复杂度选择不同检索策略的方向。([arXiv](https://arxiv.org/abs/2403.14403?utm_source=chatgpt.com))
 * Darren Edge et al., **From Local to Global: A Graph RAG Approach to Query-Focused Summarization**。适合引出 Graph RAG 和全局问题。([arXiv](https://arxiv.org/abs/2404.16130?utm_source=chatgpt.com))
