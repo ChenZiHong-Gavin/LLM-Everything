@@ -67,113 +67,13 @@ Plan, retrieve, evaluate, revise, retrieve again, verify, then answer.
 
 总结来说，Agentic RAG 的关键是让模型拥有一个**检索决策循环**。
 
-### 3 从 Naive RAG 到 Agentic RAG
+### 3. Agentic RAG 的典型架构
 
-我们可以把 RAG 的演进粗略分成三层。
+一个工程上可落地的 Agentic RAG 系统，可以画成这样：
 
-| 类型           | 核心流程                                                   | 优点          | 问题              |
-| ------------ | ------------------------------------------------------ | ----------- | --------------- |
-| Naive RAG    | 单次检索 + 单次生成                                            | 简单、便宜、容易上线  | 不会判断是否需要检索，不会纠错 |
-| Advanced RAG | Query Rewrite、Hybrid Search、Rerank、Context Compression | 检索质量更高      | 流程仍然大多是静态的      |
-| Agentic RAG  | 规划、工具选择、多轮检索、证据评估、自我修正                                 | 适合复杂问题和多源知识 | 成本、延迟、稳定性更难控制   |
 
-Naive RAG 解决的是“模型没有外部知识”的问题。
 
-Advanced RAG 解决的是“检索质量不够好”的问题。
 
-Agentic RAG 解决的是“系统不知道如何获取和验证知识”的问题。
-
-这三个阶段不是互相替代，而是逐层叠加。一个好的 Agentic RAG 系统，底层仍然需要优秀的 chunking、embedding、hybrid retrieval、reranking 和 context building。
-
-***
-
-### 4. 为什么 Agentic RAG 会出现？
-
-原因很简单：真实问题越来越不像“搜索题”，而更像“研究题”。
-
-普通 RAG 擅长回答这种问题：
-
-> “合同里关于提前终止的条款是什么？”
-
-但不擅长回答这种问题：
-
-> “这份合同里有哪些对我们不利的风险？和上一版相比有什么变化？哪些条款需要法务重点关注？”
-
-前者是定位问题，后者是分析问题。
-
-对于分析问题，一次检索通常不够。系统要先拆解问题，再分别找证据，最后综合判断。
-
-这也是最近一批 RAG 研究的共同趋势：从“检索一次”走向“动态检索”和“自适应检索”。
-
-例如，FLARE 提出在生成长文本时主动判断何时、检索什么信息，而不是只在开头检索一次；它会预测接下来要生成的内容，并在低置信度时触发检索。([arXiv](https://arxiv.org/abs/2305.06983?utm_source=chatgpt.com))
-
-Self-RAG 则把检索、生成和自我批判结合起来，让模型按需检索，并通过 reflection tokens 判断检索内容和生成内容的质量。([arXiv](https://arxiv.org/abs/2310.11511?utm_source=chatgpt.com))
-
-CRAG 进一步强调：检索结果本身可能是错的，所以系统需要一个 retrieval evaluator 来评估检索文档质量，并在必要时触发额外搜索或修正流程。([arXiv](https://arxiv.org/abs/2401.15884?utm_source=chatgpt.com))
-
-Adaptive-RAG 则从问题复杂度出发，动态选择不检索、单步 RAG 或多步 RAG，避免简单问题被复杂流程拖慢，也避免复杂问题被简单流程答错。([arXiv](https://arxiv.org/abs/2403.14403?utm_source=chatgpt.com))
-
-这些研究背后的共同方向就是：**RAG 不应该永远是固定 Top-K 检索，而应该根据任务状态动态调整。**
-
-这正是 Agentic RAG 的核心。
-
-***
-
-### 5. Agentic RAG 的典型架构
-
-一个工程上可落地的 Agentic RAG 系统，可以拆成 8 个模块：
-
-```
-用户问题
-  ↓
-Query Understanding / Intent Classification
-  ↓
-Planner：拆解问题、制定检索计划
-  ↓
-Router：选择数据源和工具
-  ↓
-Retriever：向量检索 / 关键词检索 / SQL / Graph / API / Web
-  ↓
-Evidence Evaluator：判断证据相关性、充分性、冲突
-  ↓
-Context Builder：重排、压缩、组织上下文
-  ↓
-Generator：生成带引用的答案
-  ↓
-Verifier：事实校验、引用校验、格式校验
-  ↓
-最终回答
-```
-
-可以画成这样：
-
-```mermaid
-flowchart TD
-    A[User Query] --> B[Query Understanding]
-    B --> C[Planner]
-    C --> D[Tool / Source Router]
-
-    D --> E1[Vector Search]
-    D --> E2[Keyword Search]
-    D --> E3[SQL / BI]
-    D --> E4[Knowledge Graph]
-    D --> E5[Web / API]
-
-    E1 --> F[Evidence Pool]
-    E2 --> F
-    E3 --> F
-    E4 --> F
-    E5 --> F
-
-    F --> G[Evidence Evaluator]
-    G -->|Enough| H[Context Builder]
-    G -->|Not Enough| C
-
-    H --> I[Answer Generator]
-    I --> J[Verifier]
-    J -->|Pass| K[Final Answer with Citations]
-    J -->|Fail| C
-```
 
 这张图的关键是两个循环：
 
@@ -183,7 +83,7 @@ flowchart TD
 Planner -> Retriever -> Evidence Evaluator -> Planner
 ```
 
-它解决“证据不够怎么办”。
+t
 
 第二个循环是：
 
