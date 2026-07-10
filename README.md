@@ -113,10 +113,11 @@
   * [word-vector.md](llm-application/info-retrieval/word-vector.md "mention")
   * [cross-modal-similarity.md](llm-application/info-retrieval/cross-modal-similarity.md "mention")
   * [large-scale-retrieval.md](llm-application/info-retrieval/large-scale-retrieval.md "mention")
-* [autoresearch.md](llm-application/autoresearch.md "mention")
 * [RAG](llm-application/rag/)
   * [end-to-end-rag-pipeline.md](llm-application/rag/end-to-end-rag-pipeline.md "mention")
-* [Graph RAG](llm-application/rag/graph-rag.md)
+  * [agentic-rag.md](llm-application/rag/agentic-rag.md "mention")
+  * [graph-rag.md](llm-application/rag/graph-rag.md "mention")
+* [autoresearch.md](llm-application/autoresearch.md "mention")
 
 #### 🐢 多模态大模型
 
