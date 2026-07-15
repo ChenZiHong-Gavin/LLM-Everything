@@ -1,6 +1,6 @@
 # K8s
 
-![Image](../.gitbook/assets/authcode)
+![Image](../../.gitbook/assets/authcode)
 
 ## 0 阅读路径
 
@@ -47,7 +47,7 @@
 | **Secret**     | 存放密码、Token、证书等敏感信息           | 敏感值不要明文写进 YAML               |
 | **Namespace**  | 隔离同一集群内的资源                   | 练习、测试、生产可以分开管理               |
 
-![Image](<../.gitbook/assets/authcode (1)>)
+![Image](<../../.gitbook/assets/authcode (1)>)
 
 ### 1.1 期望状态和控制循环
 
@@ -121,7 +121,7 @@ kubectl config set-context --current --namespace=lab
 
 Pod 是 Kubernetes 能创建和管理的最小可部署计算单元，但实际工作里通常不直接手写裸 Pod，而是用 **Deployment** 管理 Pod。Deployment 会创建 ReplicaSet，ReplicaSet 再创建和维持 Pod。
 
-![Image](<../.gitbook/assets/authcode (2)>)
+![Image](<../../.gitbook/assets/authcode (2)>)
 
 ### 3.1 用命令创建一个 Deployment
 
@@ -466,7 +466,7 @@ service:
 
 Terraform 不是 Kubernetes 自带组件，也不是 kubectl 插件。它更适合管理 Kubernetes 之外或更底层的基础设施，例如云服务器、VPC、EKS/ACK/GKE 集群、节点组、IAM、负载均衡器等。
 
-![Image](<../.gitbook/assets/authcode (3)>)
+![Image](<../../.gitbook/assets/authcode (3)>)
 
 简单分工：用 Terraform 建“集群和周边基础设施”，用 Helm 或 kubectl 部署“集群里的应用”。不要在入门阶段把两条线混在一起学。
 

@@ -132,7 +132,8 @@
 
 #### 🦔 LLM Infra
 
-* [k8s.md](llm-infra/k8s.md "mention")
+* [k8s](llm-infra/k8s/ "mention")
+  * [auto-scale.md](llm-infra/k8s/auto-scale.md "mention")
 
 ***
 

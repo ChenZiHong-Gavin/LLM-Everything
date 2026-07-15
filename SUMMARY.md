@@ -83,4 +83,5 @@
   * [工程实现](multi-modal-llm/engineering/README.md)
     * [WebDataset](multi-modal-llm/engineering/webdataset.md)
 * [🦔 LLM Infra](llm-infra/README.md)
-  * [K8s](llm-infra/k8s.md)
+  * [K8s](llm-infra/k8s/README.md)
+    * [Kubernetes 自动扩缩容的三种玩法：HPA、VPA 和 KEDA](llm-infra/k8s/auto-scale.md)
