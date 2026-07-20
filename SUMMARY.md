@@ -85,3 +85,4 @@
 * [🦔 LLM Infra](llm-infra/README.md)
   * [K8s](llm-infra/k8s/README.md)
     * [Kubernetes 自动扩缩容的三种玩法：HPA、VPA 和 KEDA](llm-infra/k8s/auto-scale.md)
+  * [AI for data infra](llm-infra/ai-for-data-infra.md)
