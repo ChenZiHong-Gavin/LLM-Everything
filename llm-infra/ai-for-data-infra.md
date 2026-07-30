@@ -1,18 +1,10 @@
 # AI for data infra
 
-明白，我把常见的技术术语保留成英文——像 pipeline、catalog、schema、lineage、hooks、agent、PR、backfill 这类词，中文数据圈本来也大多直接说英文。下面是调整后的版本：
+**AI for Data Infra 让** agent 可以直接运行在数据平台内部（pipeline、catalog、data quality、governance、incident），由 agent 来完成过去团队手动处理的工作。它取代的是那些聊天式的玩具产品，转而构建真正用于生产环境的 agent 集群，底层依托 Claude Code、MCP 以及现代 lakehouse 架构。
 
-***
+这篇文章讲的是如何搭建一套能安全落地生产的 AI-for-data-infra 技术栈。
 
-## 面向数据基础设施的 AI：2026 数据工程 Agent 完全指南
-
-**AI for Data Infra**（面向数据基础设施的 AI）是一种工程实践——让自主 agent 直接运行在数据平台内部（pipeline、catalog、data quality、governance、incident），由 agent 来完成过去平台团队手动处理的工作。它取代的是那些"跟你的数据聊天"式的玩具产品，转而构建真正用于生产环境的 agent 集群，底层依托 Claude Code、MCP 以及现代 lakehouse 架构。
-
-如果你曾尝试用 LLM 处理数据，却被幻觉 SQL、被搞崩的 pipeline、或是看不到你 catalog 的 agent 折腾得够呛，那么这份指南就是面向下一代技术的实战手册。它涵盖四层工程体系、MCP 协议、作为 runtime 的 Claude Code、与 Snowflake / Databricks / dbt 的集成、合规与 governance、评估方法，以及 Data Workers 如何用开源方式实现其中每一环。
-
-读完之后，你会知道如何搭建一套能安全落地生产、不至于把系统搞垮的 AI-for-data-infra 技术栈，如何评估厂商的宣传话术，以及如何把 Data Workers 的 14-agent 集群映射到你现有的数据平台上。下面这篇约 2500 字的完整讲解是本文核心参考——文中每个链接都指向本资源合集里更深入的专题。
-
-### 什么是 AI for Data Infra？
+### 1 什么是 AI for Data Infra？
 
 它是一门专门用于构建和运营自主 agent 的技术，这些 agent 负责管理数据平台本身：pipeline、warehouse、catalog、质量检查、成本控制、迁移以及故障响应。它与"跟数据聊天"的 BI 机器人有本质区别，因为这些 agent 作用于基础设施本身，而非 dashboard——它们会提 PR、执行 migration、呼叫值班人员、回滚失败的部署。
 
