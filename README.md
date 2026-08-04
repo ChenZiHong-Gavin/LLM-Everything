@@ -134,6 +134,7 @@
 
 * [k8s](llm-infra/k8s/ "mention")
   * [auto-scale.md](llm-infra/k8s/auto-scale.md "mention")
+* [ai-for-data-infra.md](llm-infra/ai-for-data-infra.md "mention")
 
 ***
 
