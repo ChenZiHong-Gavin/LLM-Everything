@@ -70,6 +70,7 @@
     * [DPO](train/reinforce-learning/dpo.md)
     * [GRPO](train/reinforce-learning/grpo-dapo.md)
     * [DAPO](train/reinforce-learning/dapo.md)
+    * [RLVR](train/reinforce-learning/rlvr.md)
 * [🐒 MoE](moe/README.md)
   * [专家并行](moe/expert-parallelism.md)
 * [🐢 多模态大模型](multi-modal-llm/README.md)
