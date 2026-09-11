@@ -100,6 +100,7 @@
   * [dpo.md](train/reinforce-learning/dpo.md "mention")
   * [grpo-dapo.md](train/reinforce-learning/grpo-dapo.md "mention")
   * [dapo.md](train/reinforce-learning/dapo.md "mention")
+  * [rlvr.md](train/reinforce-learning/rlvr.md "mention")
 
 #### 🐒 MoE（混合专家模型）
 
