@@ -43,6 +43,7 @@
     * [Agentic RAG](llm-application/rag/agentic-rag.md)
     * [Graph RAG](llm-application/rag/graph-rag.md)
   * [AutoResearch](llm-application/autoresearch.md)
+  * [Agent Memory](llm-application/agent-memory.md)
 * [🎄 LLM训练](train/README.md)
   * [LLM显存需求](train/llm-vram-needs/README.md)
     * [LLM精度问题](train/llm-vram-needs/llm-precision.md)
