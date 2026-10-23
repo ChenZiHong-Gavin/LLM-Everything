@@ -119,6 +119,7 @@
   * [agentic-rag.md](llm-application/rag/agentic-rag.md "mention")
   * [graph-rag.md](llm-application/rag/graph-rag.md "mention")
 * [autoresearch.md](llm-application/autoresearch.md "mention")
+* [agent-memory.md](llm-application/agent-memory.md "mention")
 
 #### 🐢 多模态大模型
 
